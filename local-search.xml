@@ -4,13 +4,19 @@
   
   
   <entry>
-    <title>A Quick Start for Blog Writing-Markdown#</title>
-    <link href="/2022/11/15/A-Quick-Start-for-Blog-Writing-Markdown/"/>
-    <url>/2022/11/15/A-Quick-Start-for-Blog-Writing-Markdown/</url>
+    <title>第一篇博客</title>
+    <link href="/2022/11/15/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+    <url>/2022/11/15/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。</p><p>未来可能会把手头上做过的一些笔记整理一波扔上去。</p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>建站</tag>
+      
+    </tags>
     
   </entry>
   
