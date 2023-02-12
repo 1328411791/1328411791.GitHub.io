@@ -19,7 +19,7 @@
     <meta name="description" content="缓存的概念什么是缓存缓存(Cache),就是数据交换的缓冲区,俗称的缓存就是缓冲区内的数据。在后端开发中,缓存通常会储存在内存之中 缓存数据存储于代码中,而代码运行在内存中,内存的读写性能远高于磁盘,缓存可以大大降低用户访问并发量带来的服务器读写压力 实际开发过程中,可能一个应用的数据量非常大,如果没有缓存来作为”避震器”,系统是几乎撑不住的,所以会大量运用到缓存技术; 但是缓存也会增加代码复杂度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis缓存查询">
-<meta property="og:url" content="http://liahnu.top/2022/11/16/Redis%E7%BC%93%E5%AD%98%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:url" content="https://www.liahnu.top/2022/11/16/Redis%E7%BC%93%E5%AD%98%E6%9F%A5%E8%AF%A2/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
 <meta property="og:description" content="缓存的概念什么是缓存缓存(Cache),就是数据交换的缓冲区,俗称的缓存就是缓冲区内的数据。在后端开发中,缓存通常会储存在内存之中 缓存数据存储于代码中,而代码运行在内存中,内存的读写性能远高于磁盘,缓存可以大大降低用户访问并发量带来的服务器读写压力 实际开发过程中,可能一个应用的数据量非常大,如果没有缓存来作为”避震器”,系统是几乎撑不住的,所以会大量运用到缓存技术; 但是缓存也会增加代码复杂度">
 <meta property="og:locale" content="zh_CN">
@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"liahnu.top","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"www.liahnu.top","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -421,7 +421,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Redis缓存查询</div>
-      <div>http://liahnu.top/2022/11/16/Redis缓存查询/</div>
+      <div>https://www.liahnu.top/2022/11/16/Redis缓存查询/</div>
     </div>
     <div class="license-meta">
       
