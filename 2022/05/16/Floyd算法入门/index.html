@@ -302,18 +302,16 @@
 <h2 id="算法分析-amp-思想讲解："><a href="#算法分析-amp-思想讲解：" class="headerlink" title="算法分析&amp;思想讲解："></a>算法分析&amp;思想讲解：</h2><p>三层循环，第一层循环中间点k，第二第三层循环起点终点i、j<br>算法的思想很容易理解：如果点i到点k的距离加上点k到点j的距离小于原先点i到点j的距离，那么就用这个更短的路径长度来更新原先点i到点j的距离。</p>
 <p>在下图中，因为<code>dis[1][3]+dis[3][2]&lt;dis[1][2]</code>，所以就用<code>dis[1][3]+dis[3][2]</code>来更新原先1到2的距离。</p>
 <p>我们在初始化时，把不相连的点之间的距离设为一个很大的数，不妨可以看作这两点相隔很远很远，如果两者之间有最短路径的话，就会更新成最短路径的长度。<br>Floyed算法的时间复杂度是$O(N^3)$ 。</p>
-<pre><code class=" mermaid">graph LR
-A(1) --&gt;|6|B(2)
-B(2) --&gt;|1|C(3)
-C(3) --&gt;|2|A(1);
-</code></pre>
+<pre class="mermaid">graph LR
+A(1) -->|6|B(2)
+B(2) -->|1|C(3)
+C(3) -->|2|A(1);</pre>
 
 <h2 id="Floyed算法优缺点分析"><a href="#Floyed算法优缺点分析" class="headerlink" title="Floyed算法优缺点分析"></a>Floyed算法优缺点分析</h2><p>Floyd算法适用于APSP(All Pairs Shortest Paths)，是一种动态规划算法，稠密图效果最佳，边权可正可负,适用于解决所有顶点对间的最短路径问题。此算法简单有效，由于三重循环结构紧凑，对于稠密图，效率要高于执行$V$次DijkStra算法。<br>注意同坐标求长度的公式（三角形勾股定理）<br>但不能解决带有“负权环路”（或者叫“负权环”）的图。如下图：</p>
-<pre><code class=" mermaid">graph LR
-A(1) --&gt;|-6|B(2)
-B(2) --&gt;|1|C(3)
-C(3) --&gt;|2|A(1);
-</code></pre>
+<pre class="mermaid">graph LR
+A(1) -->|-6|B(2)
+B(2) -->|1|C(3)
+C(3) -->|2|A(1);</pre>
 
 <p><strong>优点</strong>：容易理解，可以算出任意两个节点之间的最短距离，代码编写简单； </p>
 <p><strong>缺点</strong>：时间复杂度比较高，不适合计算大量数据。</p>
