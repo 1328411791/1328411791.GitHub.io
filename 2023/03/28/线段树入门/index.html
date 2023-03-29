@@ -16,18 +16,21 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="简介线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。 线段树的基本形态例题https:&#x2F;&#x2F;www.luogu.com.cn&#x2F;problem&#x2F;P3372 具体来说就是在线段树上完成一下操作  将某区间每一个数加上k。">
+    <meta name="description" content="简介线段树是一种二叉搜索树，与区间树相似，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点。 线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。 线段树的基本形态线段树每个区间所管理的关系图 线段">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线段树入门">
 <meta property="og:url" content="https://www.liahnu.top/2023/03/28/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="简介线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。 线段树的基本形态例题https:&#x2F;&#x2F;www.luogu.com.cn&#x2F;problem&#x2F;P3372 具体来说就是在线段树上完成一下操作  将某区间每一个数加上k。">
+<meta property="og:description" content="简介线段树是一种二叉搜索树，与区间树相似，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点。 线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。 线段树的基本形态线段树每个区间所管理的关系图 线段">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202303290823030.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202303290823030.png">
 <meta property="article:published_time" content="2023-03-28T15:45:00.000Z">
-<meta property="article:modified_time" content="2023-03-28T15:57:53.463Z">
+<meta property="article:modified_time" content="2023-03-29T00:41:46.168Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202303290823030.png">
   
   
   
@@ -246,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k 字
+          4.9k 字
         
       </span>
     
@@ -257,7 +260,7 @@
         
         
         
-          22 分钟
+          42 分钟
         
       </span>
     
@@ -300,8 +303,35 @@
             
               <div class="markdown-body">
                 
-                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。</p>
-<h2 id="线段树的基本形态"><a href="#线段树的基本形态" class="headerlink" title="线段树的基本形态"></a>线段树的基本形态</h2><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3372">https://www.luogu.com.cn/problem/P3372</a></p>
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>线段树是一种二叉搜索树，与区间树相似，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点。</p>
+<p>线段树是中常用的用来维护区间信息的数据结构。对于其每一个子节点而言，都表示整个序列中的一段子区间；对于每个叶子节点而言，都表示序列中的单个元素信息；子节点不断向自己的父亲节点传递信息，而父节点存储的信息则是他的每一个子节点信息的整合。</p>
+<h2 id="线段树的基本形态"><a href="#线段树的基本形态" class="headerlink" title="线段树的基本形态"></a>线段树的基本形态</h2><p>线段树每个区间所管理的关系图<br><img src="https://pic.liahnu.top/img/202303290823030.png" srcset="/img/loading.gif" lazyload alt="线段树关系图"></p>
+<h2 id="线段树的构建"><a href="#线段树的构建" class="headerlink" title="线段树的构建"></a>线段树的构建</h2><p>我们可以通过递归的方式构建出一棵二叉树。参考代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> s, <span class="hljs-type">int</span> t, <span class="hljs-type">int</span> p)</span> </span>&#123;<br>  <span class="hljs-comment">// 对 [s,t] 区间建立线段树,当前根的编号为 p</span><br>  <span class="hljs-keyword">if</span> (s == t) &#123; <br>    <span class="hljs-comment">// s==t时候，说明为叶子节点</span><br>    d[p] = a[s];<br>    <span class="hljs-keyword">return</span>;<br>  &#125;<br>  <span class="hljs-type">int</span> m = s + ((t - s) &gt;&gt; <span class="hljs-number">1</span>);<br>  <span class="hljs-comment">// 去s-t的中点分割</span><br>  <span class="hljs-comment">// 移位运算符的优先级小于加减法，所以加上括号</span><br>  <span class="hljs-comment">// 如果写成 (s + t) &gt;&gt; 1 可能会超出 int 范围</span><br>  <span class="hljs-built_in">build</span>(s, m, p * <span class="hljs-number">2</span>), <span class="hljs-built_in">build</span>(m + <span class="hljs-number">1</span>, t, p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);<br>  <span class="hljs-comment">// 递归对左右区间建树</span><br>  d[p] = d[p * <span class="hljs-number">2</span>] + d[(p * <span class="hljs-number">2</span>) + <span class="hljs-number">1</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="线段树的区间查询"><a href="#线段树的区间查询" class="headerlink" title="线段树的区间查询"></a>线段树的区间查询</h2><p>再回到开头的图，你会发现，查询[1,10]之间的节点，只需要查询其根节点的值即可。</p>
+<p>如果要查询的区间为 [3,5]，此时就不能直接获取区间的值，但是 [3,5] 可以拆成 [3,3] 和 [4,5]，可以通过合并这两个区间的答案来求得这个区间的答案。</p>
+<p><img src="https://pic.liahnu.top/img/202303290823030.png" srcset="/img/loading.gif" lazyload alt="线段树关系图"></p>
+<p>参考代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getsum</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> s, <span class="hljs-type">int</span> t, <span class="hljs-type">int</span> p)</span> </span>&#123;<br>  <span class="hljs-comment">// [l, r] 为查询区间, [s, t] 为当前节点包含的区间, p 为当前节点的编号</span><br>  <span class="hljs-keyword">if</span> (l &lt;= s &amp;&amp; t &lt;= r)<br>    <span class="hljs-keyword">return</span> d[p];  <span class="hljs-comment">// 当前区间为询问区间的子集时直接返回当前区间的和</span><br>  <span class="hljs-type">int</span> m = s + ((t - s) &gt;&gt; <span class="hljs-number">1</span>), sum = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">if</span> (l &lt;= m) sum += <span class="hljs-built_in">getsum</span>(l, r, s, m, p * <span class="hljs-number">2</span>);<br>  <span class="hljs-comment">// 如果左儿子代表的区间 [s, m] 与询问区间有交集, 则递归查询左儿子</span><br>  <span class="hljs-keyword">if</span> (r &gt; m) sum += <span class="hljs-built_in">getsum</span>(l, r, m + <span class="hljs-number">1</span>, t, p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);<br>  <span class="hljs-comment">// 如果右儿子代表的区间 [m + 1, t] 与询问区间有交集, 则递归查询右儿子</span><br>  <span class="hljs-keyword">return</span> sum;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="线段树的区间修改与懒惰标记"><a href="#线段树的区间修改与懒惰标记" class="headerlink" title="线段树的区间修改与懒惰标记"></a>线段树的区间修改与懒惰标记</h2><p>如果要求修改区间 [l,r]，把所有包含在区间 [l,r] 中的节点都遍历一次、修改一次，时间复杂度无法承受。我们这里引入做 「懒惰标记」。通过延迟对节点信息的更改，从而减少可能不必要的操作次数。每次执行修改时，我们通过打标记的方法表明该节点对应的区间在某一次操作中被更改，但不更新该节点的子节点的信息。实质性的修改则在下一次访问带有标记的节点时才进行。</p>
+<p><strong>区间修改</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> c, <span class="hljs-type">int</span> s, <span class="hljs-type">int</span> t, <span class="hljs-type">int</span> p)</span> </span>&#123;<br>  <span class="hljs-comment">// [l, r] 为修改区间, c 为被修改的元素的变化量, [s, t] 为当前节点包含的区间, p</span><br>  <span class="hljs-comment">// 为当前节点的编号</span><br>  <span class="hljs-keyword">if</span> (l &lt;= s &amp;&amp; t &lt;= r) &#123;<br>    d[p] += (t - s + <span class="hljs-number">1</span>) * c, b[p] += c;<br>    <span class="hljs-keyword">return</span>;<br>  &#125;  <span class="hljs-comment">// 当前区间为修改区间的子集时直接修改当前节点的值,然后打标记,结束修改</span><br>  <span class="hljs-type">int</span> m = s + ((t - s) &gt;&gt; <span class="hljs-number">1</span>);<br>  <span class="hljs-keyword">if</span> (b[p] &amp;&amp; s != t) &#123;<br>    <span class="hljs-comment">// 如果当前节点的懒标记非空,则更新当前节点两个子节点的值和懒标记值</span><br>    d[p * <span class="hljs-number">2</span>] += b[p] * (m - s + <span class="hljs-number">1</span>), d[p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>] += b[p] * (t - m);<br>    b[p * <span class="hljs-number">2</span>] += b[p], b[p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>] += b[p];  <span class="hljs-comment">// 将标记下传给子节点</span><br>    b[p] = <span class="hljs-number">0</span>;                                <span class="hljs-comment">// 清空当前节点的标记</span><br>  &#125;<br>  <span class="hljs-keyword">if</span> (l &lt;= m) <span class="hljs-built_in">update</span>(l, r, c, s, m, p * <span class="hljs-number">2</span>);<br>  <span class="hljs-keyword">if</span> (r &gt; m) <span class="hljs-built_in">update</span>(l, r, c, m + <span class="hljs-number">1</span>, t, p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);<br>  d[p] = d[p * <span class="hljs-number">2</span>] + d[p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>区间查询</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getsum</span><span class="hljs-params">(<span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r, <span class="hljs-type">int</span> s, <span class="hljs-type">int</span> t, <span class="hljs-type">int</span> p)</span> </span>&#123;<br>  <span class="hljs-comment">// [l, r] 为查询区间, [s, t] 为当前节点包含的区间, p 为当前节点的编号</span><br>  <span class="hljs-keyword">if</span> (l &lt;= s &amp;&amp; t &lt;= r) <span class="hljs-keyword">return</span> d[p];<br>  <span class="hljs-comment">// 当前区间为询问区间的子集时直接返回当前区间的和</span><br>  <span class="hljs-type">int</span> m = s + ((t - s) &gt;&gt; <span class="hljs-number">1</span>);<br>  <span class="hljs-keyword">if</span> (b[p]) &#123;<br>    <span class="hljs-comment">// 如果当前节点的懒标记非空,则更新当前节点两个子节点的值和懒标记值</span><br>    d[p * <span class="hljs-number">2</span>] += b[p] * (m - s + <span class="hljs-number">1</span>), d[p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>] += b[p] * (t - m);<br>    b[p * <span class="hljs-number">2</span>] += b[p], b[p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>] += b[p];  <span class="hljs-comment">// 将标记下传给子节点</span><br>    b[p] = <span class="hljs-number">0</span>;                                <span class="hljs-comment">// 清空当前节点的标记</span><br>  &#125;<br>  <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">if</span> (l &lt;= m) sum = <span class="hljs-built_in">getsum</span>(l, r, s, m, p * <span class="hljs-number">2</span>);<br>  <span class="hljs-keyword">if</span> (r &gt; m) sum += <span class="hljs-built_in">getsum</span>(l, r, m + <span class="hljs-number">1</span>, t, p * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);<br>  <span class="hljs-keyword">return</span> sum;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="一些优化"><a href="#一些优化" class="headerlink" title="一些优化"></a>一些优化</h2><p>一些优化<br>这里总结几个线段树的优化：</p>
+<ol>
+<li><p>在叶子节点处无需下放懒惰标记，所以懒惰标记可以不下传到叶子节点。</p>
+</li>
+<li><p>下放懒惰标记可以写一个专门的函数 pushdown，从儿子节点更新当前节点也可以写一个专门的函数 maintain（或者对称地用 pushup），降低代码编写难度。</p>
+</li>
+<li><p>标记永久化：如果确定懒惰标记不会在中途被加到溢出（即超过了该类型数据所能表示的最大范围），那么就可以将标记永久化。标记永久化可以避免下传懒惰标记，只需在进行询问时把标记的影响加到答案当中，从而降低程序常数。具体如何处理与题目特性相关，需结合题目来写。这也是树套树和可持久化数据结构中会用到的一种技巧。</p>
+</li>
+</ol>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3372">https://www.luogu.com.cn/problem/P3372</a></p>
 <p>具体来说就是在线段树上完成一下操作</p>
 <ol>
 <li>将某区间每一个数加上k。</li>
