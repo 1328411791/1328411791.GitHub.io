@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>校园内vpn模拟登录</title>
+    <link href="/2023/04/23/%E6%A0%A1%E5%9B%AD%E5%86%85vpn%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95/"/>
+    <url>/2023/04/23/%E6%A0%A1%E5%9B%AD%E5%86%85vpn%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用学校webvpn时候，访问内网地址被加密为一串字符串，</p><p>例如：<a href="https://webvpn.gdou.edu.cn/http/77726476706e69737468656265737421a1a70fce77602606305adcf9/">https://webvpn.gdou.edu.cn/http/77726476706e69737468656265737421a1a70fce77602606305adcf9/</a></p><h1 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h1><p>通过前端js代码，可以很清楚的找到加密函数</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> textRightAppend = <span class="hljs-keyword">function</span> (<span class="hljs-params">text, mode</span>) &#123;<br>    <span class="hljs-keyword">var</span> segmentByteSize = mode === <span class="hljs-string">&#x27;utf8&#x27;</span> ? <span class="hljs-number">16</span> : <span class="hljs-number">32</span><br><br>    <span class="hljs-keyword">if</span> (text.<span class="hljs-property">length</span> % segmentByteSize === <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> text<br>    &#125;<br><br>    <span class="hljs-keyword">var</span> appendLength = segmentByteSize - text.<span class="hljs-property">length</span> % segmentByteSize<br>    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> (i++ &lt; appendLength) &#123;<br>        text += <span class="hljs-string">&#x27;0&#x27;</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> text<br>&#125;<br><br><span class="hljs-keyword">var</span> encrypt = <span class="hljs-keyword">function</span> (<span class="hljs-params">text, key, iv</span>) &#123;<br>    <span class="hljs-keyword">var</span> textLength = text.<span class="hljs-property">length</span><br>    text = <span class="hljs-title function_">textRightAppend</span>(text, <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>    <span class="hljs-keyword">var</span> keyBytes = utf8.<span class="hljs-title function_">toBytes</span>(key)<br>    <span class="hljs-keyword">var</span> ivBytes = utf8.<span class="hljs-title function_">toBytes</span>(iv)<br>    <span class="hljs-keyword">var</span> textBytes = utf8.<span class="hljs-title function_">toBytes</span>(text)<br>    <span class="hljs-keyword">var</span> aesCfb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AesCfb</span>(keyBytes, ivBytes, <span class="hljs-number">16</span>)<br>    <span class="hljs-keyword">var</span> encryptBytes = aesCfb.<span class="hljs-title function_">encrypt</span>(textBytes)<br>    <span class="hljs-keyword">return</span> hex.<span class="hljs-title function_">fromBytes</span>(ivBytes) + hex.<span class="hljs-title function_">fromBytes</span>(encryptBytes).<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, textLength * <span class="hljs-number">2</span>)<br>&#125;<br></code></pre></td></tr></table></figure><p>其中 key &#x3D; “wrdvpnisthebest!” iv &#x3D; “wrdvpnisthebest!” 默认参数</p><p>加密方式根据函数猜测为Aes加密，模式为cfb</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>协议分析</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>github page 自动部署服务器</title>
     <link href="/2023/04/22/github-page-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <url>/2023/04/22/github-page-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
