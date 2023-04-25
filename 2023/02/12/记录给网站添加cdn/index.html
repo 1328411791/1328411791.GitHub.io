@@ -16,12 +16,12 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="cdn介绍内容分发网络（Content Delivery Network，简称 CDN）是利用最靠近每一位用户的服务器，更快、更可靠地将文件发送给用户分发网络。 总而言之，cdn可以加速不同地区的用户的访问，同时将网站中的静态资源缓存，以此减轻服务器的负担。 graph LR; USER1[用户1] --&gt;|访问|CDN[CDN] USER2[用户2] --&gt;|访问|CDN CDN --&gt;|转发|">
+    <meta name="description" content="cdn介绍内容分发网络（Content Delivery Network，简称 CDN）是利用最靠近每一位用户的服务器，更快、更可靠地将文件发送给用户分发网络。 总而言之，cdn可以加速不同地区的用户的访问，同时将网站中的静态资源缓存，以此减轻服务器的负担。    graph LR; USER1[用户1] --&gt;|访问|CDN[CDN] USER2[用户2] --&gt;|访问|CDN CDN --&gt;|">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录给网站添加cdn">
 <meta property="og:url" content="https://www.liahnu.top/2023/02/12/%E8%AE%B0%E5%BD%95%E7%BB%99%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0cdn/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="cdn介绍内容分发网络（Content Delivery Network，简称 CDN）是利用最靠近每一位用户的服务器，更快、更可靠地将文件发送给用户分发网络。 总而言之，cdn可以加速不同地区的用户的访问，同时将网站中的静态资源缓存，以此减轻服务器的负担。 graph LR; USER1[用户1] --&gt;|访问|CDN[CDN] USER2[用户2] --&gt;|访问|CDN CDN --&gt;|转发|">
+<meta property="og:description" content="cdn介绍内容分发网络（Content Delivery Network，简称 CDN）是利用最靠近每一位用户的服务器，更快、更可靠地将文件发送给用户分发网络。 总而言之，cdn可以加速不同地区的用户的访问，同时将网站中的静态资源缓存，以此减轻服务器的负担。    graph LR; USER1[用户1] --&gt;|访问|CDN[CDN] USER2[用户2] --&gt;|访问|CDN CDN --&gt;|">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/liahnu/img/raw/master/202302112151151.png">
 <meta property="og:image" content="https://gitee.com/liahnu/img/raw/master/202302112151459.png">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://gitee.com/liahnu/img/raw/master/202302112202269.png">
 <meta property="og:image" content="https://gitee.com/liahnu/img/raw/master/202302112205576.png">
 <meta property="article:published_time" content="2023-02-12T06:48:57.000Z">
-<meta property="article:modified_time" content="2023-03-28T16:16:21.283Z">
+<meta property="article:modified_time" content="2023-04-25T13:23:28.255Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="运维，CDN">
 <meta name="twitter:card" content="summary_large_image">
@@ -319,7 +319,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月29日 凌晨
+                    本文最后更新于：2023年4月25日 晚上
                   
                 
               </p>
@@ -329,10 +329,15 @@
                 
                 <h1 id="cdn介绍"><a href="#cdn介绍" class="headerlink" title="cdn介绍"></a>cdn介绍</h1><p>内容分发网络（Content Delivery Network，简称 CDN）是利用最靠近每一位用户的服务器，更快、更可靠地将文件发送给用户分发网络。</p>
 <p>总而言之，cdn可以加速不同地区的用户的访问，同时将网站中的静态资源缓存，以此减轻服务器的负担。</p>
-<pre class="mermaid">graph LR;
+
+<pre>
+<code class="mermaid">
+graph LR;
 USER1[用户1] -->|访问|CDN[CDN]
 USER2[用户2] -->|访问|CDN
-CDN -->|转发| D[源站]</pre>
+CDN -->|转发| D[源站]
+</code>
+</pre>
 
 <h1 id="服务器配置CDN"><a href="#服务器配置CDN" class="headerlink" title="服务器配置CDN"></a>服务器配置CDN</h1><p>这里以腾讯云的为例</p>
 <h2 id="前往云服务器cdn管理器"><a href="#前往云服务器cdn管理器" class="headerlink" title="前往云服务器cdn管理器"></a>前往云服务器cdn管理器</h2><p>在云中控制台中选择 <strong>内容分发网络 CDN 控制台</strong> ，购买或者领取相应的资源包</p>
