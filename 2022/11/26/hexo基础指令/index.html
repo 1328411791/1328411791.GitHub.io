@@ -24,7 +24,7 @@
 <meta property="og:description" content="简写指令:hexo n “我的第一篇文章” 等价于 hexo new “我的第一篇文章” 还等价于 hexo new post “我的第一篇文章”hexo p 等价于 hexo publishhexo g 等价于 hexo generatehexo s等价于 hexo serverhexo d 等价于 hexo deployhexo deploy -g 等价于 hexo deploy –gener">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-26T11:41:52.000Z">
-<meta property="article:modified_time" content="2023-04-25T13:27:43.850Z">
+<meta property="article:modified_time" content="2023-04-27T07:09:47.494Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="入门">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          924 字
+          947 字
         
       </span>
     
@@ -311,7 +311,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年4月25日 晚上
+                    本文最后更新于：2023年4月27日 下午
                   
                 
               </p>
@@ -323,7 +323,11 @@
 <p>注: hexo clean 没有 简写, git –version 没有简写</p>
 <h1 id="指令说明"><a href="#指令说明" class="headerlink" title="指令说明:"></a>指令说明:</h1><p>hexo server #Hexo 会监视文件变动并自动更新，除修改站点配置文件外,无须重启服务器,直接刷新网页即可生效。<br>hexo server -s #以静态模式启动<br>hexo server -p 5000 #更改访问端口 (默认端口为4000，’ctrl + c’关闭server)<br>hexo server -i IP地址 #自定义 IP<br>hexo clean #清除缓存 ,网页正常情况下可以忽略此条命令,执行该指令后,会删掉站点根目录下的public文件夹<br>hexo g #生成静态网页 (执行 $ hexo g后会在站点根目录下生成public文件夹, hexo会将”&#x2F;blog&#x2F;source&#x2F;“ 下面的.md后缀的文件编译为.html后缀的文件,存放在”&#x2F;blog&#x2F;public&#x2F; “ 路径下)<br>hexo d #将本地数据部署到远端服务器(如github)<br>hexo init 文件夹名称 #初始化XX文件夹名称<br>npm update hexo -g#升级<br>npm install hexo -g#安装<br>node-v #查看node.js版本号<br>npm -v #查看npm版本号<br>git –version #查看git版本号<br>hexo -v #查看hexo版本号</p>
 <h1 id="上传到git仓库指令"><a href="#上传到git仓库指令" class="headerlink" title="上传到git仓库指令"></a>上传到git仓库指令</h1><p><code>hexo clean &amp;&amp; hexo d</code> 清除缓存并上传到git仓库</p>
-<h1 id="Mermaid-相关"><a href="#Mermaid-相关" class="headerlink" title="Mermaid 相关"></a>Mermaid 相关</h1><p><code>&#123;% mermaid %&#125;`
+<h1 id="便签功能"><a href="#便签功能" class="headerlink" title="便签功能"></a>便签功能</h1><div class="note note-success">
+            <p>文字 或者 <code>markdown</code> 均可</p>
+          </div>
+
+<h1 id="公式编辑器"><a href="#公式编辑器" class="headerlink" title="公式编辑器"></a>公式编辑器</h1><h1 id="Mermaid-相关"><a href="#Mermaid-相关" class="headerlink" title="Mermaid 相关"></a>Mermaid 相关</h1><p><code>&#123;% mermaid %&#125;`
 `&#123;% endmermaid %&#125;</code></p>
 <p>用这个标记把流程图框起来（不知道为什么我这用代码块画会报错）</p>
 <h1 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h1><p>参见 <a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/guide/">https://hexo.fluid-dev.com/docs/guide/</a></p>

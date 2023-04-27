@@ -24,7 +24,7 @@
 <meta property="og:description" content="前言使用学校webvpn时候，访问内网地址被加密为一串字符串， 例如：https:&#x2F;&#x2F;webvpn.gdou.edu.cn&#x2F;http&#x2F;77726476706e69737468656265737421a1a70fce77602606305adcf9&#x2F; 加密流程通过前端js代码，可以很清楚的找到加密函数 12345678910111213141516171819202122232425var text">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-22T16:35:03.000Z">
-<meta property="article:modified_time" content="2023-04-22T17:04:15.062Z">
+<meta property="article:modified_time" content="2023-04-27T07:04:06.466Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="协议分析">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          916 字
+          918 字
         
       </span>
     
@@ -311,7 +311,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年4月23日 凌晨
+                    本文最后更新于：2023年4月27日 下午
                   
                 
               </p>
@@ -325,7 +325,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> textRightAppend = <span class="hljs-keyword">function</span> (<span class="hljs-params">text, mode</span>) &#123;<br>    <span class="hljs-keyword">var</span> segmentByteSize = mode === <span class="hljs-string">&#x27;utf8&#x27;</span> ? <span class="hljs-number">16</span> : <span class="hljs-number">32</span><br><br>    <span class="hljs-keyword">if</span> (text.<span class="hljs-property">length</span> % segmentByteSize === <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> text<br>    &#125;<br><br>    <span class="hljs-keyword">var</span> appendLength = segmentByteSize - text.<span class="hljs-property">length</span> % segmentByteSize<br>    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> (i++ &lt; appendLength) &#123;<br>        text += <span class="hljs-string">&#x27;0&#x27;</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> text<br>&#125;<br><br><span class="hljs-keyword">var</span> encrypt = <span class="hljs-keyword">function</span> (<span class="hljs-params">text, key, iv</span>) &#123;<br>    <span class="hljs-keyword">var</span> textLength = text.<span class="hljs-property">length</span><br>    text = <span class="hljs-title function_">textRightAppend</span>(text, <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>    <span class="hljs-keyword">var</span> keyBytes = utf8.<span class="hljs-title function_">toBytes</span>(key)<br>    <span class="hljs-keyword">var</span> ivBytes = utf8.<span class="hljs-title function_">toBytes</span>(iv)<br>    <span class="hljs-keyword">var</span> textBytes = utf8.<span class="hljs-title function_">toBytes</span>(text)<br>    <span class="hljs-keyword">var</span> aesCfb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AesCfb</span>(keyBytes, ivBytes, <span class="hljs-number">16</span>)<br>    <span class="hljs-keyword">var</span> encryptBytes = aesCfb.<span class="hljs-title function_">encrypt</span>(textBytes)<br>    <span class="hljs-keyword">return</span> hex.<span class="hljs-title function_">fromBytes</span>(ivBytes) + hex.<span class="hljs-title function_">fromBytes</span>(encryptBytes).<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, textLength * <span class="hljs-number">2</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>其中 key &#x3D; “wrdvpnisthebest!” iv &#x3D; “wrdvpnisthebest!” 默认参数</p>
-<p>加密方式根据函数猜测为Aes加密，模式为cfb</p>
+<p>加密方式根据函数猜测为Aes加密，模式为cfb方式</p>
 
                 
               </div>
