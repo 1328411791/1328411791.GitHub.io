@@ -4,17 +4,36 @@
   
   
   <entry>
-    <title>深入理解计算机组成-第二章-笔记</title>
-    <link href="/2023/04/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%AC%94%E8%AE%B0/"/>
-    <url>/2023/04/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%AC%94%E8%AE%B0/</url>
+    <title>设计模式</title>
+    <link href="/2023/05/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <url>/2023/05/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
     
-    <content type="html"><![CDATA[<h1 id="2-1-引言"><a href="#2-1-引言" class="headerlink" title="2-1 引言"></a>2-1 引言</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>设计模式的目的是帮助我们编写可复用的代码，提高代码的耦合性。降低对其他组件的修改、</p><h1 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h1><p>通过构造一个迭代器来实现对元素的遍历操作</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>在java中可以使用util中提供的<code>Iterator&lt;?&gt;</code>接口实现，主要为 hasnext与next方法，分别判断迭代器是否有下一个和获取下一个元素。</p><p>其实java中 拓展for使用使用了迭代器模式，c++中同样存在迭代器for遍历。</p><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol><li>引入迭代器后，可以使遍历与实现分离开，不暴露该对象的内部表示。</li></ol><h1 id="Adapter模式-（适配器模式）"><a href="#Adapter模式-（适配器模式）" class="headerlink" title="Adapter模式 （适配器模式）"></a>Adapter模式 （适配器模式）</h1><p>Adapter模式又称为Wrapper模式，主要有以下两种</p><ol><li>类适配器模式</li><li>对象适配器模式</li></ol><h2 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h2><p>类适配器模式是实现类与接口间实现对接的方式。通过中间类 Banner 类继承对象和实现接口的相关功能实现</p><p><img src="https://pic.liahnu.top/img/202305082019449.png"></p><h2 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h2><p>对象适配器模式是实现对类与类间实现对接的方式。由于java中只能单继承，通过中间类 Banner 类继承一个类和保存对象，实现对数据处理的转交。</p><p><img src="https://pic.liahnu.top/img/202305082020330.png"></p>]]></content>
     
     
     
     <tags>
       
-      <tag>计算机组成</tag>
+      <tag>设计模式</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计算机组成与设计-第二章-笔记</title>
+    <link href="/2023/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%AC%94%E8%AE%B0/"/>
+    <url>/2023/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="2-1-引言"><a href="#2-1-引言" class="headerlink" title="2.1 引言"></a>2.1 引言</h1><p>计算机语言中的单词称为<strong>指令</strong>，其词汇表称为<strong>指令系统</strong></p><h2 id="RISV-V-指令系统"><a href="#RISV-V-指令系统" class="headerlink" title="RISV-V 指令系统"></a>RISV-V 指令系统</h2><p><img src="https://pic.liahnu.top/img/202304280111811.png" alt="RISV-V 汇编语言 表一"></p><p><img src="https://pic.liahnu.top/img/202304280113631.png" alt="RISV-V 汇编语言 表二"></p><p><a href="http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf">做pa时候的risv32参考手册</a></p><h1 id="2-2-计算机硬件的操作"><a href="#2-2-计算机硬件的操作" class="headerlink" title="2.2 计算机硬件的操作"></a>2.2 计算机硬件的操作</h1><p>下面就是一个基础的risv指令，固定使用三个变量进行操作；</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asm">add a, b, c<br></code></pre></td></tr></table></figure><p><strong>设计原则1 ：简单源于规整</strong></p><p>操作数数量可变的硬件比固定数拭的硬件更复杂。</p><p>riscv指令主要包含一下几几种指令</p><h1 id="2-3-计算机硬件的操作数"><a href="#2-3-计算机硬件的操作数" class="headerlink" title="2.3 计算机硬件的操作数"></a>2.3 计算机硬件的操作数</h1><p>在RISC-V 体系结构中，寄存器的大小为64 位；成组的64 位频繁出现，因此它们在RISC-V 体系结构中被命名为双字。（另一个常见大小是成组的32位，在RISC-V 体系结构中称为字。）</p><p>相较于变量，在RISC-V处理器中，寄存器数量优先，在当前RISC-V 等计算机上通常为32 个寄存器。</p><p><strong>设计原则2 ：更少则更快</strong></p><p>数量过多的寄存器可能会增加时钟周期，因为电信号传输的距离越远，所花<br>费的时间就越长。</p><h2 id="2-3-1-存储器操作数"><a href="#2-3-1-存储器操作数" class="headerlink" title="2.3.1 存储器操作数"></a>2.3.1 存储器操作数</h2><p>RISC-V 指令中的算术运算只作用于寄存器，因此，RISC-V 必须包含在内存和寄存器之间传输数据的指令。这些指令称为数据传输指令。</p><p>将数据从内存复制到寄存器的数据传输指令通常称为载入指令ld(load);<br>将数据从寄存器复制到内存的数据传输指令通常称为存储指令lw(store);</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asm">ld x9, 8(x22) // 8(x22) 指相对于x22地址，有8个偏移<br><br></code></pre></td></tr></table></figure><p>计算机分为两种， 一种使用最左边或“ 大端”字节的地址作为双字地址，另一种使用最右端或“小端” 字节的地址作为双字地址。RISC-V 属于后者，称为小端编址。由于仅在以双字形式和八个单独字节访问相同数据时， 字节顺序才会有影响， 因此大多数情况下不需要关心”大小端”。</p><h2 id="2-3-2-常数或立即数操作数"><a href="#2-3-2-常数或立即数操作数" class="headerlink" title="2.3.2 常数或立即数操作数"></a>2.3.2 常数或立即数操作数</h2><p>程序经常会在一次操作中用到常数，下列是一些常数指令</p><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">addi <span class="hljs-keyword">x</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span><span class="hljs-keyword">x</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure><h2 id><a href="#" class="headerlink" title></a></h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>计算机组成与设计</tag>
       
     </tags>
     
