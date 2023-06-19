@@ -24,8 +24,9 @@
 <meta property="og:description" content="MySQL 存储引擎存储引擎的概念MySQL服务器把数据的存储和提取操作都封装到了一个叫存储引擎的模块里。为了实现不同的功能，MySQL提供了各式各样的存储引擎，不同存储引擎管理的表具体的存储结构可能不同，采用的存取算法也可能不同。 为了管理方便，人们把连接管理、查询缓存、语法解析、查询优化这些并不涉及真实数据存储的功能划分为MySQL server的功能，把真实存取数据的功能划分为存储引擎的功能">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202306190246424.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202306191927854.png">
 <meta property="article:published_time" content="2023-06-18T18:23:26.000Z">
-<meta property="article:modified_time" content="2023-06-19T11:18:01.588Z">
+<meta property="article:modified_time" content="2023-06-19T11:29:52.868Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
@@ -257,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          521 字
+          1k 字
         
       </span>
     
@@ -268,7 +269,7 @@
         
         
         
-          2 分钟
+          4 分钟
         
       </span>
     
@@ -332,6 +333,17 @@
 <h2 id="常用存储引擎"><a href="#常用存储引擎" class="headerlink" title="常用存储引擎"></a>常用存储引擎</h2><p><img src="https://pic.liahnu.top/img/202306190246424.png" srcset="/img/loading.gif" lazyload></p>
 <p>在此之中，最常用的是InnoDB和MyISAM，InnoDB是MySQL的默认存储引擎。</p>
 <h1 id="InnoDB存储引擎"><a href="#InnoDB存储引擎" class="headerlink" title="InnoDB存储引擎"></a>InnoDB存储引擎</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>InnoDB是一个将表中的数据存储到磁盘上的存储引擎。众所周知，磁盘的速度非常慢，和内存读写差了几个数量级，所以当我们想从表中获取某些记录时，InnoDB存储引擎需要一条一条的把记录从磁盘上读出来么？不，那样会慢死，InnoDB采取的方式是：将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16 KB。也就是在一般情况下，一次最少从磁盘中读取16KB的内容到内存中，一次最少把内存中的16KB内容刷新到磁盘中。</p>
+<h2 id="InnoDB行格式"><a href="#InnoDB行格式" class="headerlink" title="InnoDB行格式"></a>InnoDB行格式</h2><p>我们平时是以记录为单位来向表中插入数据的，这些记录在磁盘上的存放方式也被称为行格式或者记录格式。目前InnoDB存储引擎的有4种不同类型的行格式，分别是Compact、Redundant、Dynamic和Compressed行格式。</p>
+<h3 id="Compact行格式"><a href="#Compact行格式" class="headerlink" title="Compact行格式"></a>Compact行格式</h3><p><img src="https://pic.liahnu.top/img/202306191927854.png" srcset="/img/loading.gif" lazyload></p>
+<p>Compact行格式分为，记录的额外信息和记录的真实数据两大部分。</p>
+<h4 id="记录的额外信息"><a href="#记录的额外信息" class="headerlink" title="记录的额外信息"></a>记录的额外信息</h4><p>记录的额外信息包括：变长字段长度列表、NULL列列表、记录头信息。</p>
+<p><strong>变长字段长度列表</strong></p>
+<p>变长字段长度列表是一个按照列顺序记录的变长字段的长度列表，每个长度占用1或2个字节，1个字节表示长度小于等于255，2个字节表示长度大于255。</p>
+<p>这个列表的作用是：当我们要获取某条记录的某个变长字段时（例如VARCHAR），我们可以通过这个列表快速的定位到该变长字段的位置，然后再获取该变长字段的值。</p>
+<p><strong>NULL列列表</strong></p>
+<p>NULL列列表是一个按照列顺序记录的NULL列的列表，每个NULL列占用1个字节，1个字节表示有NULL值，0个字节表示没有NULL值。</p>
+<p>这个列表的作用是：当我们要获取某条记录的某个列时，我们可以通过这个列表快速的定位到该列是否有NULL值。</p>
+<h5 id="记录头信息"><a href="#记录头信息" class="headerlink" title="记录头信息"></a>记录头信息</h5><p>记录头信息包括：记录头长度、记录头格式、记录头信息。</p>
 
                 
               </div>
