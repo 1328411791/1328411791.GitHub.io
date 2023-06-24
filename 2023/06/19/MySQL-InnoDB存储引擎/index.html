@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202306201657516.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202306211215814.png">
 <meta property="article:published_time" content="2023-06-18T18:23:26.000Z">
-<meta property="article:modified_time" content="2023-06-21T04:18:11.191Z">
+<meta property="article:modified_time" content="2023-06-24T13:33:10.352Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.9k 字
         
       </span>
     
@@ -324,7 +324,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年6月21日 中午
+                    本文最后更新于：2023年6月24日 晚上
                   
                 
               </p>
@@ -360,7 +360,8 @@
 <p>Compact行格式的开头是变长字段长度列表，而Redundant行格式的开头是字段长度偏移列表，与变长字段长度列表有两处不同：</p>
 <p>没有了变长两个字，意味着Redundant行格式会把该条记录中所有列（包括隐藏列）的长度信息都按照逆序存储到字段长度偏移列表。</p>
 <p>多了个偏移两个字，这意味着计算列值长度的方式不像Compact行格式那么直观，它是采用两个相邻数值的差值来计算各个列值的长度。</p>
-<h3 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h3><p>这俩行格式和Compact行格式挺像，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字段真实数据的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
+<h4 id="Redundant行格式中的char类型"><a href="#Redundant行格式中的char类型" class="headerlink" title="Redundant行格式中的char类型"></a>Redundant行格式中的char类型</h4><p>Compact行格式在CHAR(M)类型时，分变长字符集和定长字符集的情况，而在Redundant行格式中，只要是使用CHAR(M)类型，占用的真实数据空间就是该字符集表示一个字符最多需要的字节数和M的乘积。比方说使用utf8字符集的CHAR(10)类型的列占用的真实数据空间始终为30个字节，使用gbk字符集的CHAR(10)类型的列占用的真实数据空间始终为20个字节。由此可以看出来，使用Redundant行格式的CHAR(M)类型的列是不会产生碎片的。</p>
+<h3 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h3><p>这俩行格式和Compact行格式很像，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字段真实数据的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
 
                 
               </div>
