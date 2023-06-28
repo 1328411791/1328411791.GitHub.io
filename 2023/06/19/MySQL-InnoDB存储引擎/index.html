@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202306201657516.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202306211215814.png">
 <meta property="article:published_time" content="2023-06-18T18:23:26.000Z">
-<meta property="article:modified_time" content="2023-06-24T15:10:51.235Z">
+<meta property="article:modified_time" content="2023-06-28T12:25:01.186Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.6k 字
         
       </span>
     
@@ -273,7 +273,7 @@
         
         
         
-          7 分钟
+          9 分钟
         
       </span>
     
@@ -324,7 +324,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年6月24日 晚上
+                    本文最后更新于：2023年6月28日 晚上
                   
                 
               </p>
@@ -363,7 +363,7 @@
 <h4 id="Redundant行格式中的char类型"><a href="#Redundant行格式中的char类型" class="headerlink" title="Redundant行格式中的char类型"></a>Redundant行格式中的char类型</h4><p>Compact行格式在CHAR(M)类型时，分变长字符集和定长字符集的情况，而在Redundant行格式中，只要是使用CHAR(M)类型，占用的真实数据空间就是该字符集表示一个字符最多需要的字节数和M的乘积。比方说使用utf8字符集的CHAR(10)类型的列占用的真实数据空间始终为30个字节，使用gbk字符集的CHAR(10)类型的列占用的真实数据空间始终为20个字节。由此可以看出来，使用Redundant行格式的CHAR(M)类型的列是不会产生碎片的。</p>
 <h3 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h3><p>这俩行格式和Compact行格式很像，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字段真实数据的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
 <h1 id="InnoDB的索引页结构"><a href="#InnoDB的索引页结构" class="headerlink" title="InnoDB的索引页结构"></a>InnoDB的索引页结构</h1><p>页是InnoDB管理存储空间的基本单位，一个页的大小一般是16KB。InnoDB为了不同的目的而设计了许多种不同类型的页，比如存放表空间头部信息的页，存放Insert Buffer信息的页，存放INODE信息的页，存放undo日志信息的页等等。表中记录的那种类型的页叫做索引（INDEX）页。</p>
-<h2 id="页的结构"><a href="#页的结构" class="headerlink" title="页的结构"></a>页的结构</h2>
+<h2 id="页的结构"><a href="#页的结构" class="headerlink" title="页的结构"></a>页的结构</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> inf = <span class="hljs-number">0x3f3f3f3f</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn = <span class="hljs-number">1e3</span> + <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> a[maxn], dp[maxn][maxn];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;<br>    <span class="hljs-keyword">while</span> (~<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n))<br>    &#123;<br>        <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(dp));<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; ++i)<br>            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a[i]);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> l = <span class="hljs-number">2</span>; l &lt; n; ++l)<br>        &#123; <span class="hljs-comment">//枚举连乘长度</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i + l &lt;= n; ++i)<br>            &#123;                  <span class="hljs-comment">//枚举连乘左边界</span><br>                <span class="hljs-type">int</span> j = i + l; <span class="hljs-comment">//连乘右边界</span><br>                dp[i][j] = inf;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k = i + <span class="hljs-number">1</span>; k &lt; j; ++k)<br>                &#123; <span class="hljs-comment">//枚举划分点</span><br>                    dp[i][j] = <span class="hljs-built_in">min</span>(dp[i][j], dp[i][k] + dp[k][j] + a[i] * a[k] * a[j]);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, dp[<span class="hljs-number">1</span>][n]);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -433,6 +433,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/06/28/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95%E7%AC%94%E8%AE%B0/" title="算法设计课程期末考试笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法设计课程期末考试笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

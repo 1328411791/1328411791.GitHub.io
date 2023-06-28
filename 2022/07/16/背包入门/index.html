@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/liahnu/img/raw/master/img/202112251111153.png">
 <meta property="article:published_time" content="2022-07-15T16:14:41.000Z">
-<meta property="article:modified_time" content="2023-03-28T15:47:37.290Z">
+<meta property="article:modified_time" content="2023-06-28T12:30:17.907Z">
 <meta property="article:author" content="liahnu">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://gitee.com/liahnu/img/raw/master/img/202112251111153.png">
@@ -317,7 +317,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年3月28日 晚上
+                    本文最后更新于：2023年6月28日 晚上
                   
                 
               </p>
@@ -348,8 +348,6 @@
 <p>这个例子我们可以利用一张二维表来直观展示表示</p>
 <p><img src="https://gitee.com/liahnu/img/raw/master/img/202112251111153.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">int</span> w[<span class="hljs-number">1002</span>],v[<span class="hljs-number">1002</span>];<br><span class="hljs-type">int</span> f[<span class="hljs-number">1002</span>][<span class="hljs-number">1002</span>];<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-type">int</span> N,V;<br>    cin&gt;&gt;N&gt;&gt;V;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=N;i++)&#123;<br>        cin&gt;&gt;v[i]&gt;&gt;w[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= N; i++) &#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= V; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(j &lt; v[i]) <br>                f[i][j] = f[i - <span class="hljs-number">1</span>][j];<br>            <span class="hljs-keyword">else</span>    <br>                f[i][j] = <span class="hljs-built_in">max</span>(f[i - <span class="hljs-number">1</span>][j], f[i - <span class="hljs-number">1</span>][j - v[i]] + w[i]);<br>        &#125; <br>    &#125;<br>    cout&lt;&lt;f[N][V];<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-
 
 <p>对于这个代码的优化,其中时间复杂度基本已经不能再优化了，我们可以将他改为一维数组,这样空间复杂度却可以优化到O(V)。</p>
 <p>注意改成一维数组后要从后往前逆序推，如果正推一个物品会取多次，这也是完全背包的解法。</p>
