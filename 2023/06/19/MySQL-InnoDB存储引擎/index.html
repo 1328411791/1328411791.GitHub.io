@@ -34,8 +34,12 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202306191938103.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202307030050368.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202307030056362.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202307030109220.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202307030111124.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202307030128384.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202307030130410.png">
 <meta property="article:published_time" content="2023-06-18T18:23:26.000Z">
-<meta property="article:modified_time" content="2023-07-02T16:57:33.415Z">
+<meta property="article:modified_time" content="2023-07-02T17:31:53.807Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
@@ -267,7 +271,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          4.2k 字
         
       </span>
     
@@ -278,7 +282,7 @@
         
         
         
-          9 分钟
+          14 分钟
         
       </span>
     
@@ -379,7 +383,12 @@
 <p>它们并不存放在页的User Records部分，他们被单独放在一个称为Infimum + Supremum的部分。</p>
 <p><img src="https://pic.liahnu.top/img/202307030050368.png" srcset="/img/loading.gif" lazyload></p>
 <p>在创建了这两条记录之后，我们自己的记录就可以被插入到页的User Records部分了。其中，记录会按照主键的顺序插入到页中，如果主键相同，那么会按照主键以外的唯一索引的顺序插入到页中。</p>
-<p>我们自己的创建的记录会通过单链表的方式连接起来，这个单链表的头部就是Infimum记录，尾部就是Supremum记录。通过<code>next_record</code>指针可以找到下一条记录。<code>next_record</code>值代表与下一条记录的偏移量，如果<code>next_record</code>值为0，那么就代表这是最后一条记录。</p>
+<p>我们自己的创建的记录会通过单链表的方式连接起来，这个单链表的头部就是Infimum记录，尾部就是Supremum记录。通过<code>next_record</code>指针可以找到下一条记录。<code>next_record</code>值代表与下一条记录的偏移量（实际指向<strong>记录头信息和真实数据之间的位置</strong>），如果<code>next_record</code>值为0，那么就代表这是最后一条记录。</p>
+<div class="note note-success">
+            <p>因为这个位置对于数据和信息的位置正好，向左读取就是记录头信息，向右读取就是真实数据。</p>
+          </div>
+
+
 <h3 id="记录在页中的删除"><a href="#记录在页中的删除" class="headerlink" title="记录在页中的删除"></a>记录在页中的删除</h3><p>删除一条记录主要有以下几个变化，如图所示：</p>
 <p><img src="https://pic.liahnu.top/img/202307030056362.png" srcset="/img/loading.gif" lazyload></p>
 <ul>
@@ -387,6 +396,33 @@
 <li>第二条记录的next_record值变为了0，意味着该记录没有下一条记录了。</li>
 <li>第一条记录的next_record指向了第3条记录。</li>
 <li>最大记录的n_owned值从5变成了4</li>
+</ul>
+<p>主键值为2的记录被我们删掉了，但是存储空间却没有回收，如果我们再次把这条记录插入到表中，会发生什么事呢？</p>
+<p>InnoDB并没有因为新记录的插入而为它申请新的存储空间，而是直接复用了原来被删除记录的存储空间。</p>
+<p>当数据页中存在多条被删除掉的记录时，这些记录的next_record属性将会把这些被删除掉的记录组成一个垃圾链表，以备之后重用这部分存储空间。</p>
+<h3 id="记录在页中的查找"><a href="#记录在页中的查找" class="headerlink" title="记录在页中的查找"></a>记录在页中的查找</h3><p>我们知道记录在页中是以单链表的形式存储的，那么我们如何通过主键值来查找记录呢？</p>
+<p>在数据结构课上学过链表的查找。最为简单的查找是顺序查找。从Infimum记录（最小记录）开始，知道招到链表，但是这种方式显而易见，效率很低。</p>
+<p>因此InnoDB引入了页目录（Page Directory）机制，通过这个来简化查找。</p>
+<ul>
+<li>将所有正常的记录（包括最大和最小记录，不包括标记为已删除的记录）划分为几个组。</li>
+<li>每个组的最后一条记录（也就是组内最大的那条记录）的头信息中的n_owned属性表示该记录拥有多少条记录，也就是该组内共有几条记录。</li>
+<li>将每个组的最后一条记录的地址偏移量单独提取出来按顺序存储到靠近页的尾部的地方，这个地方就是所谓的Page Directory，也就是页目录（此时应该返回头看看页面各个部分的图）。页面目录中的这些地址偏移量被称为槽（英文名：Slot），所以这个页面目录就是由槽组成的。</li>
+</ul>
+<p><img src="https://pic.liahnu.top/img/202307030109220.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://pic.liahnu.top/img/202307030111124.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中，对于最小记录所在的分组只能有 1 条记录，最大记录所在的分组拥有的记录条数只能在 1<del>8 条之间，剩下的分组中记录的条数范围只能在是 4</del>8 条之间。</p>
+<p>通过这样的分组方式，我们就可以通过二分查找的方式来快速定位到我们想要的记录所在的分组，然后再通过顺序查找组的方式快速定位到我们想要的记录。</p>
+<h3 id="Page-Header（页面头部）"><a href="#Page-Header（页面头部）" class="headerlink" title="Page Header（页面头部）"></a>Page Header（页面头部）</h3><p>为了能得到一个数据页中存储的记录的状态信息，比如本页中已经存储了多少条记录，第一条记录的地址是什么，页目录中存储了多少个槽等等，特意在页中定义了一个叫Page Header的部分，它是页结构的第二部分，这个部分占用固定的56个字节，专门存储各种状态信息。</p>
+<p><img src="https://pic.liahnu.top/img/202307030128384.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="File-Header（文件头部）"><a href="#File-Header（文件头部）" class="headerlink" title="File Header（文件头部）"></a>File Header（文件头部）</h3><p>File Header描述了一些针对各种页都通用的一些信息，比方说这个页的编号是多少，它的上一个页、下一个页是谁之类的信息，这个部分占用固定的38个字节</p>
+<p><img src="https://pic.liahnu.top/img/202307030130410.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="File-Trailer"><a href="#File-Trailer" class="headerlink" title="File Trailer"></a>File Trailer</h3><p>每个页的尾部都加了一个File Trailer部分，用来校验页信息，这个部分由8个字节组成，可以分成2个小部分：</p>
+<ul>
+<li>前4个字节代表页的校验和</li>
+</ul>
+<p>这个部分是和File Header中的校验和相对应的。每当一个页面在内存中修改了，在同步之前就要把它的校验和算出来，因为File Header在页面的前边，所以校验和会被首先同步到磁盘，当完全写完时，校验和也会被写到页的尾部，如果完全同步成功，则页的首部和尾部的校验和应该是一致的。如果写了一半儿断电了，那么在File Header中的校验和就代表着已经修改过的页，而在File Trailer中的校验和代表着原先的页，二者不同则意味着同步中间出了错。</p>
+<ul>
+<li>后4个字节代表页面被最后修改时对应的日志序列位置（LSN）</li>
 </ul>
 
                 
