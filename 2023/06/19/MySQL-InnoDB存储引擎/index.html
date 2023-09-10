@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202307030128384.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202307030130410.png">
 <meta property="article:published_time" content="2023-06-18T18:23:26.000Z">
-<meta property="article:modified_time" content="2023-07-02T17:31:53.807Z">
+<meta property="article:modified_time" content="2023-09-10T14:28:53.889Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="数据库">
@@ -271,7 +271,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          4.6k 字
         
       </span>
     
@@ -282,7 +282,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -333,7 +333,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年7月3日 凌晨
+                    本文最后更新于：2023年9月10日 晚上
                   
                 
               </p>
@@ -424,6 +424,17 @@
 <ul>
 <li>后4个字节代表页面被最后修改时对应的日志序列位置（LSN）</li>
 </ul>
+<p>这个File Trailer与File Header类似，都是所有类型的页通用的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li><p>InnoDB为了不同的目的而设计了不同类型的页，我们把用于存放记录的页叫做数据页。</p>
+</li>
+<li><p>InnoDB会把页中的记录划分为若干个组，每个组的最后一个记录的地址偏移量作为一个槽，存放在Page Directory中，所以在一个页中根据主键查找记录是非常快的，分为两步：通过二分法确定该记录所在的槽；通过记录的next_record属性遍历该槽所在的组中的各个记录。</p>
+</li>
+<li><p>每个数据页的File Header部分都有上一个和下一个页的编号，所以所有的数据页会组成一个双链表。</p>
+</li>
+<li><p>为保证从内存中同步到磁盘的页的完整性，在页的首部和尾部都会存储页中数据的校验和和页面最后修改时对应的LSN值，如果首部和尾部的校验和和LSN值校验不成功的话，就说明同步过程出现了问题。</p>
+</li>
+</ol>
 
                 
               </div>
