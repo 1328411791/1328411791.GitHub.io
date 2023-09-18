@@ -52,7 +52,7 @@ chksum=ffbaed27a7cbf48bcf7c227beae802def6f96901&info=%7BSRBX1%7DQJl6uFy9IkM3%2FI
 | password | {MD5}01d38ef19265ae9ff199cbafc98e6797 | 经过md5加密后的密码，但似乎不同于常规md5加密方法 |
 | os | Windows+95 | 系统 |
 | name | Windows | 同上，系统参数 |
-| double_stack | 0 | 多次抓包后似乎是固定值 |
+| double_stack | 0 | 多次抓包后似乎是固定值，查询后应该是ipv4和ipv6双栈登录选项 |
 | chksum | ffbaed27a7cbf48bcf7c227beae802def6f96901 | 某种加密后的参数 |
 | info | {SRBX1}QJl6uFy9IkM3%2FI3HaaNP%2FgPkfZWn%2FLUH3ktAZuPht rF%2BailDbmoRB7oaw4jfeE%2FKR9hTkSoyJ5de6TXw6Ipy X8VGiLpiWy6MLBEfu4RdCyg2WSim%2FmIssMlh9cfzJygmN CSiFDNbWiE6uBnn | 又是一段加密后的参数 |
 | ac_id | 118 | 固定值，可能是加密方式，错误的ac_id可能会导致bas错误 |
@@ -257,7 +257,10 @@ chksum是通过使用sha1(str)方法进行加密,str是它通过之前各个参�
 根据以上方法，我们就可以获得基础登录加密方法组装。
 
 # 登录实践
+分析完了srun协议的登录，但是个人懒得写相关源程序，这里借用开源项目
 
-这里提供一个已经写好的srun登录软件
+这里提供一个已经写好的srun登录软件，来自于github开源
 
-[srun](https://github.com/zu1k/srun))
+[srun](https://github.com/zu1k/srun)
+
+同样是借用上面的代码锁实现的[安卓的登录器](https://github.com/1328411791/GDOUYJ_Internet_Client)
