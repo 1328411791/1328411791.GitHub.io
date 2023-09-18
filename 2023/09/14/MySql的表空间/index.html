@@ -16,24 +16,28 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="为什么使用Go不使用C++等语言 因为Go语言有go程，可以方便创建以及使用线程 Go是类型安全和内存安全的，不需要像c++一样处理复杂的内存问题 同时，这门语言比C++简单  分布式下的多线程操作在分布式下，客户端可能需要对多个进行处理，这时候就要使用多线程对其进行操作。 IO多路复用并行性">
+    <meta name="description" content="独立表空间结构区（extent）空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。  第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RPC与多线程">
-<meta property="og:url" content="https://www.liahnu.top/2023/09/04/RPC%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:title" content="MySql的表空间">
+<meta property="og:url" content="https://www.liahnu.top/2023/09/14/MySql%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="为什么使用Go不使用C++等语言 因为Go语言有go程，可以方便创建以及使用线程 Go是类型安全和内存安全的，不需要像c++一样处理复杂的内存问题 同时，这门语言比C++简单  分布式下的多线程操作在分布式下，客户端可能需要对多个进行处理，这时候就要使用多线程对其进行操作。 IO多路复用并行性">
+<meta property="og:description" content="独立表空间结构区（extent）空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。  第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-04T12:59:59.000Z">
-<meta property="article:modified_time" content="2023-09-04T13:28:30.306Z">
+<meta property="og:image" content="https://pic.liahnu.top/img/202309142121057.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202309181643532.png">
+<meta property="article:published_time" content="2023-09-14T07:03:09.000Z">
+<meta property="article:modified_time" content="2023-09-18T08:44:03.639Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="分布式系统">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202309142121057.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>RPC与多线程 - liahnu Blogs</title>
+  <title>MySql的表空间 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="RPC与多线程"></span>
+            <span id="subtitle" data-typed-text="MySql的表空间"></span>
           
         </div>
 
@@ -242,8 +246,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-04 20:59" pubdate>
-          2023年9月4日 晚上
+        <time datetime="2023-09-14 15:03" pubdate>
+          2023年9月14日 下午
         </time>
       </span>
     
@@ -254,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          141 字
+          1.9k 字
         
       </span>
     
@@ -265,7 +269,7 @@
         
         
         
-          1 分钟
+          6 分钟
         
       </span>
     
@@ -311,12 +315,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">RPC与多线程</h1>
+            <h1 style="display: none">MySql的表空间</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年9月4日 晚上
+                    本文最后更新于：2023年9月18日 下午
                   
                 
               </p>
@@ -324,13 +328,47 @@
             
               <div class="markdown-body">
                 
-                <h1 id="为什么使用Go不使用C-等语言"><a href="#为什么使用Go不使用C-等语言" class="headerlink" title="为什么使用Go不使用C++等语言"></a>为什么使用Go不使用C++等语言</h1><ol>
-<li>因为Go语言有go程，可以方便创建以及使用线程</li>
-<li>Go是类型安全和内存安全的，不需要像c++一样处理复杂的内存问题</li>
-<li>同时，这门语言比C++简单</li>
-</ol>
-<h1 id="分布式下的多线程操作"><a href="#分布式下的多线程操作" class="headerlink" title="分布式下的多线程操作"></a>分布式下的多线程操作</h1><p>在分布式下，客户端可能需要对多个进行处理，这时候就要使用多线程对其进行操作。</p>
-<h2 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h2><h2 id="并行性"><a href="#并行性" class="headerlink" title="并行性"></a>并行性</h2>
+                <h1 id="独立表空间结构"><a href="#独立表空间结构" class="headerlink" title="独立表空间结构"></a>独立表空间结构</h1><h2 id="区（extent）"><a href="#区（extent）" class="headerlink" title="区（extent）"></a>区（extent）</h2><p>空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。</p>
+<p><img src="https://pic.liahnu.top/img/202309142121057.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页面的类型是固定的，分别是：</p>
+<ul>
+<li><p>FSP_HDR类型：这个类型的页面是用来登记整个表空间的一些整体属性以及本组所有的区，也就是extent 0 ~ extent 255这256个区的属性。需要注意的一点是，整个表空间只有一个FSP_HDR类型的页面。</p>
+</li>
+<li><p>IBUF_BITMAP类型：这个类型的页面是存储本组所有的区的所有页面关于INSERT BUFFER的信息。</p>
+</li>
+<li><p>INODE类型：这个类型的页面存储了许多称为INODE的数据结构。</p>
+</li>
+</ul>
+<p>其余各组最开始的2个页面的类型是固定的，也就是说extent 256、extent 512这些区最开始的2个页面的类型是固定的，分别是：</p>
+<ul>
+<li><p>XDES类型：全称是extent descriptor，用来登记本组256个区的属性，也就是说对于在extent 256区中的该类型页面存储的就是extent 256 ~ extent 511这些区的属性，对于在extent 512区中的该类型页面存储的就是extent 512 ~ extent 767这些区的属性。上边介绍的FSP_HDR类型的页面其实和XDES类型的页面的作用类似，只不过FSP_HDR类型的页面还会额外存储一些表空间的属性。</p>
+</li>
+<li><p>IBUF_BITMAP类型：上边介绍过了。</p>
+</li>
+</ul>
+<h3 id="为什么要提出区"><a href="#为什么要提出区" class="headerlink" title="为什么要提出区"></a>为什么要提出区</h3><p>我们每向表中插入一条记录时，也就是想索引添加记录，B+树的每一层中的页都会形成一个双向链表，如果是以页为单位来分配存储空间的话，双向链表相邻的两个页之间的物理位置可能离得非常远。我们介绍B+树索引的适用场景的时候特别提到范围查询只需要定位到最左边的记录和最右边的记录，然后沿着双向链表一直扫描就可以了，而如果链表中相邻的两个页物理位置离得非常远，就是所谓的随机I&#x2F;O。这对于速度影响恒大，所以我们需要尽量减少随机I&#x2F;O的次数。</p>
+<p>引入了区（extent）的概念，一个区就是在物理位置上连续的64个页。在表中数据量大的时候，为某个索引分配空间的时候就不再按照页为单位分配了，而是按照区为单位分配，甚至在表中的数据十分非常特别多的时候，可以一次性分配多个连续的区。虽然可能造成一点点空间的浪费，但是从性能角度看，可以消除很多的随机I&#x2F;O，功大于过嘛！</p>
+<h2 id="段（segment）"><a href="#段（segment）" class="headerlink" title="段（segment）"></a>段（segment）</h2><p>InnoDB对B+树的叶子节点和非叶子节点进行了区别对待，也就是说叶子节点有自己独有的区，非叶子节点也有自己独有的区。存放叶子节点的区的集合就算是一个段（segment），存放非叶子节点的区的集合也算是一个段。也就是说一个索引会生成2个段，一个叶子节点段，一个非叶子节点段。</p>
+<p>默认情况下一个使用InnoDB存储引擎的表只有一个聚簇索引，一个索引会生成2个段，而段是以区为单位申请存储空间的。，一个区默认占用1M存储空间，对于不足以填满一个区的情况，提出了碎片（fragment）区的概念。也就是在一个碎片区中，并不是所有的页都是为了存储同一个段的数据而存在的，而是碎片区中的页可以用于不同的目的，比如有些页用于段A，有些页用于段B，有些页甚至哪个段都不属于。碎片区直属于表空间，并不属于任何一个段。所以此后为某个段分配存储空间的策略是这样的：</p>
+<ul>
+<li><p>在刚开始向表中插入数据的时候，段是从某个碎片区以单个页面为单位来分配存储空间的。</p>
+</li>
+<li><p>当某个段已经占用了32个碎片区页面之后，就会以完整的区为单位来分配存储空间。</p>
+</li>
+</ul>
+<h3 id="区的分类"><a href="#区的分类" class="headerlink" title="区的分类"></a>区的分类</h3><ul>
+<li><p><strong>空闲的区（FREE）</strong>现在还没有用到这个区中的任何页面。</p>
+</li>
+<li><p><strong>有剩余空间的碎片区（FREE_FRAG）</strong>表示碎片区中还有可用的页面。</p>
+</li>
+<li><p><strong>没有剩余空间的碎片区（FULL_FRAG）</strong>表示碎片区中的所有页面都被使用，没有空闲页面。</p>
+</li>
+<li><p><strong>附属于某个段的区（FSEG）</strong>每一个索引都可以分为叶子节点段和非叶子节点段，除此之外InnoDB还会另外定义一些特殊作用的段，在这些段中的数据量很大时将使用区来作为基本的分配单位。</p>
+</li>
+</ul>
+<p>为了方便管理这些区，设计InnoDB的设计了一个称为XDES Entry的结构（全称就是Extent Descriptor Entry），每一个区都对应着一个XDES Entry结构，这个结构记录了对应的区的一些属性。</p>
+<p><img src="https://pic.liahnu.top/img/202309181643532.png" srcset="/img/loading.gif" lazyload></p>
+
                 
               </div>
             
@@ -342,7 +380,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">#分布式系统</a>
+        <a href="/tags/MySQL/">#MySQL</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
       
     </div>
   
@@ -354,8 +394,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>RPC与多线程</div>
-      <div>https://www.liahnu.top/2023/09/04/RPC与多线程/</div>
+      <div>MySql的表空间</div>
+      <div>https://www.liahnu.top/2023/09/14/MySql的表空间/</div>
     </div>
     <div class="license-meta">
       
@@ -367,7 +407,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月4日</div>
+          <div>2023年9月14日</div>
         </div>
       
       
@@ -399,18 +439,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/14/MySql%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/" title="MySql的表空间">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySql的表空间</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/17/MySql-%E7%B4%A2%E5%BC%95/" title="MySql-索引">
-                        <span class="hidden-mobile">MySql-索引</span>
+                      <a href="/2023/09/04/RPC%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="RPC与多线程">
+                        <span class="hidden-mobile">RPC与多线程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
