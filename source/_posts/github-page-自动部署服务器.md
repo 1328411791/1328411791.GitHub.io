@@ -51,7 +51,7 @@ done
 ```
 这段代码这有基础的功能，没有对请求进行验证，同时也没有http返回状态和参数（shell不如py）
 
-真不如py，下面是python的代码
+shell真不如py写脚本，下面是python的代码
 ```python
 import git
 from flask import Flask, request
