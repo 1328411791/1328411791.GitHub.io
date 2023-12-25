@@ -1,0 +1,899 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/icon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liahnu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言校园网最近更新，登录方式改用深澜网络协议进行登录。本文根据登录时数据包，对深澜网络协议进行分析。 请求分析获取api请求使用抓包软件对srun协议登录请求进行抓包 登录操作时候主要使用了以下几个请求 GET &#x2F;cgi-bin&#x2F;get_challenge?callback&#x3D;jQuery1124038630846526307305_1678337618278&amp;username&#x3D;202144">
+<meta property="og:type" content="article">
+<meta property="og:title" content="srun网络协议分析">
+<meta property="og:url" content="https://www.liahnu.top/2023/03/08/srun%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="liahnu Blogs">
+<meta property="og:description" content="前言校园网最近更新，登录方式改用深澜网络协议进行登录。本文根据登录时数据包，对深澜网络协议进行分析。 请求分析获取api请求使用抓包软件对srun协议登录请求进行抓包 登录操作时候主要使用了以下几个请求 GET &#x2F;cgi-bin&#x2F;get_challenge?callback&#x3D;jQuery1124038630846526307305_1678337618278&amp;username&#x3D;202144">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202303091302292.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202303091534989.png">
+<meta property="article:published_time" content="2023-03-08T12:30:16.000Z">
+<meta property="article:modified_time" content="2023-12-04T14:46:41.790Z">
+<meta property="article:author" content="liahnu">
+<meta property="article:tag" content="网络分析">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202303091302292.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>srun网络协议分析 - liahnu Blogs</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.liahnu.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>liahnu Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="srun网络协议分析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        liahnu
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-08 20:30" pubdate>
+          2023年3月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">srun网络协议分析</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年12月4日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>校园网最近更新，登录方式改用深澜网络协议进行登录。本文根据登录时数据包，对深澜网络协议进行分析。</p>
+<h1 id="请求分析"><a href="#请求分析" class="headerlink" title="请求分析"></a>请求分析</h1><h2 id="获取api请求"><a href="#获取api请求" class="headerlink" title="获取api请求"></a>获取api请求</h2><p>使用抓包软件对srun协议登录请求进行抓包</p>
+<p>登录操作时候主要使用了以下几个请求</p>
+<p><code>GET /cgi-bin/get_challenge?callback=jQuery1124038630846526307305_1678337618278&amp;username=2021440113**&amp;ip=10.202.47.26&amp;_=1678337618280 </code></p>
+<p><img src="https://pic.liahnu.top/img/202303091302292.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>GET /cgi-bin/srun_portal?callback=jQuery1124038630846526307305_1678337618278&amp;action=login&amp;username=2021440113**&amp;password=%7BMD5%7D01d38ef19265ae9ff199cbafc98e6797&amp;os=Windows+95&amp;name=Windows&amp;double_stack=0&amp; chksum=ffbaed27a7cbf48bcf7c227beae802def6f96901&amp;info=%7BSRBX1%7DQJl6uFy9IkM3%2FI3HaaNP%2FgPkfZWn%2FLUH3ktAZuPhtrF%2BailDbmoRB7oaw4jfeE%2FKR9hTkSoyJ5de6TXw6IpyX8VGiLpiWy6MLBEfu4RdCyg2WSim%2FmIssMlh9cfzJygmNCSiFDNbWiE6uBnn&amp;ac_id=1&amp;ip=10.202.47.26&amp;n=200&amp;type=1&amp;_=1678337618281 </code></p>
+<p><img src="https://pic.liahnu.top/img/202303091534989.png" srcset="/img/loading.gif" lazyload></p>
+<p>下面具体根据两个请求进行分析</p>
+<h2 id="get-challenge-请求"><a href="#get-challenge-请求" class="headerlink" title="get_challenge 请求"></a>get_challenge 请求</h2><p>根据请求，我们可以初步猜测出这个的参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">示例值</th>
+<th align="center">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">callback</td>
+<td align="center">jQuery1124038630846526307305_1678337618278</td>
+<td align="center">应该是jquery的回调函数标志，可能由函数id+时间戳组成</td>
+</tr>
+<tr>
+<td align="center">username</td>
+<td align="center">2021440113**</td>
+<td align="center">登录用户名</td>
+</tr>
+<tr>
+<td align="center">ip</td>
+<td align="center">10.202.47.26</td>
+<td align="center">登录网站源站ip</td>
+</tr>
+<tr>
+<td align="center">_</td>
+<td align="center">1678337618280</td>
+<td align="center">很明显是当前的时间戳</td>
+</tr>
+</tbody></table>
+<h2 id="srun-portal-请求"><a href="#srun-portal-请求" class="headerlink" title="srun_portal 请求"></a>srun_portal 请求</h2><p>同样根据请求，我们可以初步猜测出这个请求的参数详情</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">示例值</th>
+<th align="center">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">callback</td>
+<td align="center">jQuery1124038630846526307305_1678337618278</td>
+<td align="center">应该是jquery的回调函数标志，可能由函数id+时间戳组成</td>
+</tr>
+<tr>
+<td align="center">password</td>
+<td align="center">{MD5}01d38ef19265ae9ff199cbafc98e6797</td>
+<td align="center">经过md5加密后的密码，但似乎不同于常规md5加密方法</td>
+</tr>
+<tr>
+<td align="center">os</td>
+<td align="center">Windows+95</td>
+<td align="center">系统</td>
+</tr>
+<tr>
+<td align="center">name</td>
+<td align="center">Windows</td>
+<td align="center">同上，系统参数</td>
+</tr>
+<tr>
+<td align="center">double_stack</td>
+<td align="center">0</td>
+<td align="center">多次抓包后似乎是固定值，查询后应该是ipv4和ipv6双栈登录选项</td>
+</tr>
+<tr>
+<td align="center">chksum</td>
+<td align="center">ffbaed27a7cbf48bcf7c227beae802def6f96901</td>
+<td align="center">某种加密后的参数</td>
+</tr>
+<tr>
+<td align="center">info</td>
+<td align="center">{SRBX1}QJl6uFy9IkM3%2FI3HaaNP%2FgPkfZWn%2FLUH3ktAZuPht rF%2BailDbmoRB7oaw4jfeE%2FKR9hTkSoyJ5de6TXw6Ipy X8VGiLpiWy6MLBEfu4RdCyg2WSim%2FmIssMlh9cfzJygmN CSiFDNbWiE6uBnn</td>
+<td align="center">又是一段加密后的参数</td>
+</tr>
+<tr>
+<td align="center">ac_id</td>
+<td align="center">118</td>
+<td align="center">固定值，可能是加密方式，错误的ac_id可能会导致bas错误</td>
+</tr>
+<tr>
+<td align="center">n</td>
+<td align="center">200</td>
+<td align="center">固定值</td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center">1</td>
+<td align="center">固定值</td>
+</tr>
+<tr>
+<td align="center">_</td>
+<td align="center">1678337618280</td>
+<td align="center">很明显是当前的时间戳</td>
+</tr>
+</tbody></table>
+<p>根据上面的基础分析，初步可以知道我们需要研究参数为 password，chksum，info字段</p>
+<h2 id="js分析"><a href="#js分析" class="headerlink" title="js分析"></a>js分析</h2><p>根据上面的基础分析，在js的代码中寻找关键的代码信息</p>
+<p>以下是寻找的相关代码(省略部分细节)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs js">$(<span class="hljs-string">&#x27;#login-account&#x27;</span>).<span class="hljs-title function_">click</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">var</span> username = $(<span class="hljs-string">&#x27;#username&#x27;</span>).<span class="hljs-title function_">val</span>().<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/ /g</span>, <span class="hljs-string">&#x27;&#x27;</span>);<br>        <span class="hljs-keyword">var</span> password = $(<span class="hljs-string">&#x27;#password&#x27;</span>).<span class="hljs-title function_">val</span>();<br>        <span class="hljs-comment">// 若页面不存在 domain，则 domain 为空</span><br>        <span class="hljs-keyword">var</span> domain   = $(<span class="hljs-string">&#x27;#domain&#x27;</span>).<span class="hljs-title function_">val</span>();<br><br>        <span class="hljs-comment">// 写入用户信息</span><br>        portal.<span class="hljs-property">userInfo</span>.<span class="hljs-property">username</span> = username;<br>        portal.<span class="hljs-property">userInfo</span>.<span class="hljs-property">password</span> = password;<br>        portal.<span class="hljs-property">userInfo</span>.<span class="hljs-property">domain</span>   = domain || <span class="hljs-string">&#x27;&#x27;</span>;<br><br>        <span class="hljs-comment">// Portal 认证方法</span><br>        portal.<span class="hljs-title function_">login</span>(&#123;<br>            <span class="hljs-comment">// 认证方式为账号认证</span><br>            <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;account&#x27;</span>,<br>            <span class="hljs-comment">// 认证成功</span><br>            <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-comment">// 若勾选记住密码</span><br>                <span class="hljs-keyword">if</span> ($(<span class="hljs-string">&#x27;#remember&#x27;</span>).<span class="hljs-title function_">prop</span>(<span class="hljs-string">&#x27;checked&#x27;</span>))  portal.<span class="hljs-title function_">remember</span>(<span class="hljs-literal">true</span>);<br>                <span class="hljs-comment">// 若未勾选记住密码 或 不存在记住密码功能</span><br>                <span class="hljs-keyword">if</span> (!$(<span class="hljs-string">&#x27;#remember&#x27;</span>).<span class="hljs-title function_">prop</span>(<span class="hljs-string">&#x27;checked&#x27;</span>)) portal.<span class="hljs-title function_">remember</span>(<span class="hljs-literal">false</span>);<br>                <span class="hljs-comment">// 重定向至成功页</span><br>                portal.<span class="hljs-title function_">toSuccess</span>();<br>            &#125;<br>        &#125;);<br>    &#125;);<br></code></pre></td></tr></table></figure>
+<p>登录调用了portal.login() 方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>    <span class="hljs-attr">key</span>: <span class="hljs-string">&quot;login&quot;</span>,<br>    <span class="hljs-attr">value</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">login</span>(<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-keyword">var</span> obj = <span class="hljs-variable language_">arguments</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">0</span>] !== <span class="hljs-literal">undefined</span> ? <span class="hljs-variable language_">arguments</span>[<span class="hljs-number">0</span>] : &#123;&#125;;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setLog</span>(<span class="hljs-string">&#x27;正在进行登陆操作&#x27;</span>); <span class="hljs-comment">// 默认进行拦截</span><br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">loading</span>.<span class="hljs-property">login</span> = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 账号认证</span><br><br>      <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">type</span> === <span class="hljs-string">&#x27;account&#x27;</span>) <span class="hljs-title function_">_classPrivateFieldGet</span>(<span class="hljs-variable language_">this</span>, _loginAccount).<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, obj); <span class="hljs-comment">// 短信认证 - 手机短信</span><br>    &#125;<br>  &#125;<br></code></pre></td></tr></table></figure>
+<p>接着调用了 this._loginAccount()方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> sendAuth = <span class="hljs-keyword">function</span> <span class="hljs-title function_">sendAuth</span>(<span class="hljs-params">host</span>) &#123;<br>          <span class="hljs-comment">// 双栈认证时 IP 参数为空</span><br>          <span class="hljs-keyword">var</span> ip = _this.<span class="hljs-property">portalInfo</span>.<span class="hljs-property">doub</span> &amp;&amp; host ? <span class="hljs-string">&#x27;&#x27;</span> : _this.<span class="hljs-property">userInfo</span>.<span class="hljs-property">ip</span>; <span class="hljs-comment">// 获取 Token</span><br><br>          <span class="hljs-title function_">_classPrivateFieldGet</span>(<span class="hljs-title function_">_assertThisInitialized</span>(_this), _getToken).<span class="hljs-title function_">call</span>(<span class="hljs-title function_">_assertThisInitialized</span>(_this), host, ip, <span class="hljs-keyword">function</span> (<span class="hljs-params">token</span>) &#123;<br>            <span class="hljs-comment">// 用户密码 MD5 加密</span><br>            <span class="hljs-keyword">var</span> hmd5 = <span class="hljs-title function_">md5</span>(password, token); <span class="hljs-comment">// 用户信息加密</span><br><br>            <span class="hljs-keyword">var</span> i = <span class="hljs-title function_">_classPrivateFieldGet</span>(<span class="hljs-title function_">_assertThisInitialized</span>(_this), _encodeUserInfo).<span class="hljs-title function_">call</span>(<span class="hljs-title function_">_assertThisInitialized</span>(_this), &#123;<br>              <span class="hljs-attr">username</span>: username,<br>              <span class="hljs-attr">password</span>: password,<br>              <span class="hljs-attr">ip</span>: ip,<br>              <span class="hljs-attr">acid</span>: ac_id,<br>              <span class="hljs-attr">enc_ver</span>: enc<br>            &#125;, token);<br><br>            <span class="hljs-keyword">var</span> str = token + username;<br>            str += token + hmd5;<br>            str += token + ac_id;<br>            str += token + ip;<br>            str += token + n;<br>            str += token + type;<br>            str += token + i; <span class="hljs-comment">// 防止 IPv6 请求网络不通进行 try catch</span><br><br>            <span class="hljs-keyword">try</span> &#123;<br>              <span class="hljs-comment">// 发起认证请求</span><br>              _this.<span class="hljs-property">ajax</span>.<span class="hljs-title function_">jsonp</span>(&#123;<br>                <span class="hljs-attr">host</span>: host,<br>                <span class="hljs-attr">url</span>: <span class="hljs-title function_">_classPrivateFieldGet</span>(<span class="hljs-title function_">_assertThisInitialized</span>(_this), _api).<span class="hljs-property">auth</span>,<br>                <span class="hljs-attr">params</span>: &#123;<br>                  <span class="hljs-attr">action</span>: <span class="hljs-string">&#x27;login&#x27;</span>,<br>                  <span class="hljs-attr">username</span>: username,<br>                  <span class="hljs-attr">password</span>: _this.<span class="hljs-property">userInfo</span>.<span class="hljs-property">otp</span> ? <span class="hljs-string">&#x27;&#123;OTP&#125;&#x27;</span> + password : <span class="hljs-string">&#x27;&#123;MD5&#125;&#x27;</span> + hmd5,<br>                  <span class="hljs-attr">os</span>: _this.<span class="hljs-property">portalInfo</span>.<span class="hljs-property">userDevice</span>.<span class="hljs-property">device</span>,<br>                  <span class="hljs-attr">name</span>: _this.<span class="hljs-property">portalInfo</span>.<span class="hljs-property">userDevice</span>.<span class="hljs-property">platform</span>,<br>                  <span class="hljs-comment">// 未开启双栈认证，参数为 0</span><br>                  <span class="hljs-comment">// 开启双栈认证，向 Portal 当前页面 IP 认证时，参数为 1</span><br>                  <span class="hljs-comment">// 开启双栈认证，向 Portal 另外一种 IP 认证时，参数为 0</span><br>                  <span class="hljs-attr">double_stack</span>: _this.<span class="hljs-property">portalInfo</span>.<span class="hljs-property">doub</span> &amp;&amp; !host ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>,<br>                  <span class="hljs-attr">chksum</span>: <span class="hljs-title function_">sha1</span>(str),<br>                  <span class="hljs-attr">info</span>: i,<br>                  <span class="hljs-attr">ac_id</span>: ac_id,<br>                  <span class="hljs-attr">ip</span>: ip,<br>                  <span class="hljs-attr">n</span>: n,<br>                  <span class="hljs-attr">type</span>: type<br>                &#125;,<br>                <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">success</span>(<span class="hljs-params">res</span>) &#123;<br>                  finishReq += <span class="hljs-number">1</span>; <span class="hljs-comment">// IP 已经在线了 - 给出提示</span><br><br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">suc_msg</span> === <span class="hljs-string">&#x27;ip_already_online_error&#x27;</span> &amp;&amp; obj.<span class="hljs-property">error</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">confirm</span>(&#123;<br>                    <span class="hljs-attr">message</span>: _this.<span class="hljs-title function_">translate</span>(<span class="hljs-string">&#x27;ip_already_online_error&#x27;</span>),<br>                    <span class="hljs-attr">confirm</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">confirm</span>(<span class="hljs-params"></span>) &#123;<br>                      <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">error</span>) obj.<span class="hljs-title function_">error</span>();<br>                    &#125;<br>                  &#125;); <span class="hljs-comment">// 翻译后的认证成功信息</span><br><br>                  successMsg = _this.<span class="hljs-title function_">translate</span>(res);<br>                &#125;,<br>                <span class="hljs-comment">/* 常见错误代码 */</span><br>                <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">error</span>(<span class="hljs-params">res</span>) &#123;<br>                  finishReq += <span class="hljs-number">1</span>; <span class="hljs-comment">// 更改登录状态为结束</span><br><br>                  _this.<span class="hljs-property">loading</span>.<span class="hljs-property">login</span> = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 若所有请求均已完成</span><br><br>                  <span class="hljs-keyword">if</span> (<span class="hljs-title function_">noPending</span>()) <span class="hljs-title function_">authClose</span>(); <span class="hljs-comment">// 若 ecode 为 E2620 且开启了在线设备管理功能</span><br>                  <span class="hljs-comment">// E2620: 超出允许的在线数目</span><br><br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">ecode</span> === <span class="hljs-string">&#x27;E2620&#x27;</span> &amp;&amp; <span class="hljs-variable constant_">CREATER</span>.<span class="hljs-property">useOnlineDeviceMgr</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">confirm</span>(&#123;<br>                    <span class="hljs-attr">message</span>: _this.<span class="hljs-title function_">translate</span>(<span class="hljs-string">&#x27;E2620Tips&#x27;</span>),<br>                    <span class="hljs-attr">confirm</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">confirm</span>(<span class="hljs-params"></span>) &#123;<br>                      _this.<span class="hljs-property">dialog</span>.<span class="hljs-title function_">open</span>(<span class="hljs-string">&#x27;onlineDeviceMgr&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>                        _this.<span class="hljs-title function_">getOnlineDevice</span>();<br>                      &#125;);<br>                    &#125;<br>                  &#125;); <span class="hljs-comment">// IP 已经在线了 - 重新认证</span><br><br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">error_msg</span> === <span class="hljs-string">&#x27;ip_already_online_error&#x27;</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">reAuth</span>(obj); <span class="hljs-comment">// 需要查询日志的情况</span><br><br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">error_msg</span> === <span class="hljs-string">&#x27;not_online_error&#x27;</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">showLog</span>();<br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">error_msg</span> === <span class="hljs-string">&#x27;no_response_data_error&#x27;</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">showLog</span>();<br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">error_msg</span> === <span class="hljs-string">&#x27;RD000&#x27;</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">showLog</span>(); <span class="hljs-comment">// 若提示修改密码</span><br><br>                  <span class="hljs-keyword">if</span> (res.<span class="hljs-property">error_msg</span> === <span class="hljs-string">&#x27;user_must_modify_password&#x27;</span> || res.<span class="hljs-property">error</span> === <span class="hljs-string">&#x27;user_must_modify_password&#x27;</span>) <span class="hljs-keyword">return</span> _this.<span class="hljs-title function_">confirm</span>(&#123;<br>                    <span class="hljs-attr">message</span>: _this.<span class="hljs-title function_">translate</span>(res),<br>                    <span class="hljs-attr">confirmText</span>: _this.<span class="hljs-title function_">translate</span>(<span class="hljs-string">&#x27;ToChangePassword&#x27;</span>),<br>                    <span class="hljs-attr">confirm</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">confirm</span>(<span class="hljs-params"></span>) &#123;<br>                      <span class="hljs-keyword">return</span> $(<span class="hljs-string">&#x27;#forget&#x27;</span>).<span class="hljs-title function_">click</span>();<br>                    &#125;,<br>                    <span class="hljs-attr">cancel</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">cancel</span>(<span class="hljs-params"></span>) &#123;&#125;<br>                  &#125;); <span class="hljs-comment">// 错误提示</span><br><br>                  _this.<span class="hljs-title function_">confirm</span>(&#123;<br>                    <span class="hljs-attr">message</span>: _this.<span class="hljs-title function_">translate</span>(res),<br>                    <span class="hljs-attr">confirm</span>: <span class="hljs-keyword">function</span> <span class="hljs-title function_">confirm</span>(<span class="hljs-params"></span>) &#123;<br>                      <span class="hljs-keyword">if</span> (obj.<span class="hljs-property">error</span>) obj.<span class="hljs-title function_">error</span>(res);<br>                    &#125;<br>                  &#125;);<br>                &#125;<br>              &#125;);<br>            &#125; <span class="hljs-keyword">catch</span> (err) &#123;<br>              finishReq += <span class="hljs-number">1</span>; <span class="hljs-comment">// 更改登录状态为结束</span><br><br>              _this.<span class="hljs-property">loading</span>.<span class="hljs-property">login</span> = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 若所有请求均已完成</span><br><br>              <span class="hljs-keyword">if</span> (<span class="hljs-title function_">noPending</span>()) <span class="hljs-title function_">authClose</span>(); <span class="hljs-comment">// 因为 IPv6 网络问题导致的认证失败</span><br><br>              <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">err</span>(<span class="hljs-string">&#x27;Network error&#x27;</span>, err);<br>            &#125;<br>          &#125;);<br>        &#125;;<br></code></pre></td></tr></table></figure>
+<p>发现这边多了个token参数，经过与请求对比发现，token参数是get_challenge请求中的challenge参数</p>
+<p>获取到token参数过后，将password和token进行md5加密（应该是使用了hmac算法），得到加密后的md5值<br>参考实现代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br><br>    String token=<span class="hljs-string">&quot;9175d2a16f2339e60d5e1b4be4df16b1660f79d57009e7adf4422488a2a0439a&quot;</span>;<br>    String password=<span class="hljs-string">&quot;1234567890&quot;</span>;<br><br>    <span class="hljs-type">HMac</span> <span class="hljs-variable">hmac</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HMac</span>(HmacAlgorithm.HmacMD5, token.getBytes());<br>    <span class="hljs-type">byte</span>[] result = hmac.digest(password.getBytes());<br><br>    <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> HexUtil.encodeHexStr(result);<br>    System.out.println(s);<br>&#125;<br><br>### info部分<br><br>```js<br>_encodeUserInfo.set(_assertThisInitialized(_this), &#123;<br>  writable: <span class="hljs-literal">true</span>,<br>  value: function <span class="hljs-title function_">value</span><span class="hljs-params">(info, token)</span> &#123;<br>    <span class="hljs-comment">// 克隆自 $.base64，防止污染</span><br>    <span class="hljs-type">var</span> <span class="hljs-variable">base64</span> <span class="hljs-operator">=</span> _this.clone($.base64); <span class="hljs-comment">// base64 设置 Alpha</span><br><br><br>    base64.setAlpha(<span class="hljs-string">&#x27;LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA&#x27;</span>); <span class="hljs-comment">// 用户信息转 JSON</span><br><br>    info = JSON.stringify(info);<br><br>    function <span class="hljs-title function_">encode</span><span class="hljs-params">(str, key)</span> &#123;<br>      <span class="hljs-keyword">if</span> (str === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> s(str, <span class="hljs-literal">true</span>);<br>      <span class="hljs-type">var</span> <span class="hljs-variable">k</span> <span class="hljs-operator">=</span> s(key, <span class="hljs-literal">false</span>);<br>      <span class="hljs-keyword">if</span> (k.length &lt; <span class="hljs-number">4</span>) k.length = <span class="hljs-number">4</span>;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> v.length - <span class="hljs-number">1</span>,<br>          z = v[n],<br>          y = v[<span class="hljs-number">0</span>],<br>          c = <span class="hljs-number">0x86014019</span> | <span class="hljs-number">0x183639A0</span>,<br>          m,<br>          e,<br>          p,<br>          q = Math.floor(<span class="hljs-number">6</span> + <span class="hljs-number">52</span> / (n + <span class="hljs-number">1</span>)),<br>          d = <span class="hljs-number">0</span>;<br><br>      <span class="hljs-keyword">while</span> (<span class="hljs-number">0</span> &lt; q--) &#123;<br>        d = d + c &amp; (<span class="hljs-number">0x8CE0D9BF</span> | <span class="hljs-number">0x731F2640</span>);<br>        e = d &gt;&gt;&gt; <span class="hljs-number">2</span> &amp; <span class="hljs-number">3</span>;<br><br>        <span class="hljs-keyword">for</span> (p = <span class="hljs-number">0</span>; p &lt; n; p++) &#123;<br>          y = v[p + <span class="hljs-number">1</span>];<br>          m = z &gt;&gt;&gt; <span class="hljs-number">5</span> ^ y &lt;&lt; <span class="hljs-number">2</span>;<br>          m += y &gt;&gt;&gt; <span class="hljs-number">3</span> ^ z &lt;&lt; <span class="hljs-number">4</span> ^ (d ^ y);<br>          m += k[p &amp; <span class="hljs-number">3</span> ^ e] ^ z;<br>          z = v[p] = v[p] + m &amp; (<span class="hljs-number">0xEFB8D130</span> | <span class="hljs-number">0x10472ECF</span>);<br>        &#125;<br><br>        y = v[<span class="hljs-number">0</span>];<br>        m = z &gt;&gt;&gt; <span class="hljs-number">5</span> ^ y &lt;&lt; <span class="hljs-number">2</span>;<br>        m += y &gt;&gt;&gt; <span class="hljs-number">3</span> ^ z &lt;&lt; <span class="hljs-number">4</span> ^ (d ^ y);<br>        m += k[p &amp; <span class="hljs-number">3</span> ^ e] ^ z;<br>        z = v[n] = v[n] + m &amp; (<span class="hljs-number">0xBB390742</span> | <span class="hljs-number">0x44C6F8BD</span>);<br>      &#125;<br><br>      <span class="hljs-keyword">return</span> l(v, <span class="hljs-literal">false</span>);<br>    &#125;<br><br>    function <span class="hljs-title function_">s</span><span class="hljs-params">(a, b)</span> &#123;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> a.length;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">v</span> <span class="hljs-operator">=</span> [];<br><br>      <span class="hljs-keyword">for</span> (<span class="hljs-type">var</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; c; i += <span class="hljs-number">4</span>) &#123;<br>        v[i &gt;&gt; <span class="hljs-number">2</span>] = a.charCodeAt(i) | a.charCodeAt(i + <span class="hljs-number">1</span>) &lt;&lt; <span class="hljs-number">8</span> | a.charCodeAt(i + <span class="hljs-number">2</span>) &lt;&lt; <span class="hljs-number">16</span> | a.charCodeAt(i + <span class="hljs-number">3</span>) &lt;&lt; <span class="hljs-number">24</span>;<br>      &#125;<br><br>      <span class="hljs-keyword">if</span> (b) v[v.length] = c;<br>      <span class="hljs-keyword">return</span> v;<br>    &#125;<br><br>    function <span class="hljs-title function_">l</span><span class="hljs-params">(a, b)</span> &#123;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">d</span> <span class="hljs-operator">=</span> a.length;<br>      <span class="hljs-type">var</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> d - <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">2</span>;<br><br>      <span class="hljs-keyword">if</span> (b) &#123;<br>        <span class="hljs-type">var</span> <span class="hljs-variable">m</span> <span class="hljs-operator">=</span> a[d - <span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">if</span> (m &lt; c - <span class="hljs-number">3</span> || m &gt; c) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        c = m;<br>      &#125;<br><br>      <span class="hljs-keyword">for</span> (<span class="hljs-type">var</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; d; i++) &#123;<br>        a[i] = String.fromCharCode(a[i] &amp; <span class="hljs-number">0xff</span>, a[i] &gt;&gt;&gt; <span class="hljs-number">8</span> &amp; <span class="hljs-number">0xff</span>, a[i] &gt;&gt;&gt; <span class="hljs-number">16</span> &amp; <span class="hljs-number">0xff</span>, a[i] &gt;&gt;&gt; <span class="hljs-number">24</span> &amp; <span class="hljs-number">0xff</span>);<br>      &#125;<br><br>      <span class="hljs-keyword">return</span> b ? a.join(<span class="hljs-string">&#x27;&#x27;</span>).substring(<span class="hljs-number">0</span>, c) : a.join(<span class="hljs-string">&#x27;&#x27;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#123;SRBX1&#125;&#x27;</span> + base64.encode(encode(info, token));<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs armasm">组合<span class="hljs-keyword">str</span><br>```js<br><span class="hljs-symbol">var</span> <span class="hljs-keyword">str</span> = token + username<span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + hmd5<span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + ac_id<span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + <span class="hljs-built_in">ip</span><span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + n<span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + type<span class="hljs-comment">;</span><br><span class="hljs-keyword">str</span> += token + i<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>chksum是通过使用sha1(str)方法进行加密,str是它通过之前各个参数的拼接完成。sha1根据函数名可以猜测为sha1加密方法。</p>
+<p>根据以上方法，我们就可以获得基础登录加密方法组装。</p>
+<h1 id="登录实践"><a href="#登录实践" class="headerlink" title="登录实践"></a>登录实践</h1><p>分析完了srun协议的登录，但是个人懒得写相关源程序，这里借用开源项目</p>
+<p>这里提供一个已经写好的srun登录软件，来自于github开源</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zu1k/srun">srun</a></p>
+<p>同样是借用上面的代码锁实现的<a target="_blank" rel="noopener" href="https://github.com/1328411791/GDOUYJ_Internet_Client">安卓的登录器</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90/">#网络分析</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>srun网络协议分析</div>
+      <div>https://www.liahnu.top/2023/03/08/srun网络协议分析/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>liahnu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/28/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%85%A5%E9%97%A8/" title="线段树入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线段树入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/12/%E8%AE%B0%E5%BD%95%E7%BB%99%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0cdn/" title="记录给网站添加cdn">
+                        <span class="hidden-mobile">记录给网站添加cdn</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"1328411791/1328411791.GitHub.io","repo-id":"R_kgDOGe77Hw","category":"General","category-id":"DIC_kwDOGe77H84CSknh","theme-light":"light","theme-dark":"dark","mapping":"title","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2023007052号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2023007052"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤ICP备2023007052号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

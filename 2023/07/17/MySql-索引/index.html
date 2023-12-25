@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/icon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liahnu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="没有索引的情况在一个页中的查找假设目前表中的记录比较少，所有的记录都可以被存放到一个页中，在查找记录的时候可以根据搜索条件的不同分为两种情况：  以主键为搜索条件  在页目录中使用二分法快速定位到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定的记录。  以其他列作为搜索条件  对非主键列的查找的过程可就不这么幸运了，因为在数据页中并没有对非主键列建立所谓的页目录，所以我们无法通过二分法快">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql-索引">
+<meta property="og:url" content="https://www.liahnu.top/2023/07/17/MySql-%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="liahnu Blogs">
+<meta property="og:description" content="没有索引的情况在一个页中的查找假设目前表中的记录比较少，所有的记录都可以被存放到一个页中，在查找记录的时候可以根据搜索条件的不同分为两种情况：  以主键为搜索条件  在页目录中使用二分法快速定位到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定的记录。  以其他列作为搜索条件  对非主键列的查找的过程可就不这么幸运了，因为在数据页中并没有对非主键列建立所谓的页目录，所以我们无法通过二分法快">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202307190018774.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202309102235281.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202309102244158.png">
+<meta property="article:published_time" content="2023-07-17T02:24:44.000Z">
+<meta property="article:modified_time" content="2023-12-04T14:46:41.758Z">
+<meta property="article:author" content="liahnu">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202307190018774.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>MySql-索引 - liahnu Blogs</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.liahnu.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>liahnu Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MySql-索引"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        liahnu
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-17 10:24" pubdate>
+          2023年7月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySql-索引</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2023年12月4日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="没有索引的情况"><a href="#没有索引的情况" class="headerlink" title="没有索引的情况"></a>没有索引的情况</h1><h2 id="在一个页中的查找"><a href="#在一个页中的查找" class="headerlink" title="在一个页中的查找"></a>在一个页中的查找</h2><p>假设目前表中的记录比较少，所有的记录都可以被存放到一个页中，在查找记录的时候可以根据搜索条件的不同分为两种情况：</p>
+<ul>
+<li>以主键为搜索条件</li>
+</ul>
+<p>在页目录中使用二分法快速定位到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定的记录。</p>
+<ul>
+<li>以其他列作为搜索条件</li>
+</ul>
+<p>对非主键列的查找的过程可就不这么幸运了，因为在数据页中并没有对非主键列建立所谓的页目录，所以我们无法通过二分法快速定位相应的槽。这种情况下只能从最小记录开始依次遍历单链表中的每条记录，然后对比每条记录是不是符合搜索条件。很显然，这种查找的效率是非常低的。</p>
+<h2 id="在很多页中查找"><a href="#在很多页中查找" class="headerlink" title="在很多页中查找"></a>在很多页中查找</h2><p>大部分情况下我们表中存放的记录都是非常多的，需要好多的数据页来存储这些记录。在很多页中查找记录的话可以分为两个步骤：</p>
+<p>定位到记录所在的页。<br>从所在的页内中查找相应的记录。<br>在没有索引的情况下，不论是根据主键列或者其他列的值进行查找，由于我们并不能快速的定位到记录所在的页，所以只能从第一个页沿着双向链表一直往下找，在每一个页中根据我们刚刚唠叨过的查找方式去查找指定的记录。因为要遍历所有的数据页，所以这种方式显然是非常耗时的，这时候就要用到索引了。</p>
+<h1 id="InnoDB中的索引方案"><a href="#InnoDB中的索引方案" class="headerlink" title="InnoDB中的索引方案"></a>InnoDB中的索引方案</h1><h2 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h2><p>InnoDB是使用页来作为管理存储空间的基本单位，也就是最多能保证16KB的连续存储空间，而随着表中记录数量的增多，需要非常大的连续的存储空间才能把所有的目录项都放下，这对记录数量非常多的表是不现实的。</p>
+<p>InnoDB中，目录页索引复用了最基础的页。只不过目录项中的两个列是主键和页号而已，所以他们复用了之前存储用户记录的数据页来存储目录项，为了和用户记录做一下区分，我们把这些用来表示目录项的记录称为目录项记录。</p>
+<p>同时，InnoDB会将所有的目录项记录都存放到一张叫做聚集索引的B+树中，这棵B+树的叶子节点就是目录项记录，而非叶子节点则是目录项记录的页号。这样，我们就可以通过B+树来快速的定位到目录项记录所在的页，然后再根据目录项记录中的页号找到对应的数据页，最后再在数据页中查找相应的记录。</p>
+<p><img src="https://pic.liahnu.top/img/202307190018774.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们上边介绍的B+树本身就是一个目录，或者说本身就是一个索引。它有两个特点：</p>
+<p>使用记录主键值的大小进行记录和页的排序，这包括三个方面的含义：</p>
+<ol>
+<li><p>页内的记录是按照主键的大小顺序排成一个单向链表。</p>
+</li>
+<li><p>各个存放用户记录的页也是根据页中用户记录的主键大小顺序排成一个双向链表。</p>
+</li>
+<li><p>存放目录项记录的页分为不同的层次，在同一层次中的页也是根据页中目录项记录的主键大小顺序排成一个双向链表。</p>
+</li>
+</ol>
+<p>B+树的叶子节点存储的是完整的用户记录。</p>
+<p>所谓完整的用户记录，就是指这个记录中存储了所有列的值（包括隐藏列）。</p>
+<p>我们把具有这两种特性的B+树称为聚簇索引，所有完整的用户记录都存放在这个聚簇索引的叶子节点处。这种聚簇索引并不需要我们在MySQL语句中显式的使用INDEX语句去创建（后边会介绍索引相关的语句），InnoDB存储引擎会自动的为我们创建聚簇索引。另外有趣的一点是，在InnoDB存储引擎中，聚簇索引就是数据的存储方式（所有的用户记录都存储在了叶子节点），也就是所谓的索引即数据，数据即索引。</p>
+<h2 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h2><p>上边介绍的聚簇索引只能在搜索条件是主键值时才能发挥作用，因为B+树中的数据都是按照主键进行排序的。那如果我们想以别的列作为搜索条件时，这时候就需要用到二级索引了。</p>
+<p>我们可以多建几棵B+树，不同的B+树中的数据采用不同的排序规则。如下图</p>
+<p><img src="https://pic.liahnu.top/img/202309102235281.png" srcset="/img/loading.gif" lazyload></p>
+<p>这颗B+树与聚类索引的树有以下几方面的不同</p>
+<ol>
+<li><p>页内的记录是按照<strong>索引参数</strong>的大小顺序排成一个单向链表。</p>
+</li>
+<li><p>各个存放用户记录的页也是根据页中记录的<strong>索引参数</strong>大小顺序排成一个双向链表。</p>
+</li>
+<li><p>存放目录项记录的页分为不同的层次，在同一层次中的页也是根据页中目录项记录的<strong>索引参数</strong>列大小顺序排成一个双向链表。</p>
+</li>
+<li><p>B+树的叶子节点存储的并不是完整的用户记录，而只是<strong>索引参数</strong>+主键这两个列的值。</p>
+</li>
+<li><p>目录项记录中不再是主键+页号的搭配，而变成了<strong>索引参数</strong>列+页号的搭配</p>
+</li>
+</ol>
+<p>因为这个B+树的叶子节点中的记录只存储了<strong>索引参数</strong>和主键两个列，所以我们必须再根据主键值去聚簇索引中再查找一遍，才能得到完整的用户记录。这个过程也被称为回表。因为需要一次回表操作才可以定位到完整的用户记录，所以这种B+树也被称为二级索引（英文名secondary index），或者辅助索引。</p>
+<div class="note note-success">
+            <p><strong>为什么不能把用户记录放到叶子节点中</strong></p><p>如果把完整的用户记录放到叶子节点是可以不用回表，但是太占地方。相当于于每建立一棵B+树都需要把所有的用户记录再都拷贝一遍。</p>
+          </div>
+
+
+<h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><p>我们也可以同时以多个列的大小作为排序规则，也就是同时为多个列建立索引,此时建立的索引叫做联合索引。但是其任然属于二级索引的一种。</p>
+<p><img src="https://pic.liahnu.top/img/202309102244158.png" srcset="/img/loading.gif" lazyload></p>
+<p>每条目录项记录都由c2、c3、页号这三个部分组成，页面和记录先按照联合索引前边的列排序，如果该列值相同，再按照联合索引后边的列排序。</p>
+<h2 id="InnoDB的B-树索引的注意事项"><a href="#InnoDB的B-树索引的注意事项" class="headerlink" title="InnoDB的B+树索引的注意事项"></a>InnoDB的B+树索引的注意事项</h2><h3 id="根页面万年不动窝"><a href="#根页面万年不动窝" class="headerlink" title="根页面万年不动窝"></a>根页面万年不动窝</h3><p>一个B+树索引的根节点自诞生之日起，便不会再移动。这样只要我们对某个表建立一个索引，那么它的根节点的页号便会被记录到某个地方，然后凡是InnoDB存储引擎需要用到这个索引的时候，都会从那个固定的地方取出根节点的页号，从而来访问这个索引。</p>
+<h3 id="内节点中目录项记录的唯一性"><a href="#内节点中目录项记录的唯一性" class="headerlink" title="内节点中目录项记录的唯一性"></a>内节点中目录项记录的唯一性</h3><p>为了让新插入记录能找到自己在那个页里，我们需要保证在B+树的同一层内节点的目录项记录除页号这个字段以外是唯一的。所以对于二级索引的内节点的目录项记录的内容实际上是由三个部分构成的：</p>
+<ul>
+<li>索引列的值</li>
+<li>主键值</li>
+<li>页号</li>
+</ul>
+<p>这样我们再插入记录(9, 1, ‘c’)时，由于页3中存储的目录项记录是由c2列 + 主键 + 页号的值构成的，可以先把新记录的c2列的值和页3中各目录项记录的c2列的值作比较，如果c2列的值相同的话，可以接着比较主键值，因为B+树同一层中不同目录项记录的c2列 + 主键的值肯定是不一样的，所以最后肯定能定位唯一的一条目录项记录，在本例中最后确定新记录应该被插入到页5中。</p>
+<h3 id="一个页面最少存储2条记录"><a href="#一个页面最少存储2条记录" class="headerlink" title="一个页面最少存储2条记录"></a>一个页面最少存储2条记录</h3><p>我们前边说过一个B+树只需要很少的层级就可以轻松存储数亿条记录，查询速度杠杠的！这是因为B+树本质上就是一个大的多层级目录，每经过一个目录时都会过滤掉许多无效的子目录，直到最后访问到存储真实数据的目录。那如果一个大的目录中只存放一个子目录是个啥效果呢？那就是目录层级非常非常非常多，而且最后的那个存放真实数据的目录中只能存放一条记录。费了半天劲只能存放一条真实的用户记录？逗我呢？所以InnoDB的一个数据页至少可以存放两条记录。</p>
+<h1 id="B-树索引的使用"><a href="#B-树索引的使用" class="headerlink" title="B+树索引的使用"></a>B+树索引的使用</h1><h2 id="使用的代价"><a href="#使用的代价" class="headerlink" title="使用的代价"></a>使用的代价</h2><ul>
+<li><strong>空间上的代价</strong></li>
+</ul>
+<p>这个是显而易见的，每建立一个索引都要为它建立一棵B+树，每一棵B+树的每一个节点都是一个数据页，一个页默认会占用16KB的存储空间，一棵很大的B+树由许多数据页组成，那可是很大的一片存储空间呢。</p>
+<ul>
+<li><strong>时间上的代价</strong></li>
+</ul>
+<p>每次对表中的数据进行增、删、改操作时，都需要去修改各个B+树索引。而且我们讲过，B+树每层节点都是按照索引列的值从小到大的顺序排序而组成了双向链表。不论是叶子节点中的记录，还是内节点中的记录（也就是不论是用户记录还是目录项记录）都是按照索引列的值从小到大的顺序而形成了一个单向链表。而增、删、改操作可能会对节点和记录的排序造成破坏，所以存储引擎需要额外的时间进行一些记录移位，页面分裂、页面回收啥的操作来维护好节点和记录的排序。如果我们建了许多索引，每个索引对应的B+树都要进行相关的维护操作，这还能不给性能拖后腿么？</p>
+<p>所以说，一个表上索引建的越多，就会占用越多的存储空间，在增删改记录的时候性能就越差。</p>
+<h2 id="B-树索引适用查找匹配的情况"><a href="#B-树索引适用查找匹配的情况" class="headerlink" title="B+树索引适用查找匹配的情况"></a>B+树索引适用查找匹配的情况</h2><p><strong>全值匹配</strong><br>如果我们的搜索条件中的列和索引列一致的话，这种情况就称为全值匹配，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT * FROM person_info WHERE name = &#x27;Ashburn&#x27; AND birthday = &#x27;1990-09-27&#x27; AND phone_number = &#x27;15123983239&#x27;;<br></code></pre></td></tr></table></figure>
+
+<p>在查询过程中会按照<code>name</code>、<code>birthday</code>、<code>phone_number</code>的顺序进行查找，因为这三个列都是联合索引的一部分，所以可以快速的定位到目录项记录所在的页，然后再根据页号找到对应的数据页，最后再在数据页中查找相应的记录。</p>
+<p>其中,查询的顺序对索引是没有影响的,MySQL有一个叫查询优化器,可以优化查询语句.</p>
+<p><strong>匹配左边的列</strong></p>
+<p>在搜索中,包含匹配左边的项,就可以使用到这个索引,原因和上面的一样,mysql会按照索引从左到右的顺序进行查找.</p>
+<p><strong>匹配范围值</strong></p>
+<p>在搜索中,包含匹配范围值,就可以使用到这个索引,原因和上面的一样,mysql会按照索引从左到右的顺序进行查找.</p>
+<p><strong>字符串前缀匹配</strong></p>
+<p>在搜索中,字符串是按照其的值进行排序,所以可以使用到这个索引进行排序,但是如果使用到了字符串的后缀,就不能使用到这个索引了.</p>
+<p><strong>精确匹配某一列并范围匹配另外一列</strong></p>
+<p>对于同一个联合索引来说，虽然对多个列都进行范围查找时只能用到最左边那个索引列，但是如果左边的列是精确查找，则右边的列可以进行范围查找.</p>
+<p><strong>用于排序</strong></p>
+<p>使用ORDER BY子句按照某种规则进行排序时,一般情况下，我们只能把记录都加载到内存中(或者文件做暂存)，通过排序算法对其进行排序，然后再返回给客户端。</p>
+<p>但是如果ORDER BY子句里使用到了我们的索引列，就有可能省去在内存或文件中排序的步骤,直接输出排序结果</p>
+<p><strong>用于分组</strong></p>
+<p>然后针对那些分组进行统计，比如在我们这个查询语句中就是统计每个分组包含的记录条数。如果没有索引的话，这个分组过程全部需要在内存里实现，而如果有了索引的话，恰巧这个分组顺序又和我们的B+树中的索引列的顺序是一致的，而我们的B+树索引又是按照索引列排好序的，这不正好么，所以可以直接使用B+树索引进行分组。</p>
+<h3 id="使用索引的总结"><a href="#使用索引的总结" class="headerlink" title="使用索引的总结"></a>使用索引的总结</h3><p>能不能使用索引关键在于查询的列是否是索引的一部分,同时其排序与索引结构相同.那么就可以使用索引，如果不是索引的一部分，那么就不能使用索引。</p>
+<h3 id="回表的代价"><a href="#回表的代价" class="headerlink" title="回表的代价"></a>回表的代价</h3><p>回表的代价是非常高的，因为回表的过程需要再次访问数据页，而且还需要再次访问数据页中的目录项记录，这个过程需要进行两次磁盘IO操作，所以回表的代价是非常高的。</p>
+<p>在mysql中有<strong>查询优化器</strong>,查询优化器会事先对表中的记录计算一些统计数据,然后再利用这些统计数据根据查询的条件来计算一下需要回表的记录数,需要回表的记录数越多，就越倾向于使用全表扫描,反之倾向于使用二级索引 + 回表的方式.</p>
+<p>为了彻底告别回表操作带来的性能损耗，我们最好在查询列表里只包含索引列.</p>
+<h2 id="如何建立索引"><a href="#如何建立索引" class="headerlink" title="如何建立索引"></a>如何建立索引</h2><p><strong>只为用于搜索、排序或分组的列创建索引</strong></p>
+<p>只为出现在WHERE子句中的列、连接子句中的连接列，或者出现在ORDER BY或GROUP BY子句中的列创建索引。</p>
+<p><strong>考虑列的基数</strong></p>
+<p>列的基数指的是某一列中不重复数据的个数,其中基数越大,索引的效果越好.因为当基数小的时候,数的离散程度越小,在排序的时候,需要进行的比较次数越少多,所以效率越低.</p>
+<p><strong>索引列的类型尽量小</strong></p>
+<ul>
+<li><p>数据类型越小，在查询时进行的比较操作越快（这是CPU层次的东东）</p>
+</li>
+<li><p>数据类型越小，索引占用的存储空间就越少，在一个数据页内就可以放下更多的记录，从而减少磁盘I&#x2F;O带来的性能损耗，也就意味着可以把更多的数据页缓存在内存中，从而加快读写效率。</p>
+</li>
+</ul>
+<p><strong>索引字符串值的前缀</strong></p>
+<p>原因同上,对于字符串只存储前缀,可以减少索引的大小,从而减少磁盘I&#x2F;O带来的性能损耗.</p>
+<p><strong>让索引列在比较表达式中单独出现</strong></p>
+<p>如果索引列在比较表达式中不是以单独列的形式出现，而是以某个表达式，或者函数调用形式出现的话，是用不到索引的。</p>
+<p><strong>主键插入顺序</strong></p>
+<p>当向项中间插入一个页面时候,如果该页面已经存满,此时会发生页面分裂和记录移位,此时就会发生性能损耗.因此最好将主键设置为自动递增的形式</p>
+<p><strong>减少冗余索引</strong></p>
+<p>给它定义为一个唯一索引，还给它定义了一个普通索引，可是主键本身就会生成聚簇索引，所以定义的唯一索引和普通索引是重复的，这种情况要避免。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MySQL/">#MySQL</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MySql-索引</div>
+      <div>https://www.liahnu.top/2023/07/17/MySql-索引/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>liahnu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/04/RPC%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="RPC与多线程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RPC与多线程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/28/%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95%E7%AC%94%E8%AE%B0/" title="算法设计课程期末考试笔记">
+                        <span class="hidden-mobile">算法设计课程期末考试笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"1328411791/1328411791.GitHub.io","repo-id":"R_kgDOGe77Hw","category":"General","category-id":"DIC_kwDOGe77H84CSknh","theme-light":"light","theme-dark":"dark","mapping":"title","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2023007052号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2023007052"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤ICP备2023007052号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
