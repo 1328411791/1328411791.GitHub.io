@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/9d496cc5-3b1e-4e96-8690-778b1fe45305">
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/c12cbc4a-3436-4afd-967e-ae80ffecb145">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T14:20:09.884Z">
+<meta property="article:modified_time" content="2023-12-27T14:43:22.027Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -630,7 +630,8 @@ FCS校验出错
 <p>(1)当信息字段中出现0x7E字节转变为2字节序列(0x7D,0x5E)</p>
 <p>(2)当信息字段中出现一个0x7D字节转变为2字节序列(0x7D,0x5D)</p>
 <p>那么实际的数据为7E FE 27 7D 7D 65 7E</p>
-<p><strong>PPP协议使用同步传输技术传送比特串0110111111111100。试问经过零比特填充后变成怎样的比特串？若接收端收到的PPP帧的数据部分是0001110111110111110110，问删除发送端加入的零比特后变成怎样的比特串？</strong><br>每5个1加一个0，防止判断成F</p>
+<p><strong>PPP协议使用同步传输技术传送比特串0110111111111100。试问经过零比特填充后变成怎样的比特串？若接收端收到的PPP帧的数据部分是0001110111110111110110，问删除发送端加入的零比特后变成怎样的比特串？</strong></p>
+<p>每5个1加一个0，防止判断成F</p>
 <p>零比特填充后:011011111011111000</p>
 <p>删除零比特后:00011101111111111110</p>
 <p><strong>什么叫做传统以太网？以太网有哪两个主要标准？</strong><br>DIX Ethernet V2 标准的局域网<br>DIX Ethernet V2 标准与 IEEE 的 802.3 标准</p>
@@ -722,8 +723,7 @@ C类     192.168.* ——
 <p>（1） 在LAN内，在N1网内广播ARP请求即可，可获得H2的MAC。</p>
 <p>（2）N1网内找不到H3，发给R１（目的IP不变，R1的MAC在H１缓存中，没有则广播），</p>
 <p>（３）再由R1在N2中发ARP请求，找H3的MAC，发给H3。</p>
-<p>（４)H1–&gt;H4时，R1没找到H4时，再发给R2，由R2找H4，同前过程。</p>
-<p>教材P135图4-19解释。</p>
+<p>（４）H1–&gt;H4时，R1没找到H4时，再发给R2，由R2找H4，同前过程。</p>
 <h2 id="IPV4的首部"><a href="#IPV4的首部" class="headerlink" title="IPV4的首部"></a>IPV4的首部</h2><p><img src="https://pic.liahnu.top/img/202312271557063.png" srcset="/img/loading.gif" lazyload alt="IPv4分组首部构成"><br>(1) 版本4bit , IPv4：0100 ，IPv6： 0110；</p>
 <p>(2)首部长度4bit，最为1111&#x3D;15段（每段4字节），最大60字节 ，其中：固定部分5段（20）字节，可变部分最长10段（40字节），使用不足一段时，要填充成整数段。常用20字节首部，没有可变部分。</p>
 <p>(3)区分服务8bit，区别不同的服务及质量标准，目前没有使用。</p>
