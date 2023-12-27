@@ -27,8 +27,14 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271459884.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271501667.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271504206.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271556564.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271556421.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271557063.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271558219.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271559461.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271559582.png">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T07:12:30.128Z">
+<meta property="article:modified_time" content="2023-12-27T08:00:13.502Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -662,36 +668,28 @@ C类     192.168.* ——
 <p>实际数据通信过程可抽象为IP层上，IP分组的转发。教材P131表4-4、P132图4-16(a),(b)解释，网际层上虚通信，传送IP分组。</p>
 <p>问题：如何知道MAC地址？IP~MAC映射表是如何生成的?</p>
 <p>ARP——地址解析协议，已知IP地址，如何获得MAC地址？（RARP已淘汰）。IP分组做为链路层的负载（上层数据），到达链路层时、如何获得目的MAC地址？ARP cache的内容——IP~~MAC映像表，ARP~IP缓冲区内容逐步积累（先查表，从IP找MAC，找不到时再广播IP，接收应答） </p>
-<pre><code class="hljs">教材P134图4-18解释之。
-
-IP~MAC缓存有表生存时间，定期刷新以适应网络拓扑结构的变化。
-</code></pre>
-<p>ARP只在LAN内起作用，实际中有四种场景：教材P135 图4-19</p>
+<p><img src="https://pic.liahnu.top/img/202312271556564.png" srcset="/img/loading.gif" lazyload alt="图4-18"><br>IP~MAC缓存有表生存时间，定期刷新以适应网络拓扑结构的变化。</p>
+<p><img src="https://pic.liahnu.top/img/202312271556421.png" srcset="/img/loading.gif" lazyload alt="图4-19"><br>ARP只在LAN内起作用，实际中有四种场景： 图4-19</p>
 <p>（1） 在LAN内，在N1网内广播ARP请求即可，可获得H2的MAC。</p>
 <p>（2）N1网内找不到H3，发给R１（目的IP不变，R1的MAC在H１缓存中，没有则广播），</p>
 <p>（３）再由R1在N2中发ARP请求，找H3的MAC，发给H3。</p>
 <p>（４)H1–&gt;H4时，R1没找到H4时，再发给R2，由R2找H4，同前过程。</p>
 <p>教材P135图4-19解释。</p>
-<h2 id="IPV4的首部"><a href="#IPV4的首部" class="headerlink" title="IPV4的首部"></a>IPV4的首部</h2><ol>
-<li>IPv4分组首部构成：按教材P136图4-20概括之。</li>
-</ol>
-<p>(1) 版本4bit , IPv4：0100 ，IPv6： 0110；</p>
+<h2 id="IPV4的首部"><a href="#IPV4的首部" class="headerlink" title="IPV4的首部"></a>IPV4的首部</h2><p><img src="https://pic.liahnu.top/img/202312271557063.png" srcset="/img/loading.gif" lazyload alt="IPv4分组首部构成"><br>(1) 版本4bit , IPv4：0100 ，IPv6： 0110；</p>
 <p>(2)首部长度4bit，最为1111&#x3D;15段（每段4字节），最大60字节 ，其中：固定部分5段（20）字节，可变部分最长10段（40字节），使用不足一段时，要填充成整数段。常用20字节首部，没有可变部分。</p>
 <p>(3)区分服务8bit，区别不同的服务及质量标准，目前没有使用。</p>
 <p>(4)总长度16bit ，IP分组最长2^16-1 &#x3D;64k字节，实际以太网最大长度为1500字节，故IP分组最大长度不可能超过1500字节。</p>
 <p>(5)标识16bit，数据报计数器，同一个包分出的片有相同的标识，便于组装。</p>
 <p>(6)标志3bit，表示后面有、无分片，0表示是最后一个分片。</p>
 <p>(7)片偏移——举例：数据包3800字节，分为1400，1400，1000三个分片</p>
-<p>   第1片， 0字节处开始，片偏移 0&#x2F;8&#x3D;0;</p>
-<p>   第2片，1400字节处开始，片偏移 1400&#x2F;8&#x3D;175;</p>
-<p>   第3片，2800字节处开始 片偏移2800&#x2F;8&#x3D;350；</p>
+<p>   第1片， 0字节处开始，片偏移 0&#x2F;8&#x3D;0;<br>   第2片，1400字节处开始，片偏移 1400&#x2F;8&#x3D;175;<br>   第3片，2800字节处开始 片偏移2800&#x2F;8&#x3D;350；</p>
 <p>注：片偏移以8字节为一个单位。以太网最大长度1500字节，IP分组必须小于1500字节。</p>
 <p>（8）生存时间TTL，占8bit(初值 0000 1111)，路由“跳数”限制，经过15个路由器还没到达终点则丢弃。每绳索一个路由器，称之为一个跳数，TTL–，当TTL&#x3D;&#x3D;0时，放弃转发。</p>
 <p>（9）协议：8bit，指出本数据包使用何种协议；</p>
 <p>(10) 首部校验和——16bit, 只检验首部，为的是节约（包装无损即可），方法：</p>
 <p>发方：先将本段置”0“，对首部（固定20字节），两字节（16bit）为一段，反码求和（0+0&#x3D;0,1+0&#x3D;1,0+1&#x3D;1,1+1&#x3D;10有进位，最高位有进位时，末位+1），将其结果求反，置于本段中。</p>
 <p>收方：同样进行反码求和，结果为 0 时，说明首部无差错。</p>
-<h2 id="IP分组转发过程"><a href="#IP分组转发过程" class="headerlink" title="IP分组转发过程"></a>IP分组转发过程</h2><p>基于终点的转发：由目的IP地址确定向哪个端口转发；路由表中每一行是目的NetID与Port对应，从目的IP中找出目的Net后转发即可。见教材P141例4-2</p>
+<h2 id="IP分组转发过程"><a href="#IP分组转发过程" class="headerlink" title="IP分组转发过程"></a>IP分组转发过程</h2><p><img src="https://pic.liahnu.top/img/202312271558219.png" srcset="/img/loading.gif" lazyload><br>基于终点的转发：由目的IP地址确定向哪个端口转发；路由表中每一行是目的NetID与Port对应，从目的IP中找出目的Net后转发即可。见教材P141例4-2</p>
 <p>源IP：       128.1.2.194（1100 0100）， </p>
 <p>源网络：   128.1.2(0000 0010).192(1100 0000)&#x2F;26 ，</p>
 <p>目的IP:       128.1.2.132（1000 0100）， </p>
@@ -750,11 +748,11 @@ d. 到最底行，按默认路由转发。
 </code></pre>
 <p>没有默认路由，全不匹配时，报告转发失败。</p>
 <h2 id="ICMP简介"><a href="#ICMP简介" class="headerlink" title="ICMP简介"></a>ICMP简介</h2><p>Internet控制报文协议： IP分组转发时，只管转发，不管有无差错或异常。这些处理差错或异常的事务由ICMP来完成。控制报文——由路由器产生，表明本路由器转发某分组时发生了什么，向源主机汇报的报告，再用IP包装，沿某分组的来路回到源主机。（内容、包装、方向、路径，高层不可见）</p>
-<p>ICMP报文格式：见教材P146图4-28</p>
+<p><img src="https://pic.liahnu.top/img/202312271559461.png" srcset="/img/loading.gif" lazyload alt="图4-28"><br>ICMP报文格式：图4-28</p>
 <p>ICMP报文分为差错报告和询问两大类，差错报告如：终点不可到达，超时，解释之。询问如：回送请求、回送回答。</p>
 <p>ICMP典型举例：Ping命令</p>
 <h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><p>IPv6：地址空间更大，更简单，更安全，自动配置</p>
-<p>IPv6首部：见教材P151图4-33，固定首部长度_40字节，简化了许多。</p>
+<p><img src="https://pic.liahnu.top/img/202312271559582.png" srcset="/img/loading.gif" lazyload alt="图4-33"><br>IPv6首部：见图4-33，固定首部长度_40字节，简化了许多。</p>
 <p>IPv6地址：十六进制冒号分法，八段、每段两字节，冒号分隔；</p>
 <p>IPv6地址举例，“0”压缩法使用。特殊地址简介</p>
 <p>从IPv4向IPv6过渡：</p>
@@ -794,14 +792,7 @@ N4，R2，3                                              N1，R2，3
 <p>   由于全世界存在着各式各样的网络，它们使用不同的MAC地址。要使这些异构网络能够互相通信就必须进行非常复杂的MAC地址转换工作，因此由用户或用户主机来完成这项工作几乎是不可能的事。</p>
 <p>  即使是对分布在全世界的以太网MAC地址进行寻址，也是极其困难的。</p>
 <p>  然而IP编址解决了这个问题，连接到互联网的主机只需各自拥有一个IP地址，它们之间的通信就可以像连接在同一个网络上那样简单方便，即便必须多次调用ARP来找到MAC地址，但这个过程都是由计算机软件自动进行的，用户看不见。</p>
-<p><strong>有如下的4个&#x2F;24地址块，试进行最大可能的聚合。</strong><br>212.56.132.0&#x2F;24<br>212.56.133.0&#x2F;24<br>212.56.134.0&#x2F;24<br>212.56.135.0&#x2F;24<br>由于四个地址块前两个字节都相同，只需将每个地址块的第三个字节转换为二进制：<br>到第22位之后开始变<br>     212.56.1000 0100.0</p>
-<pre><code class="hljs"> 212.56.1000 0101.0
-
- 212.56.1000 0110.0
-
-
- 212.56.1000 0111.0
-</code></pre>
+<p><strong>有如下的4个&#x2F;24地址块，试进行最大可能的聚合。</strong><br>212.56.132.0&#x2F;24<br>212.56.133.0&#x2F;24<br>212.56.134.0&#x2F;24<br>212.56.135.0&#x2F;24<br>由于四个地址块前两个字节都相同，只需将每个地址块的第三个字节转换为二进制：<br>到第22位之后开始变<br>     212.56.1000 0100.0<br>     212.56.1000 0101.0<br>     212.56.1000 0110.0<br>     212.56.1000 0111.0</p>
 <p>可以发现，212.56.1000 01这一部分是相同的，因此可以聚合成212.56.132.0&#x2F;22</p>
 <p><strong>某单位分配到一个地址块136.23.12.64&#x2F;26.现在需要进一步划分为4个一样大的子网。试问：</strong></p>
 <p>（1）每一个子网的网络前缀有多长？</p>
