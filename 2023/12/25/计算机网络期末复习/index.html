@@ -37,11 +37,13 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271559461.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271559582.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271622767.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312272039839.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312272038820.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271652057.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653439.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653954.png">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T11:46:28.050Z">
+<meta property="article:modified_time" content="2023-12-27T12:39:31.626Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -903,10 +905,10 @@ N4，R2，3                                              N1，R2，3
 <h2 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h2><p>网络拥塞——资源不足造成！带宽不大、缓冲大小、处理太慢、排队过长，……，造成：需求&lt;资源，网络性能恶化，网编从变慢，再到瘫痪，直至卡死。</p>
 <p>增加资源（增大带宽、提高处理速率、……）并不能从根本上解决问题，瓶颈会转移到其它地方。全网改善也是非常难的一件事。</p>
 <p>拥塞控制与流量控制的不同：流量控制关心“点——点”的发、收匹配，是局部解决问题，拥塞控制关心的是全网是还通畅，哪里有网络变慢问题，都要设法改善。两者有联系，但本质有区别。</p>
-<p>实施拥塞控制要付出的代价：占用一些资源，所起作用见教材P240图5-23。</p>
+<p><img src="https://pic.liahnu.top/img/202312272039839.png" srcset="/img/loading.gif" lazyload alt="图5-23"><br>实施拥塞控制要付出的代价：占用一些资源，所起作用见图5-23。</p>
 <p>实际中要闭环控制思维，才能获得较好效果——利用监测系统找出拥塞发生的地点、时间，可解决问题的方法和地方等。</p>
 <p>网络拥塞指标可以 有：分组丢弃百分数，平均队列长度，平均分组时延，……</p>
-<p>TCP拥塞控制方法1：慢开始与拥塞避免，拥塞窗口 Wc，一开始为1，Wc&#x3D;Wf，拥塞现象没出现时，Wc可增加，有超时现象时，Wc就缓慢增加或不增加。见教材P242图5-24， P243图 5-25，详细解释拥塞控制曲线之涵义。</p>
+<p><img src="https://pic.liahnu.top/img/202312272038820.png" srcset="/img/loading.gif" lazyload><br>TCP拥塞控制方法1：慢开始与拥塞避免，拥塞窗口 Wc，一开始为1，Wc&#x3D;Wf，拥塞现象没出现时，Wc可增加，有超时现象时，Wc就缓慢增加或不增加。见教材P242图5-24， P243图 5-25，详细解释拥塞控制曲线之涵义。</p>
 <p>Wf&#x3D;min(Wc,Ws);         实际发送窗口取拥塞窗口和接收窗口中最小者。</p>
 <p>取初值Wc&#x3D;1，没拥塞时，Wc翻番增加，检测到轻度拥塞时，Wc线性（加法 、++）增加；有超时出现，拥塞发生，又开始慢开始算法，……。</p>
 <p>快重传与快恢复：有丢失时，立即确认！当发送方发出：M1，M2，M3，M4，M5，M6时，M3丢失，则确认M1，M2，M2，M2，M2，后确认三个M2，表明M3丢失，应当立即重发M3！……P243图 5-25的第二部分解释之，后面按线性增加拥塞窗口数。</p>
