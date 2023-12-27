@@ -26,6 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271458285.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271459884.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271810542.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312272219060.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271817615.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271946264.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271501667.png">
@@ -45,7 +46,7 @@
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/9d496cc5-3b1e-4e96-8690-778b1fe45305">
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/c12cbc4a-3436-4afd-967e-ae80ffecb145">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T14:11:50.143Z">
+<meta property="article:modified_time" content="2023-12-27T14:20:09.884Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -556,7 +557,8 @@
 <p>PPPoE——PPP over Ethernet；将PPP封装在以太网帧中，多用户可共享一条链路</p>
 <p>还应当：差错检测、连接状态检测，……</p>
 <p>PPP协议组成：封装IP数据包至串行链路PPP帧中，Link Control Protocol，Network Control Protocol，三种类型的帧，传送IP包，LCP、NCP。</p>
-<p>PPP帧组成分析：P83图3-1，协议字段为0x0021——IP数据报，0xC021——LCP数据，0x8021——NCP数据</p>
+<p><img src="https://pic.liahnu.top/img/202312272219060.png" srcset="/img/loading.gif" lazyload alt="图3-10"></p>
+<p>PPP帧组成分析：图3-1，协议字段为0x0021——IP数据报，0xC021——LCP数据，0x8021——NCP数据</p>
 <p>首、尾标志：0x7E（0111 1110），转义字符 0x7D（0111 1101）</p>
 <p>信息部分出现0x7E时，变换成 0x7D(0111 1101)，0x5E（0101 1110）</p>
 <p>信息部分出现0x7D时，变换成 0x7D(0111 1101)，0x5D（0101 1101）</p>
