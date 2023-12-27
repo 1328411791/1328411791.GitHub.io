@@ -27,6 +27,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271459884.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271810542.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271817615.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271946264.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271501667.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271504206.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271556564.png">
@@ -40,7 +41,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653439.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653954.png">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T10:17:54.066Z">
+<meta property="article:modified_time" content="2023-12-27T11:46:28.050Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -359,30 +360,19 @@
 <p>时延：发送、传播、处理、排队中四类时间延迟，传播时延可忽略，发送时延取于带宽，处理时延、排队时两者延取决于主机和网络。总时延由此四部分组成，具体问题要按实际分析得出。</p>
 <p>通信原语——请求(Request) 、指示(Indication)、响应(Response)、确认(Confirm)</p>
 <p>通信协议：——约定、规则、规程，……，统一称之为“协议”，双方通信开始时，要进行“协商”（用什么通信规则、统一文件格式、纠错、流量控制，……）</p>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br><strong>OSI七层模型：ISO7498标准，理想模型； TCP&#x2F;IP模型，实用模型，两者特点与差异分析</strong><br>一、结构差异</p>
+<p><strong>OSI七层模型：ISO7498标准，理想模型； TCP&#x2F;IP模型，实用模型，两者特点与差异分析</strong><br>一、结构差异</p>
 <ol>
-<li>OSI&#x2F;RM<br>OSI&#x2F;RM是开放的标准，一个系统就可以和位于世界上任何地方的、也遵循同一标准的其他任何系统进行通信，仅考虑与互连有关的那些部分，最终形成了一个七层协议的体系结构<br>OSI划分为7层结构：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。</li>
+<li>OSI&#x2F;RM<br>OSI&#x2F;RM是使各种计算机在世界范围内互连成网的<strong>标准框架</strong>，是抽象的概念，最终形成了一个七层协议的体系结构<br>OSI划分为7层结构：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。</li>
 <li>TCP&#x2F;IP：<br>TCP&#x2F;IP划分为4层结构：应用层、传输层、互联网络层和主机-网络层。</li>
 </ol>
-<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
-<p>OSI七层模型：ISO7498标准，理想模型； TCP&#x2F;IP模型，实用模型，两者特点与差异分析</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>76fcdab4929b8a8591f2b614ab15d099587bbfd7</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>通信协议分层的作用：分而治之、降低难度。</p>
-<p>协议三要素是：语法、主义、同步</p>
+<ul>
+<li>应用层：通过应用进程间的交互来完成特定网络应用。定义的是应用进程间通信和交互的规则。应用层交互的数据单元称为报文。应用如DNS，HTTP，SMTP。</li>
+<li>运输层：负责向两台主机中进程之间的通信提供通用的数据传输服务。具有复用和分用的功能。两种协议：TCP和UDP</li>
+<li>网络层：为分组交换网上的不同主机提供通信服务。两个任务：路由选择和转发。使用IP协议分组也叫做 IP 数据报。</li>
+<li>链路层：实现两个相邻节点之间的可靠通信。出错处理，采用可靠传输协议来纠正出现的差错。</li>
+<li>物理层</li>
+</ul>
+<p>通信协议分层的作用：分而治之、降低难度。<br>协议三要素是：语法、主义、同步</p>
 <p>分层原则：每层功能独立、层数合适，上下层之间有接口，上层调用下层的服务，下层为上层提供服务。以快递一本书为例，用户层，快递层，物流层。对等层有协议，上下层之间有接口，最底层是真实通信，上面的对等层是虚通信。</p>
 <p>实体：在某一对等层上收、发的规则集合，通常是一个特定的模块</p>
 <p>协议：对等层之间通信的规则（Protocol），是通信模型中的水平关系</p>
@@ -582,7 +572,7 @@
 <p>发前先听：侦听到信道空闲时，便可发数据；忙则不可发送。</p>
 <p>边发边听：一边发数据，一边接收，与已发数据比较，如果不同，则说明出现了冲突。</p>
 <p>冲突退避：检测到冲突，发出报警，之后停止，再等待、竞争下一个空闲 。</p>
-<p>冲突退避过程分析：P89图3-17，截断的二进制指数退避算法，双方收到警报时，停止发送，信道空闲，再次捕捉机会发送，……；重传时，等待优先级会降低。</p>
+<p><img src="https://pic.liahnu.top/img/202312271946264.png" srcset="/img/loading.gif" lazyload alt="图3-17"><br>冲突退避过程分析：P89图3-17，截断的二进制指数退避算法，双方收到警报时，停止发送，信道空闲，再次捕捉机会发送，……；重传时，等待优先级会降低。</p>
 <p>争用期为2τ（往返时延），51.2μs，（对10Mb&#x2F;s以太网，此期间可发512bit数据），重传时间向后推迟 r 倍争用期，</p>
 <p>r &#x3D;[0,1,2,……，2^k -1]，从中随机取一个值</p>
 <p>k&#x3D;1, r&#x3D;[0，1] , 在0或个等待后再次偿试发出</p>
@@ -643,7 +633,7 @@ FCS校验出错
 <p><strong>假定在使用CSMA&#x2F;CD协议的10Mb&#x2F;s以太网中某个站在发送数据时检测到碰撞，执行退避算法时选择了随机数r&#x3D;100。试问这个站需要等待多长时间后才能再次发送数据？如果是100Mb&#x2F;s的以太网呢？</strong></p>
 <p>对于10Mb&#x2F;s的以太网，以太网把争用期时间定为51.2微秒，要退后100个争用期，等待时间是51.2微秒×100&#x3D;5.12ms<br>对于100Mb&#x2F;s的以太网，以太网把争用期定为5.12微秒，要退后100个争用期，等待时间是5.12微秒×100&#x3D;0.512ms</p>
 <p><strong>有10个站连接到以太网上。试计算一下三种情况下每一个站所能得到的带宽。</strong><br>（1）10个站都连接到一个10Mb&#x2F;s以太网集线器；<br>（2）10个站都连接到一个100Mb&#x2F;s以太网集线器；<br>（3）10个站都连接到一个10Mb&#x2F;s以太网交换机。</p>
-<p>（1）10个站都连接到一个10Mb&#x2F;s以太网集线器：1mbs<br>（2）10个站都连接到一个100mb&#x2F;s以太网集线器：10mbs<br>（3）10个站都连接到一个10mb&#x2F;s以太网交换机：100mbs</p>
+<p>（1）10个站都连接到一个10Mb&#x2F;s以太网集线器：1mbs<br>（2）10个站都连接到一个100mb&#x2F;s以太网集线器：10mbs<br>（3）10个站都连接到一个10mb&#x2F;s以太网交换机：10mbs</p>
 <p><strong>以太网交换机有何特点？用它怎样组成虚拟局域网？</strong></p>
 <p>以太网交换机作为链路层设备，可实现透明交换。虚拟局域网 VLAN 是由一些局域网网段构成的与物理位置无关的逻辑组。这些网段具有某些共同的需求。虚拟局域网协议允许在以太网的帧格式中插入一个 4 字节的标识符，称为 VLAN 标记 (tag)，用来指明发送该帧的工作站属于哪一个虚拟局域网</p>
 <h1 id="第四章-网络层"><a href="#第四章-网络层" class="headerlink" title="第四章 网络层"></a>第四章 网络层</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>网络层主要功能——转发IP分组</p>
