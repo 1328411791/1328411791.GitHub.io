@@ -23,11 +23,13 @@
 <meta property="og:site_name" content="liahnu Blogs">
 <meta property="og:description" content="第一章互联网组成互联网组成：核心部分——路由器为主、边缘部分——终端为主 边缘：网络服务模式；P2P——对等网、C&#x2F;S——客户机&#x2F;服务器 核心：交换方式； 电路交换与分组交换、面向连接与面向无连接 电路交换过程：一条通路，传输效率？交换机雏形，人工交换——&gt;程控交换，计算机程控交换 分组交换过程：多路并发，数据传输效率高，但转发有时延 报文转发可理解为一个分组的转发，效率">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202312271458285.png">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T06:46:17.262Z">
+<meta property="article:modified_time" content="2023-12-27T06:59:02.169Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202312271458285.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -265,7 +267,7 @@
         
         
         
-          43 分钟
+          44 分钟
         
       </span>
     
@@ -481,6 +483,7 @@
 <p>OC - 48: Optical Carrier level 48，光纤传输速率48，是SONET网络中的传输速率标准之一，是2.5 Gbps。</p>
 <h1 id="第三章-数据链路层"><a href="#第三章-数据链路层" class="headerlink" title="第三章 数据链路层"></a>第三章 数据链路层</h1><h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>数据链层的四大功能：组装成帧，差错控制，流量控制，链路管理。</p>
 <p>物理只管传送bit流，链路层要定界、纠错，流控、管理，链路层数据包称为“帧”，是链路层的传送、处理单位。</p>
+<p><img src="https://pic.liahnu.top/img/202312271458285.png" srcset="/img/loading.gif" lazyload></p>
 <p>真实通信与对等层虚通信的图形示例，教材P71图3-1，P72图3-2</p>
 <p>物理链路和数据链路的区别：通+纠错+流控+……</p>
 <p>“帧”的成型——发送方从网络层向下时，加上帧头、帧尾，接收收方网络层再去掉帧头、帧尾。 链路层虚通信——发：加上帧头、尾，收：去掉</p>
@@ -557,6 +560,14 @@ FCS校验出错
 <p>虚拟局域网VLAN——在链路上多4字节的标签则可。以太网中站点太多时，引起“广播风暴”的概率就大的多，这就需要人为的把网络又细分 为多个小网，每小组专员相同的组号的，还能增强安全性。</p>
 <p>高速以太网：100M、1000M、10000M，传输媒体可以 是双绞线，也可以 光纤（多模、单模），……</p>
 <p>以太网升级容易（结构不变，更新传输媒体、设备，帧格式不变，软件改动极少，），其它LAN都被淘汰了。</p>
+<h2 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h2><p>物理链路与数据链路的区别？</p>
+<p>链路层的功能有哪几个方面？</p>
+<p>PPP帧的组成及透明传输是如何实现的？</p>
+<p>以太网的发展简史、名称由来是什么？</p>
+<p>CSMA&#x2F;CD协议工作分为哪三个步骤？冲突退避算法有哪些步骤？</p>
+<p>什么是无效帧？如何处理？</p>
+<p>估算一下，IEEE向制造商出卖MAC地址组号，每个$1000，最高价值多少？</p>
+<p>以太网交换机与集线器的不同之处有哪些？</p>
 <h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p><strong>数据链路(即逻辑链路)与链路(即物理链路)有何区别? “电路接通了”与”数据链路接通了”的区别何在?</strong></p>
 <p>数据链路与链路的区别在于数据链路出链路外，还必须有一些必要的规程来控制数据的传输，因此，数据链路比链路多了实现通信规程所需要的硬件和软件。</p>
 <p>“电路接通了”表示链路两端的结点交换机已经开机，物理连接已经能够传送比特流了，但是，数据传输并不可靠，在物理连接基础上，再建立数据链路连接，才是“数据链路接通了”，此后，由于数据链路连接具有检测、确认和重传功能，才使不太可靠的物理链路变成可靠的数据链路，进行可靠的数据传输当数据链路断开连接时，物理电路连接不一定跟着断开连接。</p>
