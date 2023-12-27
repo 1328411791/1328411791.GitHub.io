@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653439.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202312271653954.png">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T09:59:15.315Z">
+<meta property="article:modified_time" content="2023-12-27T10:07:15.839Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -269,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          32k 字
+          33k 字
         
       </span>
     
@@ -280,7 +280,7 @@
         
         
         
-          100 分钟
+          102 分钟
         
       </span>
     
@@ -331,7 +331,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年12月27日 下午
+                    本文最后更新于：2023年12月27日 晚上
                   
                 
               </p>
@@ -355,9 +355,30 @@
 </ul>
 <p><strong>网络性能指标</strong><br>速率:   bit per second，    如 1Mb&#x2F;s<br>带宽：频带宽度，与速率成正比   用速率描述之。同上<br>呑吐量：单位时间内正确接收的bit数，1秒发1Mbit，正确接收6Kbit，……</p>
 <p>时延：发送、传播、处理、排队中四类时间延迟，传播时延可忽略，发送时延取于带宽，处理时延、排队时两者延取决于主机和网络。总时延由此四部分组成，具体问题要按实际分析得出。</p>
-<p>通信原语——请求(Request) 、指示(Indication)、响应(Response)、确认(Confirm) </p>
+<p>通信原语——请求(Request) 、指示(Indication)、响应(Response)、确认(Confirm)</p>
 <p>通信协议：——约定、规则、规程，……，统一称之为“协议”，双方通信开始时，要进行“协商”（用什么通信规则、统一文件格式、纠错、流量控制，……）</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br><strong>OSI七层模型：ISO7498标准，理想模型； TCP&#x2F;IP模型，实用模型，两者特点与差异分析</strong><br>一、结构差异</p>
+<ol>
+<li>OSI&#x2F;RM<br>OSI&#x2F;RM是开放的标准，一个系统就可以和位于世界上任何地方的、也遵循同一标准的其他任何系统进行通信，仅考虑与互连有关的那些部分，最终形成了一个七层协议的体系结构<br>OSI划分为7层结构：物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。</li>
+<li>TCP&#x2F;IP：<br>TCP&#x2F;IP划分为4层结构：应用层、传输层、互联网络层和主机-网络层。</li>
+</ol>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
 <p>OSI七层模型：ISO7498标准，理想模型； TCP&#x2F;IP模型，实用模型，两者特点与差异分析</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>76fcdab4929b8a8591f2b614ab15d099587bbfd7</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>通信协议分层的作用：分而治之、降低难度。</p>
 <p>协议三要素是：语法、主义、同步</p>
 <p>分层原则：每层功能独立、层数合适，上下层之间有接口，上层调用下层的服务，下层为上层提供服务。以快递一本书为例，用户层，快递层，物流层。对等层有协议，上下层之间有接口，最底层是真实通信，上面的对等层是虚通信。</p>
@@ -370,12 +391,17 @@
 <p><strong>电路交换与分组交换的特点对比</strong><br>电路交换是一种传输方式，其中在通信开始之前，建立了一个专用的物理连接，该连接在整个通信过程中保持不变。这意味着在通信期间，发送方和接收方之间的通信路径是专用的，不会被其他用户共享。这种方式类似于电话系统中的拨号连接，其中在通话期间，电话线路是专门为两个用户保留的。</p>
 <p>分组交换是另一种传输方式，其中数据被分割成小的数据包（或称为分组），然后通过网络传输。每个数据包都包含有关发送方和接收方的地址信息，以便在网络中正确路由。这些数据包可以通过不同的路径传输，并且在接收方重新组装以恢复原始数据。这种方式类似于邮件系统，其中信件被分成小的信封，并通过邮递员逐个传递。</p>
 <p><strong>C&#x2F;S模式与P2P模式的区别与相同点</strong><br>C&#x2F;S模式与P2P模式的区别与相同点 C&#x2F;S模式（Client&#x2F;Server模式）是一种网络服务模式，其中客户端和服务器之间存在明确的角色分工。客户端向服务器发送请求，服务器提供相应的服务和资源。P2P模式（Peer-to-Peer模式）是一种对等网络模式，其中所有参与者都可以充当客户端和服务器的角色，彼此之间共享资源和服务。</p>
-<p><strong>LAN（PAN）、MAN、WAN之地理范围</strong><br>LAN——局域网，5~10Km（PAN——个域网10m以内）</p>
-<p>Man——城域网，100Km以下</p>
-<p>WAN——广域网，城市之间</p>
+<p><strong>LAN（PAN）、MAN、WAN之地理范围</strong></p>
+<ul>
+<li>PAN——个人区域网，10m以内</li>
+<li>LAN——局域网，局限在较小的范围，1km左右</li>
+<li>Man——城域网，一个城市，5~50km</li>
+<li>WAN——广域网，城市之间，几十到几千km</li>
+</ul>
 <p><strong>带宽、时延</strong></p>
 <p>时延：发送、传播、处理、排队中四类时间延迟，传播时延可忽略，发送时延取于带宽，处理时延、排队时两者延取决于主机和网络。总时延由此四部分组成，具体问题要按实际分析得出。</p>
-<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><p><strong>客户-服务器方式与P2P对等通信方式的主要区别是什么？有没有相同的地方？</strong><br>客户-服务器方式严格区分服务请求方与服务提供方<br>P2P方式是指两台主机在通信时，并不区分哪一个是服务请求方，哪一个是服务提供方。</p>
+<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><p><strong>1-07 小写和大写开头的英文名字 internet 和 Internet 在意思上有何重要区别?</strong><br>以小写字母i开始的 internet（互连网）是一个通用名词，它泛指由多个计算机网络互连而成的计算机网络。在这些网络之间的通信协议可以任意选择，不一定非要使用 TCP&#x2F;IP 协议。<br>以大写字母I开始的 Internet（互联网）则是一个专用名词，它指当前全球最大的、开放的、由众多网络相互连接而成的特定互连网，它采用 TCP&#x2F;IP 协议族作为通信的规则，其前身是美国的 ARPANET。</p>
+<p><strong>客户-服务器方式与P2P对等通信方式的主要区别是什么？有没有相同的地方？</strong><br>客户-服务器方式严格区分服务请求方与服务提供方<br>P2P方式是指两台主机在通信时，并不区分哪一个是服务请求方，哪一个是服务提供方。</p>
 <p><strong>网络协议的三个要素是什么？各有什么含义？</strong><br>网络协议:为进行网络中的数据交换而建立的规则、标准或约定<br>（1）语法：即数据与控制信息的结构或格式。<br>（2）语义：即需要发出何种控制信息，完成何种动作以及做出何种响应。<br>（3）同步：即事件实现顺序的详细说明。</p>
 <p><strong>试解释以下名词：协议栈、实体、对等层、协议数据单元、服务访问点、客户、服务器、客户-服务器方式。</strong></p>
 <p>(1)协议栈:指计算机网络体系结构采用分层模型后,每层的主要功能由对等层协议的运行来实现,因而每层可用一些主要协议来表征,几个层次画在一起很像一个栈的结构</p>
@@ -416,7 +442,7 @@
 <p>带通调制：调幅、调频、调相</p>
 <p>信道极限容量——失真，通信频带确定，信噪比，</p>
 <p>Nyquist定理——理想信道速率；</p>
-<p>Shannon公式工——实际信道，有噪声的最大速率。</p>
+<p>Shannon公式——实际信道，有噪声的最大速率。</p>
 <h2 id="通信媒体"><a href="#通信媒体" class="headerlink" title="通信媒体"></a>通信媒体</h2><p>电磁波谱</p>
 <p>双绞线：UTP 100Base-T（100米）的解释，10GBASE-T（35~100米），……，</p>
 <p>同轴电缆</p>
@@ -438,7 +464,7 @@
 <p>同步光纤网（美国）SONET，第一级 51.840Mbit&#x2F;s，其它见教材P62 表2-2</p>
 <p>ITU-T推出SDH（国际标准同步系列），与SONET有关联，划分等级不一样。同上查表2-2</p>
 <p>SDH&#x2F;SONET使得北美，日本，欧洲的标准统一起来。对世界电信网络的发展意义重大</p>
-<p>ADSL／ＶSDL，10Ｍ／５0Ｍ，</p>
+<p>ADSL／VSDL，10M／50M，</p>
 <p>宽带网接入：以太网互连</p>
 <p>光纤接入　200～1000MBit&#x2F;s</p>
 <h2 id="重点概念-1"><a href="#重点概念-1" class="headerlink" title="重点概念"></a>重点概念</h2><p><strong>通信系统模型，通信方式（单 工、双工、半双工）</strong></p>
@@ -493,7 +519,7 @@
 <li><p>SDH（Synchronous Digital Hierarchy，同步数字体系）：SDH是一种与SONET兼容的国际标准，由国际电信联盟（ITU）制定。SDH在SONET的基础上增加了一些新的特性，如网络管理和保护机制。</p>
 </li>
 </ul>
-<h2 id="作业-1"><a href="#作业-1" class="headerlink" title="作业"></a>作业</h2><p><strong>物理层的接口有哪几个方面的特性？各包含些什么内容？</strong><br>答：机械特性 :指明接口所用的接线器的形状和尺寸、引线数目和排列、固定和锁定装置等等。<br>电气特性 :指明在接口电缆的各条线上出现的电压的范围。<br>功能特性:指明某条线上出现的某一电平的电压表示何意。<br>规程特性:说明对于不同功能的各种可能事件的出现顺序。</p>
+<h2 id="作业-1"><a href="#作业-1" class="headerlink" title="作业"></a>作业</h2><p><strong>物理层的接口有哪几个方面的特性？各包含些什么内容？</strong><br>机械特性:指明接口所用的接线器的形状和尺寸、引线数目和排列、固定和锁定装置等等。<br>电气特性:指明在接口电缆的各条线上出现的电压的范围。<br>功能特性:指明某条线上出现的某一电平的电压表示何意。<br>规程特性:说明对于不同功能的各种可能事件的出现顺序。</p>
 <p><strong>为什么要使用信道复用技术？常用的信道复用技术有哪些？</strong></p>
 <p>原因:为了通过共享信道，最大限度提高信道利用率</p>
 <p>常见的信道复用技术:</p>
@@ -531,11 +557,11 @@
 <p>PPPoE——PPP over Ethernet；将PPP封装在以太网帧中，多用户可共享一条链路</p>
 <p>还应当：差错检测、连接状态检测，……</p>
 <p>PPP协议组成：封装IP数据包至串行链路PPP帧中，Link Control Protocol，Network Control Protocol，三种类型的帧，传送IP包，LCP、NCP。</p>
-<p>PPP帧组成分析：P83图3-1，协议字段为0x0021——IP数据报，0xC021——LCP数据，0x8021——NCP数据       </p>
+<p>PPP帧组成分析：P83图3-1，协议字段为0x0021——IP数据报，0xC021——LCP数据，0x8021——NCP数据</p>
 <p>首、尾标志：0x7E（0111 1110），转义字符 0x7D（0111 1101）</p>
 <p>信息部分出现0x7E时，变换成 0x7D(0111 1101)，0x5E（0101 1110）</p>
 <p>信息部分出现0x7D时，变换成 0x7D(0111 1101)，0x5D（0101 1101）</p>
-<p>信息部分出现ASCII&lt;32为控制字符，不可显示，转换为  0x7D，0x20+ASCII 值 </p>
+<p>信息部分出现ASCII&lt;32为控制字符，不可显示，转换为  0x7D，0x20+ASCII 值</p>
 <p>在发送端如此填充，接收端逆解去掉——实现透明传输</p>
 <p>0 bit填充法：首尾标志0x7E(0111 1110)中间为连续的6个’1’，如果数据信息bit流中有5个‘1’时就填充一个‘0’，就能保证数据部分不会出连续6个‘1’，不会与首尾标志重复，从避免影响。接收端将连续5个‘1’后的‘0’去掉即可。</p>
 <p>PPP工作状态：</p>
@@ -562,7 +588,7 @@
 <p>重复次数增加，等待更时间的概率也在加大。</p>
 <p>只所以还要随机取一个等待时间，因为两个以上站点发数据，用同一等待时间后再重发，冲突的概率太大。</p>
 <p>无效帧——争用期可发64字节（512bit ），如果 一次发送数据不足64字节（512bit），冲突信息还检测出来就结束了，不能保证无冲突发生，本次发送是否失败不得而知。故有效帧长必须大于64字节，小于64字节的是无效帧，接收方丢弃。</p>
-<h2 id="星形拓扑、MAC"><a href="#星形拓扑、MAC" class="headerlink" title="星形拓扑、MAC"></a>星形拓扑、MAC</h2><p> 交换机（集线器）构成的星形拓扑：以中央通信设备为中心，任意两个站点通过中央节点均可通信——星形拓扑，比总线拓扑优越的多（可分析比较）。集线器中10Mb&#x2F;s带宽，共享信道，现已淘汰。交换机是100Mb&#x2F;s起，还千兆、万兆口，独立信道，不可堆叠使用，有可配置与不可配置Switch之分 ，二层、三层以太网Switch，性能优良，组网成本低。…… </p>
+<h2 id="星形拓扑、MAC"><a href="#星形拓扑、MAC" class="headerlink" title="星形拓扑、MAC"></a>星形拓扑、MAC</h2><p> 交换机（集线器）构成的星形拓扑：以中央通信设备为中心，任意两个站点通过中央节点均可通信——星形拓扑，比总线拓扑优越的多（可分析比较）。集线器中10Mb&#x2F;s带宽，共享信道，现已淘汰。交换机是100Mb&#x2F;s起，还千兆、万兆口，独立信道，不可堆叠使用，有可配置与不可配置Switch之分 ，二层、三层以太网Switch，性能优良，组网成本低。……</p>
 <p>信道复用率：发送时延T，最后一个Bit到达，再用传输时延τ后才能空闲，取</p>
 <p>  α&#x3D;τ&#x2F;T, 信道利用率：S&#x3D;T&#x2F;(T+τ)&#x3D;1&#x2F;(1+α)，当α-&gt;0时（τ&lt;&lt;T）时，S-&gt;1。实际信道复用率&gt;30%就很不错了。</p>
 <p>MAC层及地址：数据链路层分为LLC逻辑链路子层与MAC媒体访问子层，由于以太网统一了LAN江湖，LLC子层没有存在的必要了，现在只剩下MAC子层了。</p>
@@ -643,16 +669,16 @@ FCS校验出错
 <h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><p>IP地址是网络设备（路由器、交换机端口、站点计算机或终端）必须有的一个编号，网络通信寻址就是按IP地址进行的。</p>
 <p>IPv4是32bit的IP地址，IPv6是128bit的IP地址，后面再讲。最多可有2^32&#x3D;43亿+，实际可用接近40亿。为了便于理解与记忆，32B的IP地址分为四段，每段8Bit，一般用十进制表示；如：</p>
 <p>10.129.1.1  二进制  0000 101 0  1000 0001 0000 0001 0000 0001<br>——十进制点分法之来由<br>IP：：&#x3D;｛<NetID>，<HostID>｝，分为网络号、主机号两部分。</HostID></NetID></p>
-<p>分类如下： </p>
+<p>分类如下：</p>
 <pre><code class="hljs">A类： 网络号8bit（‘0’打头，最高127），主机号24bit（16777216-2）
 
 B类：网络号16bit(‘10’打头，16384)，主机号16bit(65536-2)
 
-C类：24bit(‘110’打头2097152),  主机8bit (256-2)   
+C类：24bit(‘110’打头2097152),  主机8bit (256-2)
 
 D类——多播、E类——保留，用于测试，这两类IP地址没有商用。
 </code></pre>
-<p>几个特殊IP地址： </p>
+<p>几个特殊IP地址：</p>
 <pre><code class="hljs">网络号全‘0’，表示本网络；
 
 主机号全‘0’代表本主机，主机号全‘1’表示本网内广播；
@@ -668,7 +694,7 @@ C类     192.168.* ——
 <p>A、B、C类网络分法形式简单，管理方便，但网络规格相差很大，造成IP地址在使用上浪费极大，为了提高资源复用率，减少浪费，又提出了子网设计法，在主机号中取出几bit作为子网号，将大网络划分成多个子（小）网络，目前这种方法已淘汰。</p>
 <p>无分类编地址：不用ABC等分类网络编址方法，直接用网络前缀（32位以内任意bit）和主机号，</p>
 <p>IP::&#x3D;{&lt;网络前缀&gt;，&lt;主机号&gt;｝，网络前缀用   “IP地址&#x2F;前缀”形式表示，如：128.14.35.7&#x2F;20，这说明前20bit是网络号。</p>
-<p>*&#x2F;20, 表示网络（号）前缀20bit，主机号为12bit，产生的地址块为 </p>
+<p>*&#x2F;20, 表示网络（号）前缀20bit，主机号为12bit，产生的地址块为</p>
 <p>0000 0000  0000 ——1111 1111 1111，大小2^12-2&#x3D;4094</p>
 <p>前缀从13——23能产生的地址块大小如教材P27图4-3所示。</p>
 <p>CIDR地址块必须指明前缀值，即网络位多少。</p>
@@ -689,7 +715,7 @@ C类     192.168.* ——
 <p>上级（传输层）数据加上IP首部（共其中有IP地址），构成IP分组，路由器按目的IP地址转发IP分组。</p>
 <p>实际数据通信过程可抽象为IP层上，IP分组的转发。教材P131表4-4、P132图4-16(a),(b)解释，网际层上虚通信，传送IP分组。</p>
 <p>问题：如何知道MAC地址？IP~MAC映射表是如何生成的?</p>
-<p>ARP——地址解析协议，已知IP地址，如何获得MAC地址？（RARP已淘汰）。IP分组做为链路层的负载（上层数据），到达链路层时、如何获得目的MAC地址？ARP cache的内容——IP~~MAC映像表，ARP~IP缓冲区内容逐步积累（先查表，从IP找MAC，找不到时再广播IP，接收应答） </p>
+<p>ARP——地址解析协议，已知IP地址，如何获得MAC地址？（RARP已淘汰）。IP分组做为链路层的负载（上层数据），到达链路层时、如何获得目的MAC地址？ARP cache的内容——IP~~MAC映像表，ARP~IP缓冲区内容逐步积累（先查表，从IP找MAC，找不到时再广播IP，接收应答）</p>
 <p><img src="https://pic.liahnu.top/img/202312271556564.png" srcset="/img/loading.gif" lazyload alt="图4-18"><br>IP~MAC缓存有表生存时间，定期刷新以适应网络拓扑结构的变化。</p>
 <p><img src="https://pic.liahnu.top/img/202312271556421.png" srcset="/img/loading.gif" lazyload alt="图4-19"><br>ARP只在LAN内起作用，实际中有四种场景： 图4-19</p>
 <p>（1） 在LAN内，在N1网内广播ARP请求即可，可获得H2的MAC。</p>
@@ -712,12 +738,12 @@ C类     192.168.* ——
 <p>发方：先将本段置”0“，对首部（固定20字节），两字节（16bit）为一段，反码求和（0+0&#x3D;0,1+0&#x3D;1,0+1&#x3D;1,1+1&#x3D;10有进位，最高位有进位时，末位+1），将其结果求反，置于本段中。</p>
 <p>收方：同样进行反码求和，结果为 0 时，说明首部无差错。</p>
 <h2 id="IP分组转发过程"><a href="#IP分组转发过程" class="headerlink" title="IP分组转发过程"></a>IP分组转发过程</h2><p><img src="https://pic.liahnu.top/img/202312271558219.png" srcset="/img/loading.gif" lazyload><br>基于终点的转发：由目的IP地址确定向哪个端口转发；路由表中每一行是目的NetID与Port对应，从目的IP中找出目的Net后转发即可。见教材P141例4-2</p>
-<p>源IP：       128.1.2.194（1100 0100）， </p>
+<p>源IP：       128.1.2.194（1100 0100），</p>
 <p>源网络：   128.1.2(0000 0010).192(1100 0000)&#x2F;26 ，</p>
-<p>目的IP:       128.1.2.132（1000 0100）， </p>
+<p>目的IP:       128.1.2.132（1000 0100），</p>
 <p>目的网络：128.1.2(0000 0010).128(1000 0000)&#x2F;26</p>
 <p>N3：         128.1.3(0000 0011).64(0100 0000)&#x2F;26</p>
-<p>  R1路由表：  </p>
+<p>  R1路由表：</p>
 <table>
 <thead>
 <tr>
@@ -738,7 +764,7 @@ C类     192.168.* ——
 <td>R2</td>
 </tr>
 </tbody></table>
-<p> R2路由表：  </p>
+<p> R2路由表：</p>
 <table>
 <thead>
 <tr>
@@ -778,7 +804,7 @@ d. 到最底行，按默认路由转发。
 <p>IPv6地址：十六进制冒号分法，八段、每段两字节，冒号分隔；</p>
 <p>IPv6地址举例，“0”压缩法使用。特殊地址简介</p>
 <p>从IPv4向IPv6过渡：</p>
-<p>A、双协议栈法（v4、v6均有），通信时，对方是IPv6主机就用IPv6协议通信，……； </p>
+<p>A、双协议栈法（v4、v6均有），通信时，对方是IPv6主机就用IPv6协议通信，……；</p>
 <p>B、 隧道技术：将IPv6数据报在IPv4隧道中传递即可。</p>
 <h2 id="路由选择"><a href="#路由选择" class="headerlink" title="路由选择"></a>路由选择</h2><p>算法要求：正确、完整、简单、自适应、稳定、公平、最佳</p>
 <p> 自治系统AS——可自主抉择、管理的内部网络，其带宽、路由选择策略等都由内部决定。</p>
@@ -793,16 +819,16 @@ N2， 1， 1                  N3，1，1                   N4，1，1
 N3，R2, 2                   N1，R1，2                  N2，R2，2
                             N4，R3，2
 
-++++++++++++++++第二轮交换+++++++++++++++++                        
+++++++++++++++++第二轮交换+++++++++++++++++
 N4，R2，3                                              N1，R2，3
 </code></pre>
 <p>OSPF——最短路径优先：RIP只与相邻路由器交换路由信息，OSPF与全网路由器交换路由信息——链路状态协议，算法复杂，适应性强。</p>
-<p>OSPF将网络分为主干AS区和其它AS，所有其它AS都与主干区AS联系，每一个AS区内部的路由信息交流，…… </p>
+<p>OSPF将网络分为主干AS区和其它AS，所有其它AS都与主干区AS联系，每一个AS区内部的路由信息交流，……</p>
 <p>BGP-4外部网关协议，RIP、OSPF是AS内部适用，以最佳路径，代价最低为目标建立路由表，BGP-4只选择”可通信“即可，AS之间还政治、安全经济多方考虑，选择最优不现实，较优就行了！</p>
 <p>路由器硬件构成：多I&#x2F;O端口的专用计算机。路由选择处理机、输入&#x2F;输出端口及对应缓冲区、交换结构。</p>
 <h2 id="多播、VPN、NAT、MPLS、SDN-介绍"><a href="#多播、VPN、NAT、MPLS、SDN-介绍" class="headerlink" title="多播、VPN、NAT、MPLS、SDN 介绍"></a>多播、VPN、NAT、MPLS、SDN 介绍</h2><p><strong>多播</strong><br>视频播放时，服务器只播放一次，由多播路由器复制多份，向网络中群发。运行多播协议——多播路由器。多播IP地址——D类 “1110”打头。在局域网上多播，MAC地址上第一字节最低位为”1“，……，在互连网上多播，要用到IGMP，……</p>
 <p><strong>VPN</strong><br>解决IP地址资源紧张、保障内网安全。利用IP隧道、或建立虚拟局域网，连接两个相距很远的专用网络进行通信。</p>
-<p><strong>非正式IP</strong><br>10&#x2F;8,  172.16&#x2F;12，192.168&#x2F;24，做为LAN站点的IP地址，不用付费。 </p>
+<p><strong>非正式IP</strong><br>10&#x2F;8,  172.16&#x2F;12，192.168&#x2F;24，做为LAN站点的IP地址，不用付费。</p>
 <p><strong>NAT</strong><br>网内主机只有非正式IP地址，又要与外网通信，如何做？再申请一个正式IP，没必要！安装NAT软件的路由器称之为NAT路由器，外网客户要访问网内某参主机，由NAT路由器代转访问请求。即，外部客户是在与NAT代理服务直接打交道。</p>
 <p><strong>MPLS——多协议标签交换</strong><br>上层可以有多种协议，每种协议有不同的标记（签），便于路由器快速转发。进入MPLS域时加上标签，在域内用硬件快速转发——标签路由器按相应标签转发，出此MPLS域时解除标签，……。</p>
 <p><strong>SDN——设计、构建和管理网络的新方法或新概念</strong><br>OpenFlow是控制层面和数据层面的接口。数据层面：匹配+动作，SDN呈，有广义的”匹配+动作”，其匹配内容更多（链路层、网络层，运输层）动作不光是转发，还可重写IP首部，阻挡或丢弃一些分组，……。是一种OpenFlow分组交换机。</p>
@@ -898,16 +924,16 @@ N4，R2，3                                              N1，R2，3
 <p><img src="https://pic.liahnu.top/img/202312271652057.png" srcset="/img/loading.gif" lazyload><br>1）C——&gt;S:        SYN&#x3D;1， seq&#x3D;x</p>
 <pre><code class="hljs">客户端要求建立同步连接及序号是x;
 </code></pre>
-<p>2）S——&gt;C：      ACK&#x3D;1，ack&#x3D;x+1;    SYN1&#x3D;1, seq&#x3D;y </p>
+<p>2）S——&gt;C：      ACK&#x3D;1，ack&#x3D;x+1;    SYN1&#x3D;1, seq&#x3D;y</p>
 <pre><code class="hljs">服务器端确认（客户申请的）及序号为x+1，正向连接建立；同时，服务器申请建立反向连接及序号为y;
 </code></pre>
-<p> 3） C——&gt;S:    ACK&#x3D;1, ack&#x3D;y+1,  seq&#x3D;x+1 </p>
+<p> 3） C——&gt;S:    ACK&#x3D;1, ack&#x3D;y+1,  seq&#x3D;x+1</p>
 <pre><code class="hljs">客户端接受服务器端的连接请求，建立反向连接。
 </code></pre>
 <p>三次握手（通信开始的协商称之为握手）实际是四次，中间确认正向、申请反向并为一起了。</p>
 <p>正向、反向分别建立连接，可防止无意义的等待。第一个连接滞留网络，超时重发第二闪连接 ，B方收到第二个后建立了连接，失效报文迟到后，又重复建立连接。</p>
 <p><img src="https://pic.liahnu.top/img/202312271653439.png" srcset="/img/loading.gif" lazyload><br>四次终止：A方请求终止，Fin&#x3D;1，seq&#x3D;m;    我方数据传输完毕，请求终止</p>
-<pre><code class="hljs">B方同意，     
+<pre><code class="hljs">B方同意，
     ACK=1,ack=m+1;  seq=n;    同意终止；
     ……（反向数据传输仍在继续）
     B方请求终止，Fin=1,seq=n;     ACK=1,ack=m+1
@@ -955,7 +981,7 @@ N4，R2，3                                              N1，R2，3
 <p> (4)在RTT &#x3D; 16和RTT &#x3D; 22之后发送方是通过收到三个重复的确认还是通过超时检测到丢失了报文段？</p>
 <p> (5)在RTT &#x3D; 1、RTT &#x3D; 18 和RTT &#x3D; 24时，门限ssthresh分别被设置为多大？</p>
 <p> (6)在RTT等于多少时发送出第70个报文段？</p>
-<p> (7)假定在RTT &#x3D; 26 之后收到了三个重复的确认，因而检测出了报文段的丢失，那么拥塞窗口cwnd和门限ssthresh有多大?<br>（1）<br>（2）慢开始:[1，6]，[23，26] </p>
+<p> (7)假定在RTT &#x3D; 26 之后收到了三个重复的确认，因而检测出了报文段的丢失，那么拥塞窗口cwnd和门限ssthresh有多大?<br>（1）<br>（2）慢开始:[1，6]，[23，26]</p>
 <p>（3）拥塞避免:[6,16]，[17，22]</p>
 <p>（4）RTT &#x3D; 16时，发送方是通过收到三个重复的确认，RTT &#x3D; 22后发送方是检测到超时<br>重复确认不会到1，超时会到1<br>（5）RTT &#x3D; 1时，门限为32 ; RTT &#x3D; 18 时，门限为21；RTT &#x3D; 24时，门限为13<br>1时门限到拥塞位置，其他时候看上一次的重复确认&#x2F;超时的cwnd，然后除2<br>（6）<br>RTT	已发送的报文段<br>1	1<br>2	3<br>3	7<br>4	15<br>5	31<br>6	63<br>7	127<br>所以RTT&#x3D;7时发送出第70个报文段。<br>（7）检测出报文段丢失时，拥塞窗口cwnd是8，因此拥塞窗口cwnd的数值应当减半，等于4，而门限ssthresh应设置为报文段丢失时拥塞窗口8的一半，即4</p>
 <p>5-49 下面是以十六进制格式存储的一个 UDP 首部：<br>CB84000D001C001C<br>试问:<br>(1) 源端口号是什么？CB84<br>(2) 目的端口号是什么？000D<br>(3) 这个用户数据报的总长度是什么？001C<br>(4) 数据长度是多少？001C-8（首部是8）<br>(5)这个分组是从客户到服务器还是从服务器到客户？<br>(6) 客户进程是什么？</p>
@@ -977,7 +1003,7 @@ N4，R2，3                                              N1，R2，3
 <p>DNS端口：53</p>
 <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>World Wide Web是目前互联网上最大规模的应用，网络信息的发布、传播、浏览、获取、存储、相互关联（联机存储）等，都能轻松的应付自如。通过超链接，可以在全球范围内的主机页面上任意跳转，实现信息高速公路的畅通无阻。</p>
 <p>超文本、超媒体、超链接、……，概念说明。最网页雏形：超文本标记语言，扩充才有后面的一切。文本仅指文字表达形式，超文本则可以表达图形、图像、视频等信息——超媒体！</p>
-<p>网页页面是一个万维网文档，不同主机之间的页面如何关联（交流、通信）？——如何标志？如何相互链接？怎样才能清晰表达并方便使用？ </p>
+<p>网页页面是一个万维网文档，不同主机之间的页面如何关联（交流、通信）？——如何标志？如何相互链接？怎样才能清晰表达并方便使用？</p>
 <p>Uniform Resource Locator——URL，统一资源定位器，标志网络资源在互联网哪台主机的文件目录路径下，用什么通信协议可访问。如：</p>
 <p><code>http:\\www.GDOU.edu.cn:80\default.html</code></p>
 <p><code>协议:\\主机域名:端口\网页文件名</code><br>实际中，可省略为：<a target="_blank" rel="noopener" href="http://www.gdou.edu/">www.GDOU.edu</a></p>
@@ -991,7 +1017,7 @@ N4，R2，3                                              N1，R2，3
 <p> (2)   ……</p>
 <p>教材P281实例——请求报文，解释之。  响应报文、状态码等解释之。最好现场捕捉一对HTPP请求、响应报文分析。</p>
 <p>HyperText Markup Language——实例解释“标记语言”</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>       <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span> <br>       <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>       <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>       <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>       <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>静态网页与动态网页的概念区分——引入计算能力的网页是动态网页。</p>
 <h2 id="FTP-Telnet-DHCP"><a href="#FTP-Telnet-DHCP" class="headerlink" title="FTP,Telnet,DHCP"></a>FTP,Telnet,DHCP</h2><p>文件传输要考虑双方的文件格式、命名规则、OS操作命令、访问控制方法等诸多方面的不同。</p>
@@ -1006,7 +1032,7 @@ N4，R2，3                                              N1，R2，3
 <p>发、收双方各自有自已的邮箱（mail box），邮箱之间传送电子邮件。电子邮件系统组成的主要部分，教材P294页图6-16解释之。</p>
 <p>用户代理的主要功能是撰写邮件，送到已方邮件Server中(1)，再由已方邮件Server发出，(2)通过网络送到收方邮件Server中，收方用户从已方邮件Server中读取邮件(3)。</p>
 <p>(1)用SMTP协议，(2)用SMTP协议，(3)用POP3（Post Office Protocol）。</p>
-<p>push——将撰写好的邮件“推入”自已的Server、或从已方e-mail Server   “push”到收方e-mail server，均用SMTP。 </p>
+<p>push——将撰写好的邮件“推入”自已的Server、或从已方e-mail Server   “push”到收方e-mail server，均用SMTP。</p>
 <p>pull ——将邮件从收方e-mail Srever拉出来（读取），用POP3协议。</p>
 <p>电子邮箱名称构成：   用户名@邮箱域名</p>
 <p>SMTP——TCP连接，端口号：25，双方e-mail Server之间建立连接。有一系列的命令对应操作，还有POP、IMAP，MIME（通途互联网邮件扩充）等内容，略。</p>
