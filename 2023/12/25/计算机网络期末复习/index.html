@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/9d496cc5-3b1e-4e96-8690-778b1fe45305">
 <meta property="og:image" content="https://github.com/1328411791/1328411791.GitHub.io/assets/76641537/c12cbc4a-3436-4afd-967e-ae80ffecb145">
 <meta property="article:published_time" content="2023-12-25T09:15:25.000Z">
-<meta property="article:modified_time" content="2023-12-27T14:43:22.027Z">
+<meta property="article:modified_time" content="2023-12-27T14:51:44.763Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
@@ -738,7 +738,7 @@ C类     192.168.* ——
 <p>(10) 首部校验和——16bit, 只检验首部，为的是节约（包装无损即可），方法：</p>
 <p>发方：先将本段置”0“，对首部（固定20字节），两字节（16bit）为一段，反码求和（0+0&#x3D;0,1+0&#x3D;1,0+1&#x3D;1,1+1&#x3D;10有进位，最高位有进位时，末位+1），将其结果求反，置于本段中。</p>
 <p>收方：同样进行反码求和，结果为 0 时，说明首部无差错。</p>
-<h2 id="IP分组转发过程"><a href="#IP分组转发过程" class="headerlink" title="IP分组转发过程"></a>IP分组转发过程</h2><p><img src="https://pic.liahnu.top/img/202312271558219.png" srcset="/img/loading.gif" lazyload><br>基于终点的转发：由目的IP地址确定向哪个端口转发；路由表中每一行是目的NetID与Port对应，从目的IP中找出目的Net后转发即可。见教材P141例4-2</p>
+<h2 id="IP分组转发过程"><a href="#IP分组转发过程" class="headerlink" title="IP分组转发过程"></a>IP分组转发过程</h2><p><img src="https://pic.liahnu.top/img/202312271558219.png" srcset="/img/loading.gif" lazyload><br>基于终点的转发：由目的IP地址确定向哪个端口转发；路由表中每一行是目的NetID与Port对应，从目的IP中找出目的Net后转发即可。见</p>
 <p>源IP：       128.1.2.194（1100 0100），</p>
 <p>源网络：   128.1.2(0000 0010).192(1100 0000)&#x2F;26 ，</p>
 <p>目的IP:       128.1.2.132（1000 0100），</p>
@@ -868,7 +868,8 @@ N4，R2，3                                              N1，R2，3
 <p>②      136.23.12.81&#x2F;28                136.23.12.94&#x2F;28</p>
 <p>③      136.23.12.97&#x2F;28                136.23.12.110&#x2F;28</p>
 <p>④      136.23.12.113&#x2F;28               136.23.12.126&#x2F;28</p>
-<p><strong>假设一段地址的首地址为146.102.29.0，末地址为146.102.32.255，求这个地址段的地址数。 相减加一然后乘起来</strong><br>（32-29+1）x（255-0+1） &#x3D; 1024（个）</p>
+<p><strong>假设一段地址的首地址为146.102.29.0，末地址为146.102.32.255，求这个地址段的地址数</strong></p>
+<p>相减加一然后乘起来<br>（32-29+1）x（255-0+1） &#x3D; 1024（个）</p>
 <p><strong>收到一个分组，其目的地址D &#x3D; 11.1.2.5。要查找的转发表有这样的三项：</strong><br>  路由一    到达网络 11.0.0.0&#x2F;8<br>  路由二    到达网络 11.1.0.0&#x2F;16<br>  路由三    到达网络 11.1.2.0&#x2F;24<br>试问在转发这个分组时应当选择哪一个路由？<br>根据最长前缀匹配原则，虽然三个路由都能匹配上，但是路由3是最长的，因此应该选择路由3.</p>
 <h1 id="第五章-运输层"><a href="#第五章-运输层" class="headerlink" title="第五章 运输层"></a>第五章 运输层</h1><h2 id="TCP和UDP协议"><a href="#TCP和UDP协议" class="headerlink" title="TCP和UDP协议"></a>TCP和UDP协议</h2><p>运输层的功能：实现两端主机之间的通信——UDP不用建立连接而TCP要建立。端口、套接字应用，可靠通信——ARQ（自动请求重发），流量控制。</p>
 <p>主机进程、套接字等事务：主机同时(本质上是分时操作)可进行多种计算，建立多个进程，用代号区别——进程号。通信双方主机的同一个通信，双方主机的进程号并不一定相同，如何连接起来，就需要套接（字）。流量控制、拥塞控制、连接管理，这些事务正是主机层次要完成的工作。</p>
