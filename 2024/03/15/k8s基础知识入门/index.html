@@ -23,11 +23,13 @@
 <meta property="og:site_name" content="liahnu Blogs">
 <meta property="og:description" content="前言k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。 DeploymentDeployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deploym">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202403150154123.png">
 <meta property="article:published_time" content="2024-03-14T17:44:20.000Z">
-<meta property="article:modified_time" content="2024-03-14T17:50:55.058Z">
+<meta property="article:modified_time" content="2024-03-14T17:55:45.686Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202403150154123.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -254,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2.6k 字
         
       </span>
     
@@ -265,7 +267,7 @@
         
         
         
-          6 分钟
+          9 分钟
         
       </span>
     
@@ -342,10 +344,30 @@
 <h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>        <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>        <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
 
 
-<h2 id="工作节点"><a href="#工作节点" class="headerlink" title="工作节点"></a>工作节点</h2><p>一个 pod 总是运行在 工作节点。工作节点是 Kubernetes 中的参与计算的机器，可以是虚拟机或物理计算机，具体取决于集群。每个工作节点由主节点管理。工作节点可以有多个 pod ，Kubernetes 主节点会自动处理在集群中的工作节点上调度 pod 。 主节点的自动调度考量了每个工作节点上的可用资源。</p>
+<h2 id="工作节点"><a href="#工作节点" class="headerlink" title="工作节点"></a>工作节点</h2><p>一个 pod 会运行在 工作节点。工作节点是 Kubernetes 中的参与计算的机器，可以是虚拟机或物理计算机，具体取决于集群。每个工作节点由主节点管理。工作节点可以有多个 pod ，Kubernetes 主节点会自动处理在集群中的工作节点上调度 pod 。 主节点的自动调度考量了每个工作节点上的可用资源。</p>
 <p>每个 Kubernetes 工作节点至少运行:</p>
-<p>Kubelet，负责 Kubernetes 主节点和工作节点之间通信的过程; 它管理 Pod 和机器上运行的容器。<br>容器运行时（如 Docker）负责从仓库中提取容器镜像，解压缩容器以及运行应用程序。</p>
-<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2>
+<ul>
+<li>Kubelet，负责 Kubernetes 主节点和工作节点之间通信的过程; 它管理 Pod 和机器上运行的容器。</li>
+<li>容器运行时（如 Docker）负责从仓库中提取容器镜像，解压缩容器以及运行应用程序。</li>
+</ul>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service是用来协调Pod之间的通信的。Service定义了一组Pod的逻辑集合，并为这些Pod提供一个统一的访问入口。Service可以通过标签选择器来选择Pod，这样就可以将请求转发到这些Pod上。</p>
+<p>Service有四种类型：</p>
+<ul>
+<li>ClusterIP：默认类型，Service只能在集群内部访问</li>
+<li>NodePort：Service会在每个Node上开放一个端口，外部可以通过Node的IP和端口访问Service</li>
+<li>LoadBalancer：Service会在云服务商上创建一个负载均衡器，外部可以通过负载均衡器访问Service</li>
+<li>ExternalName：Service会返回一个CNAME记录，这个记录指向Service的外部地址</li>
+</ul>
+<p>Service 匹配一组 Pod 是使用 标签(Label)和选择器(Selector), 它们是允许对 Kubernetes 中的对象进行逻辑操作的一种分组原语。标签(Label)是附加在对象上的键&#x2F;值对，可以以多种方式使用:</p>
+<ul>
+<li>指定用于开发，测试和生产的对象</li>
+<li>嵌入版本标签</li>
+<li>使用 Label 将对象进行分类<br><img src="https://pic.liahnu.top/img/202403150154123.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">selector:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">protocol:</span> <span class="hljs-string">TCP</span><br>        <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>        <span class="hljs-attr">targetPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许您根据路径或主机名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。</p>
+
                 
               </div>
             
