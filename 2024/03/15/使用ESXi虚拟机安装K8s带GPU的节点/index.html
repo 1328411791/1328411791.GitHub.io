@@ -16,28 +16,24 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="设计模式设计模式的目的是帮助我们编写可复用的代码，提高代码的耦合性。降低对其他组件的修改  单例模式迭代器模式通过构造一个迭代器来实现对元素的遍历操作 实现在java中可以使用util中提供的Iterator&lt;?&gt;接口实现，主要为 hasnext与next方法，分别判断迭代器是否有下一个和获取下一个元素。 其实java中 拓展for使用使用了迭代器模式，c++中同样存在迭代器for遍历">
+    <meta name="description" content="前言安装步骤创建虚拟机这个没啥可说，在虚拟机软件中创建虚拟机即可 注意安装的系统版本，应选择使用与安装脚本相同的系统版本 安装NVIDIA显卡驱动注意，一定要安装EXSi版本的显卡驱动，否则安装后会死机 安装docker nvidia-docker模块安装Container gpu模块因为k8s在1.24后容器由k8s换为container，因此我们需要安装container的gpu模块 安装k8">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式">
-<meta property="og:url" content="https://www.liahnu.top/2023/05/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="使用ESXi虚拟机安装K8s带GPU的节点">
+<meta property="og:url" content="https://www.liahnu.top/2024/03/15/%E4%BD%BF%E7%94%A8ESXi%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85K8s%E5%B8%A6GPU%E7%9A%84%E8%8A%82%E7%82%B9/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="设计模式设计模式的目的是帮助我们编写可复用的代码，提高代码的耦合性。降低对其他组件的修改  单例模式迭代器模式通过构造一个迭代器来实现对元素的遍历操作 实现在java中可以使用util中提供的Iterator&lt;?&gt;接口实现，主要为 hasnext与next方法，分别判断迭代器是否有下一个和获取下一个元素。 其实java中 拓展for使用使用了迭代器模式，c++中同样存在迭代器for遍历">
+<meta property="og:description" content="前言安装步骤创建虚拟机这个没啥可说，在虚拟机软件中创建虚拟机即可 注意安装的系统版本，应选择使用与安装脚本相同的系统版本 安装NVIDIA显卡驱动注意，一定要安装EXSi版本的显卡驱动，否则安装后会死机 安装docker nvidia-docker模块安装Container gpu模块因为k8s在1.24后容器由k8s换为container，因此我们需要安装container的gpu模块 安装k8">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.runoob.com/wp-content/uploads/2014/08/the-relationship-between-design-patterns.jpg">
-<meta property="og:image" content="https://pic.liahnu.top/img/202305082019449.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202305082020330.png">
-<meta property="article:published_time" content="2023-05-08T11:37:01.000Z">
-<meta property="article:modified_time" content="2024-03-15T06:59:37.045Z">
+<meta property="article:published_time" content="2024-03-15T07:01:34.000Z">
+<meta property="article:modified_time" content="2024-03-15T07:08:43.998Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="设计模式">
+<meta property="article:tag" content="运维，k8s">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.runoob.com/wp-content/uploads/2014/08/the-relationship-between-design-patterns.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>设计模式 - liahnu Blogs</title>
+  <title>使用ESXi虚拟机安装K8s带GPU的节点 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="设计模式"></span>
+            <span id="subtitle" data-typed-text="使用ESXi虚拟机安装K8s带GPU的节点"></span>
           
         </div>
 
@@ -246,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-08 19:37" pubdate>
-          2023年5月8日 晚上
+        <time datetime="2024-03-15 15:01" pubdate>
+          2024年3月15日 下午
         </time>
       </span>
     
@@ -258,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          465 字
+          1.3k 字
         
       </span>
     
@@ -269,7 +265,7 @@
         
         
         
-          2 分钟
+          5 分钟
         
       </span>
     
@@ -315,7 +311,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">设计模式</h1>
+            <h1 style="display: none">使用ESXi虚拟机安装K8s带GPU的节点</h1>
             
               <p class="note note-info">
                 
@@ -328,24 +324,11 @@
             
               <div class="markdown-body">
                 
-                <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><p>设计模式的目的是帮助我们编写可复用的代码，提高代码的耦合性。降低对其他组件的修改</p>
-<p><img src="https://www.runoob.com/wp-content/uploads/2014/08/the-relationship-between-design-patterns.jpg" srcset="/img/loading.gif" lazyload></p>
-<h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><h1 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h1><p>通过构造一个迭代器来实现对元素的遍历操作</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>在java中可以使用util中提供的<code>Iterator&lt;?&gt;</code>接口实现，主要为 hasnext与next方法，分别判断迭代器是否有下一个和获取下一个元素。</p>
-<p>其实java中 拓展for使用使用了迭代器模式，c++中同样存在迭代器for遍历。</p>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
-<li>引入迭代器后，可以使遍历与实现分离开，不暴露该对象的内部表示。</li>
-</ol>
-<h1 id="Adapter模式-（适配器模式）"><a href="#Adapter模式-（适配器模式）" class="headerlink" title="Adapter模式 （适配器模式）"></a>Adapter模式 （适配器模式）</h1><p>Adapter模式又称为Wrapper模式，其设计模式的目的是实现两个对象间的互相转换，主要有以下两种</p>
-<ol>
-<li>类适配器模式</li>
-<li>对象适配器模式</li>
-</ol>
-<h2 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h2><p>类适配器模式是实现类与接口间实现对接的方式。通过中间类 Banner 类继承对象和实现接口的相关功能实现</p>
-<p><img src="https://pic.liahnu.top/img/202305082019449.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h2><p>对象适配器模式是实现对类与类间实现对接的方式。由于java中只能单继承，通过中间类 Banner 类继承一个类和保存对象，实现对数据处理的转交。</p>
-<p><img src="https://pic.liahnu.top/img/202305082020330.png" srcset="/img/loading.gif" lazyload></p>
-<h1 id="Template-Method-模式-（模板方式模式）"><a href="#Template-Method-模式-（模板方式模式）" class="headerlink" title="Template Method 模式 （模板方式模式）"></a>Template Method 模式 （模板方式模式）</h1>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h1><h2 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h2><p>这个没啥可说，在虚拟机软件中创建虚拟机即可</p>
+<p>注意安装的系统版本，应选择使用与安装脚本相同的系统版本</p>
+<h2 id="安装NVIDIA显卡驱动"><a href="#安装NVIDIA显卡驱动" class="headerlink" title="安装NVIDIA显卡驱动"></a>安装NVIDIA显卡驱动</h2><p><strong>注意，一定要安装EXSi版本的显卡驱动，否则安装后会死机</strong></p>
+<h2 id="安装docker-nvidia-docker模块"><a href="#安装docker-nvidia-docker模块" class="headerlink" title="安装docker nvidia-docker模块"></a>安装docker nvidia-docker模块</h2><h2 id="安装Container-gpu模块"><a href="#安装Container-gpu模块" class="headerlink" title="安装Container gpu模块"></a>安装Container gpu模块</h2><p>因为k8s在1.24后容器由k8s换为container，因此我们需要安装container的gpu模块</p>
+<h2 id="安装k8s"><a href="#安装k8s" class="headerlink" title="安装k8s"></a>安装k8s</h2><h2 id="配置k8s上安装NVIDIA显卡驱动插件"><a href="#配置k8s上安装NVIDIA显卡驱动插件" class="headerlink" title="配置k8s上安装NVIDIA显卡驱动插件"></a>配置k8s上安装NVIDIA显卡驱动插件</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">DaemonSet</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">nvidia-device-plugin-daemonset</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">kube-system</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">name:</span> <span class="hljs-string">nvidia-device-plugin-ds</span><br>  <span class="hljs-attr">updateStrategy:</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">RollingUpdate</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">name:</span> <span class="hljs-string">nvidia-device-plugin-ds</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">tolerations:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">nvidia.com/gpu</span><br>        <span class="hljs-attr">operator:</span> <span class="hljs-string">Exists</span><br>        <span class="hljs-attr">effect:</span> <span class="hljs-string">NoSchedule</span><br>      <span class="hljs-comment"># Mark this pod as a critical add-on; when enabled, the critical add-on</span><br>      <span class="hljs-comment"># scheduler reserves resources for critical add-on pods so that they can</span><br>      <span class="hljs-comment"># be rescheduled after a failure.</span><br>      <span class="hljs-comment"># See https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/</span><br>      <span class="hljs-attr">nodeSelector:</span><br>        <span class="hljs-attr">gpu:</span> <span class="hljs-string">&quot;true&quot;</span><br>      <span class="hljs-attr">priorityClassName:</span> <span class="hljs-string">&quot;system-node-critical&quot;</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">nvcr.io/nvidia/k8s-device-plugin:v0.14.3</span><br>        <span class="hljs-attr">name:</span> <span class="hljs-string">nvidia-device-plugin-ctr</span><br>        <span class="hljs-attr">env:</span><br>          <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">FAIL_ON_INIT_ERROR</span><br>            <span class="hljs-attr">value:</span> <span class="hljs-string">&quot;false&quot;</span><br>        <span class="hljs-attr">securityContext:</span><br>          <span class="hljs-attr">allowPrivilegeEscalation:</span> <span class="hljs-literal">false</span><br>          <span class="hljs-attr">capabilities:</span><br>            <span class="hljs-attr">drop:</span> [<span class="hljs-string">&quot;ALL&quot;</span>]<br>        <span class="hljs-attr">volumeMounts:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">device-plugin</span><br>          <span class="hljs-attr">mountPath:</span> <span class="hljs-string">/var/lib/kubelet/device-plugins</span><br>      <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">device-plugin</span><br>        <span class="hljs-attr">hostPath:</span><br>          <span class="hljs-attr">path:</span> <span class="hljs-string">/var/lib/kubelet/device-plugins</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -357,7 +340,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        <a href="/tags/%E8%BF%90%E7%BB%B4%EF%BC%8Ck8s/">#运维，k8s</a>
       
     </div>
   
@@ -369,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>设计模式</div>
-      <div>https://www.liahnu.top/2023/05/08/设计模式/</div>
+      <div>使用ESXi虚拟机安装K8s带GPU的节点</div>
+      <div>https://www.liahnu.top/2024/03/15/使用ESXi虚拟机安装K8s带GPU的节点/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +365,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月8日</div>
+          <div>2024年3月15日</div>
         </div>
       
       
@@ -414,18 +397,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/06/19/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="MySQL InnoDB存储引擎">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL InnoDB存储引擎</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E4%B8%8E%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%AC%94%E8%AE%B0/" title="计算机组成与设计-第二章-笔记">
-                        <span class="hidden-mobile">计算机组成与设计-第二章-笔记</span>
+                      <a href="/2023/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">
+                        <span class="hidden-mobile">计算机网络期末复习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
