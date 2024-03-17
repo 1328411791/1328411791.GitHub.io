@@ -1,0 +1,824 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/icon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liahnu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基础简介AOP，全称Aspect Oriented Programming，中文是“面向切面编程”，是一种可以在不修改原来的核心代码的情况下给程序动态统一进行增强的一种技术。 SpringAOP: 批量对Spring容器中bean的方法做增强，并且这种增强不会与原来方法中的代码耦合 AOP最基本的运用是将原有的函数与附加函数进行解耦合操作，使其能够对原有代码进行增强； 简单使用Spring AOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring AOP的基础使用">
+<meta property="og:url" content="https://www.liahnu.top/2024/01/17/Spring-AOP%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="liahnu Blogs">
+<meta property="og:description" content="基础简介AOP，全称Aspect Oriented Programming，中文是“面向切面编程”，是一种可以在不修改原来的核心代码的情况下给程序动态统一进行增强的一种技术。 SpringAOP: 批量对Spring容器中bean的方法做增强，并且这种增强不会与原来方法中的代码耦合 AOP最基本的运用是将原有的函数与附加函数进行解耦合操作，使其能够对原有代码进行增强； 简单使用Spring AOP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-17T10:17:36.000Z">
+<meta property="article:modified_time" content="2024-03-17T10:36:09.110Z">
+<meta property="article:author" content="liahnu">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Spring AOP的基础使用 - liahnu Blogs</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.liahnu.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>liahnu Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Spring AOP的基础使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        liahnu
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-17 18:17" pubdate>
+          2024年1月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring AOP的基础使用</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2024年3月17日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h1><p>AOP，全称Aspect Oriented Programming，中文是“面向切面编程”，<br>是一种可以在不修改原来的核心代码的情况下给程序动态统一进行增强的一种技术。</p>
+<p>SpringAOP: 批量对Spring容器中bean的方法做增强，并且这种增强不会与原来方法中的代码耦合</p>
+<p>AOP最基本的运用是将原有的函数与附加函数进行解耦合操作，使其能够对原有代码进行增强；</p>
+<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><h2 id="Spring-AOP-安装"><a href="#Spring-AOP-安装" class="headerlink" title="Spring AOP 安装"></a>Spring AOP 安装</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 引入aop支持 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-aop<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="引入切面组件，并注册为Bean"><a href="#引入切面组件，并注册为Bean" class="headerlink" title="引入切面组件，并注册为Bean"></a>引入切面组件，并注册为Bean</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>  <br><span class="hljs-meta">@Aspect</span>  <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AOPAspect</span> &#123;  <br><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="创建切点方法（-Pointcut）"><a href="#创建切点方法（-Pointcut）" class="headerlink" title="创建切点方法（@Pointcut）"></a>创建切点方法（@Pointcut）</h2><p>我们需要知道哪些方法需要被增强，因此需要创建一个空方法加上@Pointcut注解来指定切点（也就是指出什么方法需要被增强）</p>
+<p>切点主要有三种方式</p>
+<ul>
+<li>切点表达式：表明应该做切面的方法</li>
+<li>使用自定义注解：见下文</li>
+</ul>
+<h2 id="使用切点表达式方式"><a href="#使用切点表达式方式" class="headerlink" title="使用切点表达式方式"></a>使用切点表达式方式</h2><p>格式下文</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-built_in">execution</span>([可见性]返回类型[声明类型].包名.类名.方法名(参数)<span class="hljs-selector-attr">[异常]</span>)，其中<span class="hljs-selector-attr">[]</span>内的是可选的<br>* com<span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.demo</span><span class="hljs-selector-class">.service</span>.*<span class="hljs-selector-class">.start</span>*()<br></code></pre></td></tr></table></figure>
+<p>例子中切点标记为 com.example.demo.service 包下所有类 、start开头的方法、无参数 任意返回值 </p>
+<h2 id="使用自定义注解做驱动"><a href="#使用自定义注解做驱动" class="headerlink" title="使用自定义注解做驱动"></a>使用自定义注解做驱动</h2><h3 id="定义一个自定义注解"><a href="#定义一个自定义注解" class="headerlink" title="定义一个自定义注解"></a>定义一个自定义注解</h3><p>使用注解首先先要定义一个自定义注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>  <br><span class="hljs-meta">@Target(ElementType.METHOD)</span> <span class="hljs-comment">// 指定在方法上生效  </span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Invoke &#123;  <br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Retention这个元注解定义了注解的保留策略，即注解在什么级别有效。它有三个参数：</p>
+<ul>
+<li>RetentionPolicy.SOURCE（注解只在源代码中保留，编译时会被忽略），</li>
+<li>RetentionPolicy.CLASS（注解在类文件中保留，但在运行时会被忽略），</li>
+<li>RetentionPolicy.RUNTIME（注解在类文件中保留，且在运行时可以通过反射机制获取）。</li>
+</ul>
+<p>Target这个元注解定义了注解可以应用的目标。它的参数包括：</p>
+<ul>
+<li>ElementType.TYPE（可以应用于类、接口或枚举）</li>
+<li>ElementType.FIELD（可以应用于字段）</li>
+<li>ElementType.METHOD（可以应用于方法）</li>
+</ul>
+<p>初次之外，常用的元注解还有：<br>@Documented：这个元注解表明，如果一个类型使用了被@Documented注解的注解，那么这个注解将被包含在JavaDoc中。<br>@Inherited：这个元注解表明，如果一个超类使用了被@Inherited注解的注解，那么它的子类将自动继承这个注解。<br>@Repeatable：这个元注解表明，被@Repeatable注解的注解可以在同一个声明上多次使用。</p>
+<h3 id="切面设置注解"><a href="#切面设置注解" class="headerlink" title="切面设置注解"></a>切面设置注解</h3><p>在切点上指明切点为一个注解即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Pointcut(&quot;@annotation(org.talang.wabackend.aop.annotation.RateLimiter)&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pointcut</span><span class="hljs-params">()</span> &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="从反射获取注解"><a href="#从反射获取注解" class="headerlink" title="从反射获取注解"></a>从反射获取注解</h3><p>在Spring AOP（面向切面编程）中，ProceedingJoinPoint是JoinPoint的一个子接口，它用于环绕通知（around advice）。</p>
+<p>通过ProceedingJoinPoint参数,可以获取到对应注解的方法，从方法反射从而获取到</p>
+<p>ProceedingJoinPoint提供了proceed()方法，这个方法就是用来触发目标方法执行的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">around</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>    <span class="hljs-comment">// 获取方法上的注解</span><br>    <span class="hljs-type">MethodSignature</span> <span class="hljs-variable">signature</span> <span class="hljs-operator">=</span> (MethodSignature) joinPoint.getSignature();<br><br>    <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> signature.getMethod();<br>    <span class="hljs-comment">// 获取注解</span><br>    <span class="hljs-type">RateLimiter</span> <span class="hljs-variable">annotation</span> <span class="hljs-operator">=</span> method.getAnnotation(RateLimiter.class);<br><br>    <span class="hljs-keyword">return</span> joinPoint.proceed();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>下面是一个关于AOP关于限流策略相关功能</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> RateLimiter &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流的key</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@NotNull</span><br>    String <span class="hljs-title function_">key</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流的类型</span><br><span class="hljs-comment">     */</span><br>    RateType <span class="hljs-title function_">rateType</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> RateType.OVERALL;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流的时间</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">count</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流的次数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">period</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流的单位</span><br><span class="hljs-comment">     */</span><br>    RateIntervalUnit <span class="hljs-title function_">rateTimeUnit</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> RateIntervalUnit.SECONDS;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 许可证获取数量</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">permits</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 许可证获取超时时间</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">long</span> <span class="hljs-title function_">timeout</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-number">3</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 许可证获取超时时间单位</span><br><span class="hljs-comment">     */</span><br>    TimeUnit <span class="hljs-title function_">timeUnit</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> TimeUnit.SECONDS;<br><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Aspect</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RedisRateLimiterAspect</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">LIMIT_KEY_PREFIX</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;limit:&quot;</span>;<br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> Redisson redisson;<br><br>    <span class="hljs-meta">@Pointcut(&quot;@annotation(org.talang.wabackend.aop.annotation.RateLimiter)&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">pointcut</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br><br>    <span class="hljs-meta">@Around(&quot;pointcut()&quot;)</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">around</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br><br>        <span class="hljs-type">ServletRequestAttributes</span> <span class="hljs-variable">requestAttributes</span> <span class="hljs-operator">=</span> (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();<br><br>        <span class="hljs-type">String</span> <span class="hljs-variable">ip</span> <span class="hljs-operator">=</span> requestAttributes.getRequest().getRemoteAddr();<br>        log.info(<span class="hljs-string">&quot;进入限流切面,ip:&#123;&#125;&quot;</span>, ip);<br>        <span class="hljs-comment">// 获取方法上的注解</span><br>        <span class="hljs-type">MethodSignature</span> <span class="hljs-variable">signature</span> <span class="hljs-operator">=</span> (MethodSignature) joinPoint.getSignature();<br><br>        <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> signature.getMethod();<br><br>        <span class="hljs-type">RateLimiter</span> <span class="hljs-variable">annotation</span> <span class="hljs-operator">=</span> method.getAnnotation(RateLimiter.class);<br><br><br>        <span class="hljs-type">String</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> annotation.key();<br><br>        <span class="hljs-type">String</span> <span class="hljs-variable">redisKey</span> <span class="hljs-operator">=</span> LIMIT_KEY_PREFIX + key;<br>        <span class="hljs-type">RRateLimiter</span> <span class="hljs-variable">rateLimiter</span> <span class="hljs-operator">=</span> redisson.getRateLimiter(redisKey);<br>        <span class="hljs-comment">// 初始化</span><br><br>        rateLimiter.trySetRate(annotation.rateType(), annotation.count(), annotation.period(), annotation.rateTimeUnit());<br><br>        <span class="hljs-comment">// 尝试获取锁</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">tryAcquire</span> <span class="hljs-operator">=</span> rateLimiter.tryAcquire(annotation.permits(), annotation.timeout(), TimeUnit.SECONDS);<br>        <span class="hljs-keyword">if</span> (!tryAcquire) &#123;<br>            log.error(<span class="hljs-string">&quot;获取锁失败,IP:&#123;&#125;,key:&#123;&#125;&quot;</span>, ip, key);<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessException</span>(BusinessErrorCode.RATE_LIMITER_ERROR, <span class="hljs-string">&quot;获取锁失败,请稍后再试&quot;</span>);<br><br>        &#125;<br>        <span class="hljs-keyword">return</span> joinPoint.proceed();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="在增强的方法指定通知类型"><a href="#在增强的方法指定通知类型" class="headerlink" title="在增强的方法指定通知类型"></a>在增强的方法指定通知类型</h2><p><strong>通知类型：</strong>即要在被增强函数执行的哪个时候执行（例子里用的是方法执行前执行，其实还有很多）<br>通知类型有以下几种类型：</p>
+<ul>
+<li>@Before：前置通知,在目标方法执行前执行</li>
+<li>@AfterReturning： 返回后通知，在目标方法执行后执行，如果出现异常不会执行</li>
+<li>@After：后置通知，在目标方法之后执行，无论是否出现异常都会执行</li>
+<li>@AfterThrowing：异常通知，在目标方法抛出异常后执行</li>
+<li>@Around：环绕通知，围绕着目标方法执行</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Spring AOP的基础使用</div>
+      <div>https://www.liahnu.top/2024/01/17/Spring-AOP的基础使用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>liahnu</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/15/%E4%BD%BF%E7%94%A8ESXi%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85K8s%E5%B8%A6GPU%E7%9A%84%E8%8A%82%E7%82%B9/" title="使用ESXi虚拟机安装K8s带GPU的节点">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用ESXi虚拟机安装K8s带GPU的节点</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">
+                        <span class="hidden-mobile">计算机网络期末复习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"1328411791/1328411791.GitHub.io","repo-id":"R_kgDOGe77Hw","category":"General","category-id":"DIC_kwDOGe77H84CSknh","theme-light":"light","theme-dark":"dark","mapping":"title","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP备2023007052号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2023007052"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤ICP备2023007052号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
