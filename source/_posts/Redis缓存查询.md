@@ -156,3 +156,53 @@ Write Behind Caching Pattern ：调用者只操作缓存，其他线程去异步
 
 **逻辑过期方案：** 线程读取过程中不需要等待，性能好，有一个额外的线程持有锁去进行重构数据，但是在重构数据完成前，其他的线程只能返回之前的数据，且实现起来麻烦
 
+# 缓存框架模板
+
+根据上面所写的方案，编写一个相关的模板类
+缓存击穿问题，采用了互斥锁的方案完成
+缓存雪崩对不同节点的TTL设置随机值
+缓存穿透采用布隆过滤器实现
+
+```java
+public <ID, R> R queryWithPassThrough(final String prefix, ID id
+      , Function<ID, R> fallback, Long time, TimeUnit timeUnit) throws InterruptedException {
+  String redisKey = prefix + id;
+
+  R result = redisCache.getCacheObject(redisKey);
+
+  if (result != null) {
+      // 缓存命中
+      return result;
+  }
+
+  // 缓存未命中
+  if (bloomFilter.contains(redisKey)) {
+      // 布隆过滤器未命中
+      return null;
+  }
+
+  // 设置分布式锁
+  RLock lock = redisson.getLock("lock:" + redisKey);
+  // 设置锁超时时间，防止死锁
+  if (!lock.tryLock(20, TimeUnit.SECONDS)) {
+      // 获取锁失败
+      Thread.sleep(100);
+      return queryWithPassThrough(prefix, id, fallback, time, timeUnit);
+  }
+
+  // 查询数据库
+  result = fallback.apply(id);
+
+  if (result != null) {
+      // 将查询结果放入缓存,防止缓存雪崩
+      long randomTime = RandomUtil.randomLong(60, 300);
+      long relayTime = TimeUnit.SECONDS.convert(time, timeUnit) + randomTime;
+      redisCache.setCacheObject(redisKey, result, relayTime, TimeUnit.SECONDS);
+      bloomFilter.add(redisKey);
+  }
+
+  return result;
+}
+
+```
+
