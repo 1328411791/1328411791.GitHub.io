@@ -24,7 +24,7 @@
 <meta property="og:description" content="JavaList、Set、Map的区别 List：有序，可重复，底层是数组（或链表） Set：无序，不可重复，底层是哈希表 Map：无序，key不可重复，value可重复，底层是哈希表  ListArrayList和LinkedList的区别 ArrayList：底层是数组，查询快，增删慢 LinkedList：底层是链表，查询慢，增删快  HashMap和HashTable的区别 HashMap">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-20T08:48:12.410Z">
+<meta property="article:modified_time" content="2024-03-20T08:50:10.920Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Redis">
 <meta property="article:tag" content="Java">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.7k 字
+          5.3k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          15 分钟
+          17 分钟
         
       </span>
     
@@ -364,7 +364,33 @@
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
 <p>如何解决内存泄漏问题？使用完ThreadLocal后，及时调用remove()方法释放内存空间。</p>
-<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="乐观锁悲观锁"><a href="#乐观锁悲观锁" class="headerlink" title="乐观锁悲观锁"></a>乐观锁悲观锁</h2><ul>
+<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="线程池原理？各个参数的作用"><a href="#线程池原理？各个参数的作用" class="headerlink" title="线程池原理？各个参数的作用"></a>线程池原理？各个参数的作用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">ThreadPoolExecutor</span><span class="hljs-params">(<span class="hljs-type">int</span> corePoolSize, <span class="hljs-type">int</span> maximumPoolSize,<span class="hljs-type">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="hljs-params">   BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="hljs-params">   ThreadFactory threadFactory,</span><br><span class="hljs-params">   RejectedExecutionHandler handler)</span> <br></code></pre></td></tr></table></figure>
+
+<p><strong>几个核心参数的作用：</strong></p>
+<ul>
+<li>corePoolSize：线程池核心线程数最大值</li>
+<li>maximumPoolSize：线程池最大线程数大小</li>
+<li>keepAliveTime：线程池中非核心线程空闲的存活时间大小</li>
+<li>unit：线程空闲存活时间单位</li>
+<li>workQueue：存放任务的阻塞队列</li>
+<li>threadFactory：用于设置创建线程的工厂，可以给创建的线程设置有意义的名字，可方便排查问题。</li>
+<li>handler： 线城池的饱和策略事件，主要有四种类型。</li>
+</ul>
+<p><strong>四种饱和拒绝策略</strong></p>
+<ul>
+<li>AbortPolicy(抛出一个异常，默认的)</li>
+<li>DiscardPolicy(直接丢弃任务)</li>
+<li>DiscardOldestPolicy（丢弃队列里最老的任务，将当前这个任务继续提交给线程池）</li>
+<li>CallerRunsPolicy（交给线程池调用所在的线程进行处理)</li>
+</ul>
+<p><strong>工作队列的类型</strong></p>
+<ul>
+<li>ArrayBlockingQueue：基于数组的有界阻塞队列</li>
+<li>LinkedBlockingQueue：基于链表的有界阻塞队列</li>
+<li>SynchronousQueue：不存储元素的阻塞队列</li>
+<li>PriorityBlockingQueue：具有优先级的无界阻塞队列</li>
+</ul>
+<h2 id="乐观锁悲观锁"><a href="#乐观锁悲观锁" class="headerlink" title="乐观锁悲观锁"></a>乐观锁悲观锁</h2><ul>
 <li>乐观锁：乐观锁是一种乐观的思想，它认为并发访问的情况是比较少的，所以在读取数据的时候不加锁，只在更新数据的时候加锁，这样可以提高并发访问的效率。</li>
 <li>悲观锁：悲观锁是一种悲观的思想，它认为并发访问的情况是比较多的，所以在读取数据的时候加锁，这样可以保证并发访问的安全性。</li>
 </ul>
