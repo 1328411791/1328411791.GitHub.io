@@ -16,23 +16,26 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="volatile在多线程并发编程中synchronized和volatile都扮演着重要的角色，相较于synchronized，volatile更加轻量级，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能同时读到这个修改的值。 volatile变量修饰的共享变量进行写操作的时候会使用处理器提供的Lock指令，将这个变量所在缓存行的数据写回到系">
+    <meta name="description" content="前言k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。 DeploymentDeployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deploym">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java并发机制的底层实现">
-<meta property="og:url" content="https://www.liahnu.top/2024/03/18/Java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:title" content="k8s基础知识入门">
+<meta property="og:url" content="https://www.liahnu.top/2024/03/15/k8s%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="volatile在多线程并发编程中synchronized和volatile都扮演着重要的角色，相较于synchronized，volatile更加轻量级，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能同时读到这个修改的值。 volatile变量修饰的共享变量进行写操作的时候会使用处理器提供的Lock指令，将这个变量所在缓存行的数据写回到系">
+<meta property="og:description" content="前言k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。 DeploymentDeployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deploym">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-18T08:56:36.000Z">
-<meta property="article:modified_time" content="2024-03-18T14:06:05.310Z">
+<meta property="og:image" content="https://pic.liahnu.top/img/202403150154123.png">
+<meta property="article:published_time" content="2024-03-14T17:44:20.000Z">
+<meta property="article:modified_time" content="2024-03-20T05:07:22.497Z">
 <meta property="article:author" content="liahnu">
+<meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202403150154123.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Java并发机制的底层实现 - liahnu Blogs</title>
+  <title>k8s基础知识入门 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -225,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Java并发机制的底层实现"></span>
+            <span id="subtitle" data-typed-text="k8s基础知识入门"></span>
           
         </div>
 
@@ -241,8 +244,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-18 16:56" pubdate>
-          2024年3月18日 下午
+        <time datetime="2024-03-15 01:44" pubdate>
+          2024年3月15日 凌晨
         </time>
       </span>
     
@@ -253,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          2.7k 字
         
       </span>
     
@@ -264,7 +267,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -310,12 +313,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Java并发机制的底层实现</h1>
+            <h1 style="display: none">k8s基础知识入门</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月18日 晚上
+                    本文最后更新于：2024年3月20日 下午
                   
                 
               </p>
@@ -323,31 +326,48 @@
             
               <div class="markdown-body">
                 
-                <h1 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h1><p>在多线程并发编程中synchronized和volatile都扮演着重要的角色，相较于synchronized，volatile更加轻量级，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能同时读到这个修改的值。</p>
-<p>volatile变量修饰的共享变量进行写操作的时候会使用处理器提供的Lock指令，将这个变量所在缓存行的数据写回到系统内存。但在多核处理器下，写回内存不能保证其他核缓存一致。所以，在多处理器下，为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，会重新从系统内存中把数据读到处理器缓存里。Lock信号还有一种机制是利用总线锁，在总线上声言LOCK#信号。</p>
-<p>volatile 关键字能保证数据的可见性，但不能保证数据的原子性。</p>
-<h2 id="volatile的优化"><a href="#volatile的优化" class="headerlink" title="volatile的优化"></a>volatile的优化</h2><p>CPU在读内存时一次读一个块（cache line 缓存行），64字节，因为读取一个数据后往往会读它相邻的数据。</p>
-<p>在X86上，CPU一般的告诉缓存是64个字节宽，不能填充部分缓存行，如果队列的头节点和尾节点都不足64字节的话，处理器会将它们都读到同一个高速缓存行中，在多处理器下每个处理器都会缓存同样的头、尾节点，当一个处理器试图修改头节点时，会将整个缓存行锁定，那么在缓存一致性机制的作用下，会导致其他处理器不能访问自己高速缓存中的尾节点，而队列的入队和出队操作则需要不停修改头节点和尾节点，所以在多处理器的情况下将会严重影响到队列的入队和出队效率。</p>
-<p>在Java 7中，它会自动淘汰或重新排列无用字段，需要使用其他追加字节的方式。</p>
-<h1 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h1><p>相较于volatile关键字，synchronized会更加重量级一点，它是Java中最基本的同步手段，它保证了线程的安全性，但是它的性能开销也是比较大的。</p>
-<p>synchronized主要有三种用法：</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。</p>
+<h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>Deployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deployment 后，Kubernetes master 将应用程序实例调度到集群中的各个节点上。</p>
+<p>创建应用程序实例后，Kubernetes Deployment 控制器会持续监视这些实例。 如果托管实例的节点关闭或被删除，则 Deployment 控制器会将该实例替换为集群中另一个节点上的实例。 这提供了一种自我修复机制来解决机器故障维护问题。</p>
+<p>在没有 Kubernetes 这种编排系统之前，安装脚本通常用于启动应用程序，但它们不允许从机器故障中恢复。通过创建应用程序实例并使它们在节点之间运行， Kubernetes Deployments 提供了一种与众不同的应用程序管理方法。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>          <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>          <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>          <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>      <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="Pods"><a href="#Pods" class="headerlink" title="Pods"></a>Pods</h2><p>Pod 是 Kubernetes 抽象出来的，表示一组一个或多个应用程序容器（如 Docker），以及这些容器的一些共享资源。这些资源包括:</p>
 <ul>
-<li>修饰实例方法</li>
-<li>修饰静态方法</li>
-<li>修饰同步方法块中的对象</li>
+<li>共享存储，当作卷</li>
+<li>网络，作为唯一的集群 IP 地址</li>
+<li>有关每个容器如何运行的信息，例如容器镜像版本或要使用的特定端口。</li>
 </ul>
-<p>synchronized的实现是基于对象头中的Mark Word和锁记录来实现的，当一个线程获取锁的时候，会在锁记录中记录锁的持有者，当锁被释放的时候，会清空锁记录中的持有者信息。synchronized代码块的同步是通过monitorenter和monitorexit指令来实现的，而方法同步是另一种发放实现的。</p>
-<h2 id="锁升级的过程"><a href="#锁升级的过程" class="headerlink" title="锁升级的过程"></a>锁升级的过程</h2><p>对于同一问题的处理，并不一定是创建的线程数量越多，执行越快，这是由于线程有创建和上下文切换的开销。而锁的上下文消耗尤为严重，因此JDK6对锁进行了优化。</p>
-<p>JDK 1.6引入了偏向锁和轻量级锁，从而让锁拥有了四个状态：无锁状态（unlocked）、偏向锁状态（biasble）、轻量级锁状态（lightweight locked）和重量级锁状态（inflated）。这几个状态会随着竞争逐渐升级，锁可以升级但不能降级。</p>
-<h1 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h1><p>CAS操作是一种乐观锁的实现方式，它的实现是基于CPU的原子操作指令，当一个线程获取锁的时候，会尝试使用CAS操作来获取锁，如果CAS操作失败，那么就会尝试重新获取锁，直到获取锁成功。</p>
-<p>CAS中文名为比较并交换，它是一种无锁的实现方式，它的实现是基于CPU的原子操作指令，当一个线程获取锁的时候，会检查数值</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h3><p>ABA问题是指在CAS操作中，如果一个线程在获取锁的时候，另一个线程将锁的值从A改为B，然后再改回A，在使用CAS进行检查时，会发现数值没有变化，但实际上发生了变化，这就是ABA问题。</p>
-<p>解决ABA问题的方式是使用版本号，每次修改数值的时候，都会修改版本号，这样在使用CAS进行检查的时候，就可以检查版本号是否发生变化。</p>
-<h3 id="循环时间长开销大"><a href="#循环时间长开销大" class="headerlink" title="循环时间长开销大"></a>循环时间长开销大</h3><p>CAS操作是一种乐观锁的实现方式，它的实现是基于CPU的原子操作指令，当一个线程获取锁的时候，会尝试使用CAS操作来获取锁，如果CAS操作失败，那么就会尝试重新获取锁，直到获取锁成功。但是在多线程竞争激烈的情况下，会导致CAS操作的循环时间长，开销大。</p>
-<h3 id="只能保证一个共享变量的原子操作"><a href="#只能保证一个共享变量的原子操作" class="headerlink" title="只能保证一个共享变量的原子操作"></a>只能保证一个共享变量的原子操作</h3><p>CAS操作只能保证一个共享变量的原子操作，对多个变量进行操作时，CAS无法保证原子性。如果要保证多个共享变量的原子操作，就需要使用synchronized关键字。</p>
-<h2 id="各种锁的对比"><a href="#各种锁的对比" class="headerlink" title="各种锁的对比"></a>各种锁的对比</h2><h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>偏向锁是一种针对加锁操作的优化手段，它的目标是减少无竞争的情况下，减少不必要的轻量级锁和重量级锁的开销。偏向锁的实现是基于CAS操作的，当一个线程获取锁的时候，会在对象头中的Mark Word中记录锁的持有者，当另一个线程获取锁的时候，会检查Mark Word中的持有者信息，如果是自己，那么就可以直接获取锁，如果不是自己，那么就会尝试使用CAS操作来获取锁。</p>
-<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>轻量级锁是一种针对竞争不激烈的情况下的优化手段，它的目标是减少重量级锁的开销。轻量级锁又称为自旋锁、无锁、自适应自旋，运行在用户态。轻量级锁的实现是基于CAS操作的，当一个线程获取锁的时候，会在对象头中的Mark Word中记录锁的持有者，当另一个线程获取锁的时候，会检查Mark Word中的持有者信息，如果是自己，那么就可以直接获取锁，如果不是自己，那么就会尝试使用CAS操作来获取锁，如果CAS操作失败，那么就会升级为重量级锁。</p>
-<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>重量级锁是一种针对竞争激烈的情况下的优化手段，它的目标是保证线程的安全性。重量级锁的实现是基于操作系统的互斥量来实现的，当一个线程获取锁的时候，会将锁的状态设置为锁定状态，当另一个线程获取锁的时候，会检查锁的状态，如果是锁定状态，那么就会进入等待队列，等待锁的释放。</p>
+<p>Pod 为特定于应用程序的“逻辑主机”建模，并且可以包含相对紧耦合的不同应用容器。例如，Pod 可能既包含带有 Node.js 应用的容器，也包含另一个不同的容器，用于提供 Node.js 网络服务器要发布的数据。Pod 中的容器共享 IP 地址和端口，<strong>始终位于同一位置并且共同调度</strong>，并在同一工作节点上的共享上下文中运行。</p>
+<p>Pod是 Kubernetes 平台上的原子单元。 当我们在 Kubernetes 上创建 Deployment 时，该 Deployment 会在其中创建包含容器的 Pod （而不是直接创建容器）。每个 Pod 都与调度它的工作节点绑定，并保持在那里直到终止（根据重启策略）或删除。 如果工作节点发生故障，则会在集群中的其他可用工作节点上调度相同的 Pod。</p>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>        <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>        <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="工作节点"><a href="#工作节点" class="headerlink" title="工作节点"></a>工作节点</h2><p>一个 pod 会运行在 工作节点。工作节点是 Kubernetes 中的参与计算的机器，可以是虚拟机或物理计算机，具体取决于集群。每个工作节点由主节点管理。工作节点可以有多个 pod ，Kubernetes 主节点会自动处理在集群中的工作节点上调度 pod 。 主节点的自动调度考量了每个工作节点上的可用资源。</p>
+<p>每个 Kubernetes 工作节点至少运行:</p>
+<ul>
+<li>Kubelet，负责 Kubernetes 主节点和工作节点之间通信的过程; 它管理 Pod 和机器上运行的容器。</li>
+<li>容器运行时（如 Docker）负责从仓库中提取容器镜像，解压缩容器以及运行应用程序。</li>
+</ul>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service是用来协调Pod之间的通信的。Service定义了一组Pod的逻辑集合，并为这些Pod提供一个统一的访问入口。Service可以通过标签选择器来选择Pod，这样就可以将请求转发到这些Pod上。</p>
+<p>Service有四种类型：</p>
+<ul>
+<li>ClusterIP：默认类型，Service只能在集群内部访问</li>
+<li>NodePort：Service会在每个Node上开放一个端口，外部可以通过Node的IP和端口访问Service</li>
+<li>LoadBalancer：Service会在云服务商上创建一个负载均衡器，外部可以通过负载均衡器访问Service</li>
+<li>ExternalName：Service会返回一个CNAME记录，这个记录指向Service的外部地址</li>
+</ul>
+<p>Service 匹配一组 Pod 是使用 标签(Label)和选择器(Selector), 它们是允许对 Kubernetes 中的对象进行逻辑操作的一种分组原语。标签(Label)是附加在对象上的键&#x2F;值对，可以以多种方式使用:</p>
+<ul>
+<li>指定用于开发，测试和生产的对象</li>
+<li>嵌入版本标签</li>
+<li>使用 Label 将对象进行分类</li>
+</ul>
+<p><img src="https://pic.liahnu.top/img/202403150154123.png" srcset="/img/loading.gif" lazyload><br>这张图我觉得很清晰反映了前面各个组件之间的关系。其中Service选择了Label为app&#x3D;A的Pod，然后通过对其中的Pod进行负载均衡。</p>
+<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">selector:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">protocol:</span> <span class="hljs-string">TCP</span><br>        <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>        <span class="hljs-attr">targetPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许您根据路径或主机名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。</p>
 
                 
               </div>
@@ -357,6 +377,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%BF%90%E7%BB%B4/">#运维</a>
+      
+    </div>
+  
 </div>
 
 
@@ -365,8 +392,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Java并发机制的底层实现</div>
-      <div>https://www.liahnu.top/2024/03/18/Java并发机制的底层实现/</div>
+      <div>k8s基础知识入门</div>
+      <div>https://www.liahnu.top/2024/03/15/k8s基础知识入门/</div>
     </div>
     <div class="license-meta">
       
@@ -378,7 +405,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月18日</div>
+          <div>2024年3月15日</div>
         </div>
       
       
@@ -410,9 +437,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/20/%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E6%96%87%E9%9B%86%E5%90%88/" title="常见八股文集合">
+                      <a href="/2024/03/15/%E4%BD%BF%E7%94%A8ESXi%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85K8s%E5%B8%A6GPU%E7%9A%84%E8%8A%82%E7%82%B9/" title="使用ESXi虚拟机安装K8s带GPU的节点">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">常见八股文集合</span>
+                        <span class="hidden-mobile">使用ESXi虚拟机安装K8s带GPU的节点</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -420,8 +447,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/15/%E4%BD%BF%E7%94%A8ESXi%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85K8s%E5%B8%A6GPU%E7%9A%84%E8%8A%82%E7%82%B9/" title="使用ESXi虚拟机安装K8s带GPU的节点">
-                        <span class="hidden-mobile">使用ESXi虚拟机安装K8s带GPU的节点</span>
+                      <a href="/2024/02/20/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%A4%84%E7%90%86kswapd0%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92/" title="记录一次处理kswapd0挖矿病毒">
+                        <span class="hidden-mobile">记录一次处理kswapd0挖矿病毒</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
