@@ -16,15 +16,15 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="JavaList、Set、Map的区别 List：有序，可重复，底层是数组（或链表） Set：无序，不可重复，底层是哈希表 Map：无序，key不可重复，value可重复，底层是哈希表  ListArrayList和LinkedList的区别 ArrayList：底层是数组，查询快，增删慢 LinkedList：底层是链表，查询慢，增删快  HashMap和HashTable的区别 HashMap">
+    <meta name="description" content="JavaList、Set、Map的区别 List：有序，可重复，底层是数组（或链表） Set：无序，不可重复，底层是哈希表 Map：无序，key不可重复，value可重复，底层是哈希表  ArrayList和LinkedList的区别 ArrayList：底层是数组，查询快，增删慢 LinkedList：底层是链表，查询慢，增删快  ArrayList的扩容策略 ArrayList的扩容策略是每次">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常见八股文集合">
 <meta property="og:url" content="https://www.liahnu.top/2024/03/20/%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E6%96%87%E9%9B%86%E5%90%88/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="JavaList、Set、Map的区别 List：有序，可重复，底层是数组（或链表） Set：无序，不可重复，底层是哈希表 Map：无序，key不可重复，value可重复，底层是哈希表  ListArrayList和LinkedList的区别 ArrayList：底层是数组，查询快，增删慢 LinkedList：底层是链表，查询慢，增删快  HashMap和HashTable的区别 HashMap">
+<meta property="og:description" content="JavaList、Set、Map的区别 List：有序，可重复，底层是数组（或链表） Set：无序，不可重复，底层是哈希表 Map：无序，key不可重复，value可重复，底层是哈希表  ArrayList和LinkedList的区别 ArrayList：底层是数组，查询快，增删慢 LinkedList：底层是链表，查询慢，增删快  ArrayList的扩容策略 ArrayList的扩容策略是每次">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-20T08:53:32.064Z">
+<meta property="article:modified_time" content="2024-03-20T12:30:11.123Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Redis">
 <meta property="article:tag" content="Java">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.5k 字
+          6.8k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          18 分钟
+          22 分钟
         
       </span>
     
@@ -318,7 +318,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月20日 下午
+                    本文最后更新于：2024年3月20日 晚上
                   
                 
               </p>
@@ -331,10 +331,13 @@
 <li>Set：无序，不可重复，底层是哈希表</li>
 <li>Map：无序，key不可重复，value可重复，底层是哈希表</li>
 </ul>
-<h2 id="ListArrayList和LinkedList的区别"><a href="#ListArrayList和LinkedList的区别" class="headerlink" title="ListArrayList和LinkedList的区别"></a>ListArrayList和LinkedList的区别</h2><ul>
+<h2 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h2><ul>
 <li>ArrayList：底层是数组，查询快，增删慢</li>
 <li>LinkedList：底层是链表，查询慢，增删快</li>
 </ul>
+<p><strong>ArrayList的扩容策略</strong></p>
+<p>ArrayList的扩容策略是每次扩容为原来的1.5倍，当数组长度小于10时，每次扩容为原来的2倍。<br>最大容量为Integer.MAX_VALUE - 8。</p>
+<h2 id="介绍一下Stream流的并行API-Parallelstream"><a href="#介绍一下Stream流的并行API-Parallelstream" class="headerlink" title="介绍一下Stream流的并行API Parallelstream"></a>介绍一下Stream流的并行API Parallelstream</h2><p>ParallelStream通过内部使用Fork&#x2F;Join框架实现并行处理。当你调用Collection的parallelStream方法时，你会得到一个ParallelStream对象。</p>
 <h2 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h2><ul>
 <li>HashMap：线程不安全，允许key和value为null</li>
 <li>HashTable：线程安全，不允许key和value为null</li>
@@ -397,6 +400,14 @@
 <li>newCachedThreadPool：可缓存的线程池</li>
 <li>newScheduledThreadPool：定时任务的线程池</li>
 </ul>
+<h2 id="Cpu密集型和IO密集型-N-1-2N-具体是如何计算的"><a href="#Cpu密集型和IO密集型-N-1-2N-具体是如何计算的" class="headerlink" title="Cpu密集型和IO密集型  N+1  2N  具体是如何计算的"></a>Cpu密集型和IO密集型  N+1  2N  具体是如何计算的</h2><ul>
+<li>CPU密集型：CPU密集型是指CPU的使用率非常高，而I&#x2F;O操作非常少的程序。CPU密集型程序的特点是CPU使用率很高，而内存和硬盘I&#x2F;O操作的使用率很低。</li>
+<li>IO密集型：IO密集型是指I&#x2F;O操作非常频繁的程序。IO密集型程序的特点是CPU使用率很低，而内存和硬盘I&#x2F;O操作的使用率很高。</li>
+</ul>
+<p>其中n+1和2n是上文中线程池设置线程的数量；</p>
+<p>主要是因为，如果线程数量太多的话，线程的竞争大，会导致大量上下文切换，因为CPU是分配给时间片给线程来处理任务的，时间片一到，那么线程就得保存当前任务，等待下一次CPU分配时间片，那么下一次线程获取到CPU时间片之后，会重新加载任务来处理，保存到加载的过程就称之为上问下切换。</p>
+<p><strong>CPU n+1</strong><br>如果程序的计算量特别高，那么就属于CPU密集型，线程数量可以设置为N（CPU的核心数）+1。</p>
+<p><strong>I&#x2F;O密集型（2N）</strong><br>如果程序的是网络传输或者I&#x2F;O操作比较多，那么线程池应该设置为2N。</p>
 <h2 id="乐观锁悲观锁"><a href="#乐观锁悲观锁" class="headerlink" title="乐观锁悲观锁"></a>乐观锁悲观锁</h2><ul>
 <li>乐观锁：乐观锁是一种乐观的思想，它认为并发访问的情况是比较少的，所以在读取数据的时候不加锁，只在更新数据的时候加锁，这样可以提高并发访问的效率。</li>
 <li>悲观锁：悲观锁是一种悲观的思想，它认为并发访问的情况是比较多的，所以在读取数据的时候加锁，这样可以保证并发访问的安全性。</li>
@@ -435,7 +446,14 @@
 <li>FIN：当服务器数据都传输完毕，会发送一个FIN（结束）包到客户端，请求断开连接。</li>
 <li>ACK：客户端收到FIN包后，会发送一个ACK（确认）包到服务器，确认收到了FIN包。然后，客户端会等待一段时间（两个最大段生存时间），确保服务器收到了ACK包，然后关闭连接。</li>
 </ol>
-<h2 id="tcp和udp的区别"><a href="#tcp和udp的区别" class="headerlink" title="tcp和udp的区别"></a>tcp和udp的区别</h2><h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。</p>
+<h2 id="tcp和udp的区别"><a href="#tcp和udp的区别" class="headerlink" title="tcp和udp的区别"></a>tcp和udp的区别</h2><p><strong>连接性：</strong>TCP是一种面向连接的协议，这意味着在数据传输之前，必须先建立连接。而UDP是无连接的，它只是发送数据，而不关心数据是否到达。</p>
+<p><strong>可靠性：</strong>TCP提供了数据传输的可靠性。它通过确认（ACK）、重传、错误检测等机制确保数据正确无误地从发送端传输到接收端。而UDP不提供这种可靠性，它只是简单地发送数据，不进行错误检测和修复。</p>
+<p><strong>顺序：</strong>TCP保证数据的顺序，即数据会按照发送的顺序到达接收端。而UDP不保证数据的顺序，数据报可能会乱序到达。</p>
+<p><strong>速度：</strong>由于TCP的可靠性和顺序保证机制，它的速度通常比UDP慢。而UDP由于其简单的协议结构，通常比TCP快。</p>
+<p><strong>用途：</strong>TCP通常用于需要高可靠性的应用，如Web服务器、邮件服务器等。而UDP通常用于对实时性要求高的应用，如视频流、VoIP等，这些应用可以容忍一些数据丢失，但需要快速传输。</p>
+<p><strong>头部大小：</strong>TCP的头部最小为20字节，而UDP的头部固定为8字节，因此UDP的开销更小。</p>
+<p><strong>流控制和拥塞控制：</strong>TCP有流控制和拥塞控制机制，可以防止发送端发送速度过快导致接收端或网络无法处理。而UDP没有这些控制机制。</p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。</p>
 <h2 id="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"><a href="#讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）" class="headerlink" title="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"></a>讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）</h2><ul>
 <li>缓存穿透：指的是查询一个不存在的数据，由于缓存中没有，所以每次都会去数据库中查询，这样会导致数据库压力过大。</li>
 <li>缓存击穿：指的是一个热点数据突然失效，导致大量请求直接打到数据库上，这样会导致数据库压力过大。</li>
@@ -461,7 +479,9 @@
 <li>RDB快照：是指在指定的时间间隔内将内存中的数据保存到磁盘上，生成一个快照文件。RDB快照是一个二进制文件，它保存了某个时间点上的所有数据。</li>
 <li>AOF日志：是指在每次写操作时，将写操作的命令追加到AOF文件的末尾。AOF日志是一个文本文件，它保存了所有的写操作命令。</li>
 </ul>
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="mysql的锁"><a href="#mysql的锁" class="headerlink" title="mysql的锁"></a>mysql的锁</h2><p>MySQL的锁主要有两种：共享锁和排他锁。</p>
+<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MVCC是什么"><a href="#MVCC是什么" class="headerlink" title="MVCC是什么"></a>MVCC是什么</h2><p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
+<p>MVCC在MySQL InnoDB中的实现主要是为了提高数据库并发性能，用更好的方式去处理读写冲突，做到即使有读写冲突时，也能做到不加锁，非阻塞并发读。</p>
+<h2 id="mysql的锁"><a href="#mysql的锁" class="headerlink" title="mysql的锁"></a>mysql的锁</h2><p>MySQL的锁主要有两种：共享锁和排他锁。</p>
 <ul>
 <li>共享锁：是一种读锁，它允许多个事务同时对同一行数据进行读操作，但是不允许对同一行数据进行写操作。</li>
 <li>排他锁：是一种写锁，它不允许其他事务对同一行数据进行读操作和写操作。</li>
