@@ -23,13 +23,16 @@
 <meta property="og:site_name" content="liahnu Blogs">
 <meta property="og:description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   例子 1234St">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T00:53:04.871Z">
+<meta property="article:modified_time" content="2024-03-29T01:07:56.210Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
 <meta property="article:tag" content="Mysql">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202403281536095.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -256,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8k 字
+          9k 字
         
       </span>
     
@@ -267,7 +270,7 @@
         
         
         
-          25 分钟
+          29 分钟
         
       </span>
     
@@ -318,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月29日 早上
+                    本文最后更新于：2024年3月29日 上午
                   
                 
               </p>
@@ -370,7 +373,14 @@
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
 <p>如何解决内存泄漏问题？使用完ThreadLocal后，及时调用remove()方法释放内存空间。</p>
-<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
+<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="JVM的内存结构"><a href="#JVM的内存结构" class="headerlink" title="JVM的内存结构"></a>JVM的内存结构</h2><p>JVM的内存结构大致分为五个部分，分别是程序计数器、虚拟机栈、本地方法栈、堆和方法区。除此之外，还有由堆中引用的JVM外的直接内存。</p>
+<p><strong>JDK1.7以前的内存区域</strong><br><img src="https://pic.liahnu.top/img/202403281536095.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>JDK1.8以后的内存区域</strong><br><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png" srcset="/img/loading.gif" lazyload></p>
+<p>1.8之后的内存区域中，永久代被元空间取代，字符串常量池和运行时常量池被合并为一个运行时常量池。</p>
+<h2 id="堆的内存结构"><a href="#堆的内存结构" class="headerlink" title="堆的内存结构"></a>堆的内存结构</h2><p>Java堆是Java虚拟机管理的内存中最大的一块，主要用于存放对象实例。Java堆是垃圾收集器管理的主要区域，因此也被称为GC堆。从垃圾回收的角度，由于现在收集器基本都采用分代垃圾收集算法，所以Java堆还可以细分为：新生代和老年代；再细致一点有：Eden、Survivor、Old 等空间。进一步划分的目的是更好地回收内存，或者更快地分配内存。</p>
+<p><strong>对象什么时候进入Survivor区</strong><br>当Eden区满时，会触发Minor GC，将Eden区中的存活对象复制到S0或S1中，然后清理掉Eden区中的所有对象。在多次Minor GC之后，存活时间较长的对象会被移动到老年代。</p>
+<p><strong>对象什么情况下一直不会进入老年代</strong><br>如果对象在Eden区被创建，那么它在第一次Minor GC后，会被移动到Survivor区，如果在Survivor区被创建，那么它在第二次Minor GC后，会被移动到老年代。</p>
+<h2 id="JVM的垃圾回收算法"><a href="#JVM的垃圾回收算法" class="headerlink" title="JVM的垃圾回收算法"></a>JVM的垃圾回收算法</h2><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
 <li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
 <li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
 </ol>
@@ -461,7 +471,7 @@
 <p><strong>用途：</strong>TCP通常用于需要高可靠性的应用，如Web服务器、邮件服务器等。而UDP通常用于对实时性要求高的应用，如视频流、VoIP等，这些应用可以容忍一些数据丢失，但需要快速传输。</p>
 <p><strong>头部大小：</strong>TCP的头部最小为20字节，而UDP的头部固定为8字节，因此UDP的开销更小。</p>
 <p><strong>流控制和拥塞控制：</strong>TCP有流控制和拥塞控制机制，可以防止发送端发送速度过快导致接收端或网络无法处理。而UDP没有这些控制机制。</p>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。</p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。<br>此外，还有三种特殊的数据结构：HyperLogLog、Geo、Stream。</p>
 <h2 id="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"><a href="#讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）" class="headerlink" title="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"></a>讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）</h2><ul>
 <li>缓存穿透：指的是查询一个不存在的数据，由于缓存中没有，所以每次都会去数据库中查询，这样会导致数据库压力过大。</li>
 <li>缓存击穿：指的是一个热点数据突然失效，导致大量请求直接打到数据库上，这样会导致数据库压力过大。</li>
@@ -551,7 +561,7 @@
 <li>串行化（Serializable）：最高的隔离级别，它通过强制事务串行执行，避免了幻读的问题。</li>
 </ul>
 <p>默认的隔离级别是：可重复读（Repeatable Read）。</p>
-
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
