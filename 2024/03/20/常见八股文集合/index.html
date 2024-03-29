@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T01:07:56.210Z">
+<meta property="article:modified_time" content="2024-03-29T01:37:59.742Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9k 字
+          9.7k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          29 分钟
+          31 分钟
         
       </span>
     
@@ -380,6 +380,23 @@
 <h2 id="堆的内存结构"><a href="#堆的内存结构" class="headerlink" title="堆的内存结构"></a>堆的内存结构</h2><p>Java堆是Java虚拟机管理的内存中最大的一块，主要用于存放对象实例。Java堆是垃圾收集器管理的主要区域，因此也被称为GC堆。从垃圾回收的角度，由于现在收集器基本都采用分代垃圾收集算法，所以Java堆还可以细分为：新生代和老年代；再细致一点有：Eden、Survivor、Old 等空间。进一步划分的目的是更好地回收内存，或者更快地分配内存。</p>
 <p><strong>对象什么时候进入Survivor区</strong><br>当Eden区满时，会触发Minor GC，将Eden区中的存活对象复制到S0或S1中，然后清理掉Eden区中的所有对象。在多次Minor GC之后，存活时间较长的对象会被移动到老年代。</p>
 <p><strong>对象什么情况下一直不会进入老年代</strong><br>如果对象在Eden区被创建，那么它在第一次Minor GC后，会被移动到Survivor区，如果在Survivor区被创建，那么它在第二次Minor GC后，会被移动到老年代。</p>
+<h2 id="JVM的垃圾回收器"><a href="#JVM的垃圾回收器" class="headerlink" title="JVM的垃圾回收器"></a>JVM的垃圾回收器</h2><p>JVM的垃圾回收器主要分为两大类：串行垃圾回收器和并行垃圾回收器。</p>
+<p><strong>Serial垃圾收集器</strong><br>Serial垃圾回收器是串行垃圾回收器，它是单线程的，只会使用一个线程来进行垃圾回收。Serial垃圾回收器适用于单核CPU的环境。</p>
+<p>新生代采用标记-复制算法，老年代采用标记-整理算法。</p>
+<p><strong>ParNew垃圾收集器</strong></p>
+<p>ParNew垃圾回收器是Serial垃圾回收器的多线程版本，它是并行垃圾回收器，适用于多核CPU的环境。</p>
+<p><strong>Parallel Scavenge 垃圾收集器</strong></p>
+<p>Parallel Scavenge垃圾回收器是并行垃圾回收器，它适用于多核CPU的环墋，它的特点是吞吐量优先，适用于后台运行的应用。</p>
+<p><strong>Serial Old垃圾收集器</strong></p>
+<p>Serial Old垃圾回收器是Serial垃圾回收器的老年代版本，它是单线程的，适用于单核CPU的环境。</p>
+<p><strong>Parallel Old垃圾收集器</strong></p>
+<p>Parallel Old垃圾回收器是Parallel Scavenge垃圾回收器的老年代版本，它是并行垃圾回收器，适用于多核CPU的环境。</p>
+<p><strong>CMS垃圾收集器</strong></p>
+<p>CMS垃圾回收器是并发垃圾回收器，它是一种以获取最短回收停顿时间为目标的收集器，适用于对响应时间有要求的应用。</p>
+<p><strong>G1垃圾收集器</strong></p>
+<p>G1垃圾回收器是一种面向服务端应用的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于多核CPU的环境。</p>
+<p><strong>ZGC垃圾收集器</strong></p>
+<p>ZGC垃圾回收器是一种低延迟的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于对响应时间有要求的应用。</p>
 <h2 id="JVM的垃圾回收算法"><a href="#JVM的垃圾回收算法" class="headerlink" title="JVM的垃圾回收算法"></a>JVM的垃圾回收算法</h2><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
 <li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
 <li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
