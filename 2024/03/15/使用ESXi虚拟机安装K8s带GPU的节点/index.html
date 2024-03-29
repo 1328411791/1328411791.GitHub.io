@@ -24,7 +24,7 @@
 <meta property="og:description" content="前言安装步骤创建虚拟机这个没啥可说，在虚拟机软件中创建虚拟机即可 注意安装的系统版本，应选择使用与后文中安装脚本相同的系统版本，我这边安装的是Ubuntu 20.04 服务器版本 安装k8s我这边选择的安装工具是KubeSphere，他有完善的功能和图形化界面，可以很方便的对其进行安装。 官网文档地址 安装KubeSphere单节点服务下载 KubeKey使用下面的命令安装KubeKey 123e">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-15T07:01:34.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:15:11.369Z">
+<meta property="article:modified_time" content="2024-03-29T10:47:52.213Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="运维，k8s">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月29日 中午
+                    本文最后更新于：2024年3月29日 晚上
                   
                 
               </p>
@@ -334,7 +334,8 @@
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo apt <span class="hljs-keyword">install</span> socat conntrack ebtables ipset <br></code></pre></td></tr></table></figure>
 
 <h4 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">./kk <span class="hljs-keyword">create</span> <span class="hljs-keyword">cluster</span> --<span class="hljs-keyword">with</span>-kubernetes v1<span class="hljs-number">.23</span><span class="hljs-number">.10</span> --<span class="hljs-keyword">with</span>-kubesphere v3<span class="hljs-number">.4</span><span class="hljs-number">.1</span><br></code></pre></td></tr></table></figure>
-<p>后面的命令是选择安装的版本,其中kubernetes为1.23 kubesphere为3.4.1</p>
+
+<p>确保环境变量KKZONE的值为cn，<br>后面的命令是选择安装的版本,其中kubernetes为1.23 kubesphere为3.4.1</p>
 <h4 id="查看安装结果"><a href="#查看安装结果" class="headerlink" title="查看安装结果"></a>查看安装结果</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">kubectl logs -n kubesphere-system <span class="hljs-constructor">$(<span class="hljs-params">kubectl</span> <span class="hljs-params">get</span> <span class="hljs-params">pod</span> -<span class="hljs-params">n</span> <span class="hljs-params">kubesphere</span>-<span class="hljs-params">system</span> -<span class="hljs-params">l</span> &#x27;<span class="hljs-params">app</span> <span class="hljs-params">in</span> (<span class="hljs-params">ks</span>-<span class="hljs-params">install</span>, <span class="hljs-params">ks</span>-<span class="hljs-params">installer</span>)</span>&#x27; -o jsonpath=&#x27;&#123;.items<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>.metadata.name&#125;&#x27;) -f<br><br></code></pre></td></tr></table></figure>
 <p>通过这个命令，初始密码会显示在终端中</p>
 <h2 id="安装NVIDIA显卡驱动"><a href="#安装NVIDIA显卡驱动" class="headerlink" title="安装NVIDIA显卡驱动"></a>安装NVIDIA显卡驱动</h2><p><strong>注意，一定要安装EXSi版本的显卡驱动，否则安装后会死机</strong></p>
