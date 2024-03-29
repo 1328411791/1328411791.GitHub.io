@@ -24,7 +24,7 @@
 <meta property="og:description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   例子 1234St">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T00:44:31.836Z">
+<meta property="article:modified_time" content="2024-03-29T00:48:14.748Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.5k 字
+          7.6k 字
         
       </span>
     
@@ -346,6 +346,7 @@
 </ul>
 <p><strong>ArrayList的扩容策略</strong></p>
 <p>ArrayList的扩容策略是每次扩容为原来的1.5倍，当数组长度小于10时，每次扩容为原来的2倍。<br>最大容量为Integer.MAX_VALUE - 8。</p>
+<p><strong>ArrayList的默认大小</strong><br>如果使用无参构造函数ArrayList()创建一个空的ArrayList对象,那么它的初始容量为10。</p>
 <h2 id="介绍一下Stream流的并行API-Parallelstream"><a href="#介绍一下Stream流的并行API-Parallelstream" class="headerlink" title="介绍一下Stream流的并行API Parallelstream"></a>介绍一下Stream流的并行API Parallelstream</h2><p>ParallelStream通过内部使用Fork&#x2F;Join框架实现并行处理。当你调用Collection的parallelStream方法时，你会得到一个ParallelStream对象。</p>
 <h2 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h2><ul>
 <li>HashMap：线程不安全，允许key和value为null</li>
@@ -369,7 +370,7 @@
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
 <p>如何解决内存泄漏问题？使用完ThreadLocal后，及时调用remove()方法释放内存空间。</p>
-<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
+<h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
 <li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
 <li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
 </ol>
