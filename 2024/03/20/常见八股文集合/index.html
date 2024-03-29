@@ -16,15 +16,15 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   List、Set、">
+    <meta name="description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   例子 1234St">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常见八股文集合">
 <meta property="og:url" content="https://www.liahnu.top/2024/03/20/%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E6%96%87%E9%9B%86%E5%90%88/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   List、Set、">
+<meta property="og:description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   例子 1234St">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T00:33:18.845Z">
+<meta property="article:modified_time" content="2024-03-29T00:44:31.836Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7k 字
+          7.5k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          22 分钟
+          24 分钟
         
       </span>
     
@@ -332,6 +332,9 @@
 <li><p>equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。</p>
 </li>
 </ol>
+<p><strong>例子</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;abc&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;abc&quot;</span>);<br>System.out.println(s1 == s2); <span class="hljs-comment">// false</span><br>System.out.println(s1.equals(s2)); <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
+
 <h2 id="List、Set、Map的区别"><a href="#List、Set、Map的区别" class="headerlink" title="List、Set、Map的区别"></a>List、Set、Map的区别</h2><ul>
 <li>List：有序，可重复，底层是数组（或链表）</li>
 <li>Set：无序，不可重复，底层是哈希表</li>
@@ -355,13 +358,6 @@
 </ul>
 <h2 id="ConcurrentHashMap的实现原理"><a href="#ConcurrentHashMap的实现原理" class="headerlink" title="ConcurrentHashMap的实现原理"></a>ConcurrentHashMap的实现原理</h2><p>ConcurrentHashMap是Java中的一个线程安全的哈希表，它的实现原理是分段锁。ConcurrentHashMap中有一个Segment数组，每个Segment都是一个哈希表，每个Segment都是一个独立的锁，这样就可以实现对每个Segment的并发访问，从而提高了并发访问的效率。</p>
 <h2 id="java的反射机制"><a href="#java的反射机制" class="headerlink" title="java的反射机制"></a>java的反射机制</h2><p>Java的反射机制是指在运行时动态获取类的信息，比如类的属性、方法、构造器等。Java的反射机制主要是通过Class类来实现的，Class类是Java中的一个类，它是一个类的类，它是一个类的模板，它是一个类的元数据，它是一个类的描述。</p>
-<h2 id="x3D-x3D-和-equals-的区别"><a href="#x3D-x3D-和-equals-的区别" class="headerlink" title="&#x3D;&#x3D; 和 equals 的区别"></a>&#x3D;&#x3D; 和 equals 的区别</h2><ul>
-<li>&#x3D;&#x3D;：比较的是两个对象的内存地址</li>
-<li>equals：比较的是两个对象的内容</li>
-</ul>
-<p><strong>例子</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;abc&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;abc&quot;</span>);<br>System.out.println(s1 == s2); <span class="hljs-comment">// false</span><br>System.out.println(s1.equals(s2)); <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
-
 <h2 id="ThreadLocal的使用场景有哪些？原理？内存泄漏？"><a href="#ThreadLocal的使用场景有哪些？原理？内存泄漏？" class="headerlink" title="ThreadLocal的使用场景有哪些？原理？内存泄漏？"></a>ThreadLocal的使用场景有哪些？原理？内存泄漏？</h2><p>ThreadLocal，即线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。</p>
 <p>ThreadLocal原理</p>
 <ul>
@@ -373,7 +369,12 @@
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
 <p>如何解决内存泄漏问题？使用完ThreadLocal后，及时调用remove()方法释放内存空间。</p>
-<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="线程池原理？各个参数的作用"><a href="#线程池原理？各个参数的作用" class="headerlink" title="线程池原理？各个参数的作用"></a>线程池原理？各个参数的作用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">ThreadPoolExecutor</span><span class="hljs-params">(<span class="hljs-type">int</span> corePoolSize, <span class="hljs-type">int</span> maximumPoolSize,<span class="hljs-type">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="hljs-params">   BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="hljs-params">   ThreadFactory threadFactory,</span><br><span class="hljs-params">   RejectedExecutionHandler handler)</span> <br></code></pre></td></tr></table></figure>
+<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
+<li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
+<li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
+</ol>
+<h2 id="启动一个线程是用start-还是run-方法"><a href="#启动一个线程是用start-还是run-方法" class="headerlink" title="启动一个线程是用start()还是run()方法"></a>启动一个线程是用start()还是run()方法</h2><p>启动一个线程是用start()方法，而不是run()方法。如果你调用run()方法，那么这个方法就会在当前线程中执行，而不会启动一个新的线程。</p>
+<h2 id="线程池原理？各个参数的作用"><a href="#线程池原理？各个参数的作用" class="headerlink" title="线程池原理？各个参数的作用"></a>线程池原理？各个参数的作用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">ThreadPoolExecutor</span><span class="hljs-params">(<span class="hljs-type">int</span> corePoolSize, <span class="hljs-type">int</span> maximumPoolSize,<span class="hljs-type">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="hljs-params">   BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="hljs-params">   ThreadFactory threadFactory,</span><br><span class="hljs-params">   RejectedExecutionHandler handler)</span> <br></code></pre></td></tr></table></figure>
 
 <p><strong>几个核心参数的作用：</strong></p>
 <ul>
@@ -480,11 +481,12 @@
 <li>加互斥锁：在缓存失效的时候，加互斥锁，只允许一个线程去查询数据库，其他线程等待。</li>
 <li>设置不同的过期时间：不同的数据设置不同的过期时间，避免大量数据同时失效。</li>
 </ol>
-<h2 id="Redis的持久化机制（RDD和AOF）"><a href="#Redis的持久化机制（RDD和AOF）" class="headerlink" title="Redis的持久化机制（RDD和AOF）"></a>Redis的持久化机制（RDD和AOF）</h2><p>Redis的持久化机制有两种：RDB快照和AOF日志。</p>
+<h2 id="Redis的持久化机制（RDB和AOF）"><a href="#Redis的持久化机制（RDB和AOF）" class="headerlink" title="Redis的持久化机制（RDB和AOF）"></a>Redis的持久化机制（RDB和AOF）</h2><p>Redis的持久化机制有两种：RDB快照和AOF日志。</p>
 <ul>
 <li>RDB快照：是指在指定的时间间隔内将内存中的数据保存到磁盘上，生成一个快照文件。RDB快照是一个二进制文件，它保存了某个时间点上的所有数据。</li>
 <li>AOF日志：是指在每次写操作时，将写操作的命令追加到AOF文件的末尾。AOF日志是一个文本文件，它保存了所有的写操作命令。</li>
 </ul>
+<h2 id="Redis宕机哪种恢复的快"><a href="#Redis宕机哪种恢复的快" class="headerlink" title="Redis宕机哪种恢复的快"></a>Redis宕机哪种恢复的快</h2><p>RDB快照恢复的速度比AOF日志快，因为RDB快照是一个二进制文件，它保存了某个时间点上的所有数据，所以恢复速度比较快。</p>
 <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MVCC是什么"><a href="#MVCC是什么" class="headerlink" title="MVCC是什么"></a>MVCC是什么</h2><p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
 <p>MVCC在MySQL InnoDB中的实现主要是为了提高数据库并发性能，用更好的方式去处理读写冲突，做到即使有读写冲突时，也能做到不加锁，非阻塞并发读。</p>
 <h2 id="mysql的锁"><a href="#mysql的锁" class="headerlink" title="mysql的锁"></a>mysql的锁</h2><p>MySQL的锁主要有两种：共享锁和排他锁。</p>
@@ -519,6 +521,14 @@
 </ul>
 <h2 id="MySQL联合索引"><a href="#MySQL联合索引" class="headerlink" title="MySQL联合索引"></a>MySQL联合索引</h2><p>MySQL的联合索引，也被称为复合索引或多列索引，是一种在多个列上创建的索引。联合索引可以提高查询性能，特别是在你需要从多个列中检索数据时。</p>
 <p>联合索引的工作原理是，它会根据索引中的列顺序，首先对第一列进行排序，然后在每个相同的第一列值中，对第二列进行排序，以此类推。因此，你可以在查询中使用任何前缀列（即索引中的第一列，第一列和第二列，等等）来利用联合索引。</p>
+<h2 id="MySql的四个隔离级别以及默认的隔离级别"><a href="#MySql的四个隔离级别以及默认的隔离级别" class="headerlink" title="MySql的四个隔离级别以及默认的隔离级别"></a>MySql的四个隔离级别以及默认的隔离级别</h2><p>MySQL的四个隔离级别分别是：读未提交（Read Uncommitted）、读提交（Read Committed）、可重复读（Repeatable Read）、串行化（Serializable）。</p>
+<ul>
+<li>读未提交（Read Uncommitted）：允许一个事务读取另一个事务未提交的数据。</li>
+<li>读提交（Read Committed）：允许一个事务读取另一个事务已提交的数据。</li>
+<li>可重复读（Repeatable Read）：保证在同一个事务中多次读取同样的数据时，数据是一致的。</li>
+<li>串行化（Serializable）：最高的隔离级别，它通过强制事务串行执行，避免了幻读的问题。</li>
+</ul>
+<p>默认的隔离级别是：可重复读（Repeatable Read）。</p>
 
                 
               </div>
