@@ -24,7 +24,7 @@
 <meta property="og:description" content="Java&#x3D;&#x3D; 和 equals的区别 &#x3D;&#x3D;针对基本类型时比较的是对象的值，针对引用类型比较的是对象的指向的内存地址是否相等。  equals针对的比较对象是引用类型， 在Java中Object对象是所有对象的父类，所以每个类都会有个equals的方法，如果你没有重写它那些它与&#x3D;&#x3D;的效果是一样的，可以通过源代码查看。   例子 1234St">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T00:48:14.748Z">
+<meta property="article:modified_time" content="2024-03-29T00:53:04.871Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.6k 字
+          8k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          24 分钟
+          25 分钟
         
       </span>
     
@@ -494,6 +494,27 @@
 <ul>
 <li>共享锁：是一种读锁，它允许多个事务同时对同一行数据进行读操作，但是不允许对同一行数据进行写操作。</li>
 <li>排他锁：是一种写锁，它不允许其他事务对同一行数据进行读操作和写操作。</li>
+</ul>
+<h2 id="索引有哪些种类"><a href="#索引有哪些种类" class="headerlink" title="索引有哪些种类"></a>索引有哪些种类</h2><p>MySQL的索引按照数据结构维度可分为：</p>
+<ul>
+<li>B+树索引：是一种多路搜索树，是一种平衡的多路搜索树，能够保持数据稳定有序，其插入和查询的时间复杂度都是O(logN)。</li>
+<li>哈希索引：是一种哈希表，能够快速定位到数据，其插入和查询的时间复杂度都是O(1)。</li>
+<li>全文索引：是一种全文搜索索引，能够对文本进行全文搜索。</li>
+<li>R-Tree索引：是一种空间索引，能够对空间数据进行搜索。</li>
+</ul>
+<p>按照底层数据结构维度可分为：</p>
+<ul>
+<li>聚类索引：是一种按照数据存储的物理顺序进行排序的索引。</li>
+<li>非聚集索引：是一种按照数据存储的逻辑顺序进行排序的索引。</li>
+</ul>
+<p>按照索引的应用维度可分为：</p>
+<ul>
+<li>主键索引：是一种唯一索引，能够保证数据的唯一性。</li>
+<li>普通索引：是一种普通的索引，能够提高查询速度。</li>
+<li>唯一索引：是一种唯一索引，能够保证数据的唯一性。</li>
+<li>覆盖索引：是一种覆盖查询索引，能够减少查询的IO操作。</li>
+<li>联合索引：是一种联合索引，能够提高查询速度。</li>
+<li>全文索引：是一种全文搜索索引，能够对文本进行全文搜索。</li>
 </ul>
 <h2 id="Mysql索引优缺点"><a href="#Mysql索引优缺点" class="headerlink" title="Mysql索引优缺点"></a>Mysql索引优缺点</h2><p><strong>优点</strong></p>
 <ol>
