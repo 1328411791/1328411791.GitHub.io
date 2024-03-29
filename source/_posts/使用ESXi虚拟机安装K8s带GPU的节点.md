@@ -68,8 +68,6 @@ kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l 'app
 
 
 
-
-
 ## 配置k8s上安装NVIDIA显卡驱动插件
 
 安装完上述插件后，安装gpu显卡插件
