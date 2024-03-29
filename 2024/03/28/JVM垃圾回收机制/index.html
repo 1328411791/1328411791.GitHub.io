@@ -16,32 +16,29 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言睡觉起床发现阿里云给我发短信，提醒中病毒，然后登录服务器发现CPU占用率100%，查看进程发现kswapd0占用CPU，然后查看日志发现有存在的挖矿病毒。 处理步骤参考了这篇文章 https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_47831505&#x2F;article&#x2F;details&#x2F;123939089 参考二 参考三 处理步骤打开阿里云的安全日记，可以看到具体的病毒文">
+    <meta name="description" content="Java 内存区域JDK1.7以前的内存区域 JDK1.8以后的内存区域 程序计数器  线程私有 记录当前线程执行的字节码的行号 如果是Java方法，计数器记录的是字节码的行号 如果是Native方法，计数器值为空 如果是多线程，每个线程都有一个独立的计数器  虚拟机栈  线程私有 每个方法执行的时候都会创建一个栈帧 每个栈帧包含局部变量表、操作数栈、动态链接、方法出口等信息（类似于C语言中的栈）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记录一次处理kswapd0挖矿病毒">
-<meta property="og:url" content="https://www.liahnu.top/2024/02/20/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%A4%84%E7%90%86kswapd0%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92/index.html">
+<meta property="og:title" content="JVM垃圾回收机制">
+<meta property="og:url" content="https://www.liahnu.top/2024/03/28/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="前言睡觉起床发现阿里云给我发短信，提醒中病毒，然后登录服务器发现CPU占用率100%，查看进程发现kswapd0占用CPU，然后查看日志发现有存在的挖矿病毒。 处理步骤参考了这篇文章 https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_47831505&#x2F;article&#x2F;details&#x2F;123939089 参考二 参考三 处理步骤打开阿里云的安全日记，可以看到具体的病毒文">
+<meta property="og:description" content="Java 内存区域JDK1.7以前的内存区域 JDK1.8以后的内存区域 程序计数器  线程私有 记录当前线程执行的字节码的行号 如果是Java方法，计数器记录的是字节码的行号 如果是Native方法，计数器值为空 如果是多线程，每个线程都有一个独立的计数器  虚拟机栈  线程私有 每个方法执行的时候都会创建一个栈帧 每个栈帧包含局部变量表、操作数栈、动态链接、方法出口等信息（类似于C语言中的栈）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200253489.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200245127.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200248498.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200303946.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200305359.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202402200306127.png">
-<meta property="article:published_time" content="2024-02-19T18:39:19.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:15:11.468Z">
+<meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png">
+<meta property="article:published_time" content="2024-03-28T07:34:59.000Z">
+<meta property="article:modified_time" content="2024-03-29T04:15:11.347Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="运维">
-<meta property="article:tag" content="挖矿病毒">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pic.liahnu.top/img/202402200253489.png">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202403281536095.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>记录一次处理kswapd0挖矿病毒 - liahnu Blogs</title>
+  <title>JVM垃圾回收机制 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="记录一次处理kswapd0挖矿病毒"></span>
+            <span id="subtitle" data-typed-text="JVM垃圾回收机制"></span>
           
         </div>
 
@@ -250,8 +247,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-02-20 02:39" pubdate>
-          2024年2月20日 凌晨
+        <time datetime="2024-03-28 15:34" pubdate>
+          2024年3月28日 下午
         </time>
       </span>
     
@@ -262,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          767 字
+          2.9k 字
         
       </span>
     
@@ -273,7 +270,7 @@
         
         
         
-          3 分钟
+          9 分钟
         
       </span>
     
@@ -319,7 +316,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">记录一次处理kswapd0挖矿病毒</h1>
+            <h1 style="display: none">JVM垃圾回收机制</h1>
             
               <p class="note note-info">
                 
@@ -332,33 +329,71 @@
             
               <div class="markdown-body">
                 
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>睡觉起床发现阿里云给我发短信，提醒中病毒，然后登录服务器发现CPU占用率100%，查看进程发现kswapd0占用CPU，然后查看日志发现有存在的挖矿病毒。</p>
-<p>处理步骤参考了这篇文章</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_47831505/article/details/123939089">https://blog.csdn.net/qq_47831505&#x2F;article&#x2F;details&#x2F;123939089</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1252878?spm=a2c6h.14164896.0.0.65f347c5hwPYQR&scm=20140722.S_community@@%E6%96%87%E7%AB%A0@@1252878._.ID_1252878-RL_kswapd0%E8%BF%9B%E7%A8%8B%E5%AF%B9%E4%BA%8ECPU%E5%8D%A0%E6%9C%89%E7%8E%87%E9%AB%98%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E6%8E%92%E6%9F%A5%E5%88%B0%E9%BB%91%E5%AE%A2%E6%A4%8D%E5%85%A5%E8%84%9A%E6%9C%AC-LOC_search~UND~community~UND~item-OR_ser-V_3-P0_0">参考二</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1252879?spm=a2c6h.14164896.0.0.65f347c5hwPYQR&scm=20140722.S_community@@%E6%96%87%E7%AB%A0@@1252879._.ID_1252879-RL_kswapd0%E8%BF%9B%E7%A8%8B%E5%AF%B9%E4%BA%8ECPU%E5%8D%A0%E6%9C%89%E7%8E%87%E9%AB%98%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E6%8E%92%E6%9F%A5%E5%88%B0%E9%BB%91%E5%AE%A2%E6%A4%8D%E5%85%A5%E8%84%9A%E6%9C%AC-LOC_search~UND~community~UND~item-OR_ser-V_3-P0_1">参考三</a></p>
-<h1 id="处理步骤"><a href="#处理步骤" class="headerlink" title="处理步骤"></a>处理步骤</h1><p>打开阿里云的安全日记，可以看到具体的病毒文件路径，首先是查询了相关的信息，发现是个挖矿病毒。</p>
-<p><img src="https://pic.liahnu.top/img/202402200253489.png" srcset="/img/loading.gif" lazyload></p>
-<p>首先是用top命令查看CPU占用率最高的进程发现是kswapd0，先手动kill掉进程，基本可以确认是挖矿病毒。</p>
-<p><img src="https://pic.liahnu.top/img/202402200245127.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://pic.liahnu.top/img/202402200248498.png" srcset="/img/loading.gif" lazyload></p>
-<p>打开对应的文件空间处理掉病毒文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">rm -rf ./.configrc5/<br></code></pre></td></tr></table></figure>
-
-<p>打开cron处理掉定时任务</p>
-<p><img src="https://pic.liahnu.top/img/202402200303946.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">crontab -e -u root<br></code></pre></td></tr></table></figure>
-<p><strong>原文中仅仅删除cron文件是不够的，还需要处理rsync同步</strong></p>
-<p><strong>注意</strong> 这里的定时任务中最后有一个rsync命令，这个命令是用来同步文件的，但是这个命令是用来同步病毒文件的，因此在单纯删除文件后还会出发同步病毒，所以要删除掉对应的同步配置。</p>
-<p>不然就会出现下面这个情况，一周后病毒会通过rsync命令同步回来，再次感染。<br><img src="https://pic.liahnu.top/img/202402200305359.png" srcset="/img/loading.gif" lazyload></p>
-<p>同时，单纯的删除&#x2F;tmp目录下的文件是不够的，因为病毒会自动在&#x2F;tmp目录下重新生成文件，所以需要删除掉对应的同步任务。</p>
-<p><strong>sync感染的cron文件</strong><br><img src="https://pic.liahnu.top/img/202402200306127.png" srcset="/img/loading.gif" lazyload></p>
-<p>打开cron文件中的最后一行的隐藏文件，删除掉对应的rsync配置</p>
-<p>进入ssh秘钥文件中，删除掉所有秘钥（确保安全）</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /root/.ssh<br>rm -rf *<br></code></pre></td></tr></table></figure>
-
-<p>同时，kill掉启动的Sync进程，防止病毒再次通过Sync感染</p>
-<h2 id="事故产生的原因"><a href="#事故产生的原因" class="headerlink" title="事故产生的原因"></a>事故产生的原因</h2><p>个人分析是因为服务器的密码太简单，百分百在字典中，容易被黑客破解，然后上传了挖矿病毒。经过这次处理改用秘钥登录，同时密码设置为复杂密码，防止被爆破。</p>
+                <h1 id="Java-内存区域"><a href="#Java-内存区域" class="headerlink" title="Java 内存区域"></a>Java 内存区域</h1><p><strong>JDK1.7以前的内存区域</strong><br><img src="https://pic.liahnu.top/img/202403281536095.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>JDK1.8以后的内存区域</strong><br><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>程序计数器</strong></p>
+<ul>
+<li>线程私有</li>
+<li>记录当前线程执行的字节码的行号</li>
+<li>如果是Java方法，计数器记录的是字节码的行号</li>
+<li>如果是Native方法，计数器值为空</li>
+<li>如果是多线程，每个线程都有一个独立的计数器</li>
+</ul>
+<p><strong>虚拟机栈</strong></p>
+<ul>
+<li>线程私有</li>
+<li>每个方法执行的时候都会创建一个栈帧</li>
+<li>每个栈帧包含局部变量表、操作数栈、动态链接、方法出口等信息（类似于C语言中的栈）</li>
+</ul>
+<p><strong>本地方法栈</strong><br>虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。 </p>
+<p><strong>堆</strong><br>此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存。</p>
+<p>Java 堆是垃圾收集器管理的主要区域，因此也被称作 GC 堆（Garbage Collected Heap）。从垃圾回收的角度，由于现在收集器基本都采用分代垃圾收集算法，所以 Java 堆还可以细分为：新生代和老年代；再细致一点有：Eden、Survivor、Old 等空间。进一步划分的目的是更好地回收内存，或者更快地分配内存。</p>
+<p><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<ul>
+<li><strong>新生代</strong>：新创建的对象首先会被分配到新生代的 Eden 区，当 Eden 区满时，会触发 Minor GC，将 Eden 区中的存活对象复制到 S0 或 S1 中，然后清理掉 Eden 区中的所有对象。在多次 Minor GC 之后，存活时间较长的对象会被移动到老年代。</li>
+<li><strong>老年代</strong>：存放新生代中经历多次 GC 仍然存活的对象。在老年代中，由于对象存活时间较长，所以很少发生 GC，当老年代满时，会触发 Major GC，进行老年代的内存清理。</li>
+<li><strong>永久代</strong>：用于存放 Class 的元数据，JDK1.8 之后被元空间（Metaspace）取代。</li>
+</ul>
+<p><strong>方法区</strong><br>方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。</p>
+<p>当虚拟机要使用一个类时，它需要读取并解析 Class 文件获取相关信息，再将信息存入到方法区。方法区会存储已被虚拟机加载的 类信息、字段信息、方法信息、常量、静态变量、即时编译器编译后的代码缓存等数据。</p>
+<p><strong>方法区和永久代以及元空间是什么关系呢？</strong><br>方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。</p>
+<p><strong>运行时常量池</strong><br>运行时常量池是方法区的一部分，用于存放编译期生成的各种字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<p><strong>字符串常量池</strong><br>字符串常量池是运行时常量池的一部分，用于存放编译期生成的各种字面量和符号引用。这部分内容将在类加载后进入方法区的运行时常量池中存放。</p>
+<p><strong>直接内存</strong><br>直接内存并不是虚拟机运行时数据区的一部分，也不是 Java 虚拟机规范中定义的内存区域。在 JDK 1.4 中新加入了 NIO 类，引入了一种基于通道与缓冲区的 I&#x2F;O 方式，它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在 Java 堆和 Native 堆中来回复制数据。</p>
+<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="内存分配与回收策略"><a href="#内存分配与回收策略" class="headerlink" title="内存分配与回收策略"></a>内存分配与回收策略</h2><p><strong>对象优先在 Eden 区分配</strong><br>大多数情况下，对象在新生代中 Eden 区分配。当 Eden 区没有足够空间进行分配时，虚拟机将发起一次 Minor GC。</p>
+<p><strong>大对象直接进入老年代</strong><br>大对象直接进入老年代的行为是由虚拟机动态决定的，它与具体使用的垃圾回收器和相关参数有关。大对象直接进入老年代是一种优化策略，旨在避免将大对象放入新生代，从而减少新生代的垃圾回收频率和成本。</p>
+<p><strong>长期存活的对象将进入老年代</strong><br>既然虚拟机采用了分代收集的思想来管理内存，那么内存回收时就必须能识别哪些对象应放在新生代，哪些对象应放在老年代中。为了做到这一点，虚拟机给每个对象一个对象年龄（Age）计数器。大部分情况，对象都会首先在 Eden 区域分配。如果对象在 Eden 出生并经过第一次 Minor GC 后仍然能够存活，并且能被 Survivor 容纳的话，将被移动到 Survivor 空间（s0 或者 s1）中，并将对象年龄设为 1(Eden 区-&gt;Survivor 区后对象的初始年龄变为 1)。对象在 Survivor 中每熬过一次 MinorGC,年龄就增加 1 岁，当它的年龄增加到一定程度（默认为 15 岁），就会被晋升到老年代中。对象晋升到老年代的年龄阈值，可以通过参数 -XX:MaxTenuringThreshold 来设置。</p>
+<p><strong>主要进行gc的区域</strong></p>
+<p>部分收集 (Partial GC)</p>
+<ul>
+<li>新生代收集（Minor GC &#x2F; Young GC）：只对新生代进行垃圾收集；</li>
+<li>老年代收集（Major GC &#x2F; Old GC）：只对老年代进行垃圾收集。需要注意的是 Major GC 在有的语境中也用于指代整堆收集；</li>
+<li>混合收集（Mixed GC）：对整个新生代和部分老年代进行垃圾收集<br>整堆收集 (Full GC)：收集整个 Java 堆和方法区</li>
+</ul>
+<p><strong>空间分配担保</strong><br>空间分配担保是为了确保在 Minor GC 之前老年代本身还有容纳新生代所有对象的剩余空间。</p>
+<h2 id="死亡对象判断方法"><a href="#死亡对象判断方法" class="headerlink" title="死亡对象判断方法"></a>死亡对象判断方法</h2><h3 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h3><p>引用计数法是通过引用计数器来判断对象是否存活。每个对象都有一个引用计数器，当有一个地方引用它时，计数器加 1；当引用失效时，计数器减 1。当计数器为 0 时，说明对象不再被引用，可以被回收。</p>
+<p>但是引用计数法有一个很大的问题，就是循环引用。循环引用是指两个对象相互引用，但是没有其他对象引用它们。这样的话，引用计数器永远不会为 0，导致对象永远不会被回收。</p>
+<h3 id="可达性分析法"><a href="#可达性分析法" class="headerlink" title="可达性分析法"></a>可达性分析法</h3><p>可达性分析法是通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连时，则证明此对象是不可用的。</p>
+<p>GC Roots 对象包括：</p>
+<ul>
+<li>虚拟机栈中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI（即 Native 方法）引用的对象</li>
+<li>Java 虚拟机内部的引用</li>
+</ul>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><ul>
+<li>强引用：只要强引用存在，垃圾收集器永远不会回收被引用的对象。</li>
+<li>软引用：只有在内存不足的情况下，垃圾收集器才会回收被软引用关联的对象。</li>
+<li>弱引用：只要垃圾收集器工作，不管内存是否充足，都会回收被弱引用关联的对象。</li>
+<li>虚引用：用来跟踪对象被垃圾回收器回收的活动。</li>
+</ul>
+<h3 id="如何判断一个常量是废弃常量"><a href="#如何判断一个常量是废弃常量" class="headerlink" title="如何判断一个常量是废弃常量"></a>如何判断一个常量是废弃常量</h3><ul>
+<li>JDK1.7 之前运行时常量池逻辑包含字符串常量池存放在方法区, 此时 hotspot 虚拟机对方法区的实现为永久代</li>
+<li>JDK1.7 字符串常量池被从方法区拿到了堆中, 这里没有提到运行时常量池,也就是说字符串常量池被单独拿到堆,运行时常量池剩下的东西还在方法区, 也就是 hotspot 中的永久代 。</li>
+<li>JDK1.8 hotspot 移除了永久代用元空间(Metaspace)取而代之, 这时候字符串常量池还在堆, 运行时常量池还在方法区, 只不过方法区的实现从永久代变成了元空间(Metaspace)</li>
+</ul>
 
                 
               </div>
@@ -371,9 +406,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BF%90%E7%BB%B4/">#运维</a>
+        <a href="/tags/Java/">#Java</a>
       
-        <a href="/tags/%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92/">#挖矿病毒</a>
+        <a href="/tags/JVM/">#JVM</a>
       
     </div>
   
@@ -385,8 +420,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>记录一次处理kswapd0挖矿病毒</div>
-      <div>https://www.liahnu.top/2024/02/20/记录一次处理kswapd0挖矿病毒/</div>
+      <div>JVM垃圾回收机制</div>
+      <div>https://www.liahnu.top/2024/03/28/JVM垃圾回收机制/</div>
     </div>
     <div class="license-meta">
       
@@ -398,7 +433,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年2月20日</div>
+          <div>2024年3月28日</div>
         </div>
       
       
@@ -430,9 +465,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/15/k8s%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%85%A5%E9%97%A8/" title="k8s基础知识入门">
+                      <a href="/2024/03/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95-Opay/" title="第一次面试-Opay">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">k8s基础知识入门</span>
+                        <span class="hidden-mobile">第一次面试-Opay</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -440,8 +475,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/17/Spring-AOP%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" title="Spring AOP的基础使用">
-                        <span class="hidden-mobile">Spring AOP的基础使用</span>
+                      <a href="/2024/03/20/%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E6%96%87%E9%9B%86%E5%90%88/" title="常见八股文集合">
+                        <span class="hidden-mobile">常见八股文集合</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
