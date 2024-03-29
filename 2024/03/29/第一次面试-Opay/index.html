@@ -16,15 +16,15 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="第一次面试-Opay待整理 Java中的集合有哪些Java中的集合主要包括List、Set、Map和Queue等。其中，List是有序集合，可以存储重复元素；Set是无序集合，不允许存储重复元素；Map是键值对集合，每个键对应一个值；Queue是队列集合，用于存储元素并实现先进先出的操作。 List  ArrayList：基于数组实现，支持随机访问和动态扩容。 LinkedList：基于链表实现，">
+    <meta name="description" content="第一次面试-Opay总之第一次面试答得不好，针对博客之前的内容印象不是很深刻，所以这里整理一下之前的内容，以便下次面试的时候能够更好的回答问题。待整理 Java中的集合有哪些Java中的集合主要包括List、Set、Map和Queue等。其中，List是有序集合，可以存储重复元素；Set是无序集合，不允许存储重复元素；Map是键值对集合，每个键对应一个值；Queue是队列集合，用于存储元素并实现先">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一次面试-Opay">
 <meta property="og:url" content="https://www.liahnu.top/2024/03/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95-Opay/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="第一次面试-Opay待整理 Java中的集合有哪些Java中的集合主要包括List、Set、Map和Queue等。其中，List是有序集合，可以存储重复元素；Set是无序集合，不允许存储重复元素；Map是键值对集合，每个键对应一个值；Queue是队列集合，用于存储元素并实现先进先出的操作。 List  ArrayList：基于数组实现，支持随机访问和动态扩容。 LinkedList：基于链表实现，">
+<meta property="og:description" content="第一次面试-Opay总之第一次面试答得不好，针对博客之前的内容印象不是很深刻，所以这里整理一下之前的内容，以便下次面试的时候能够更好的回答问题。待整理 Java中的集合有哪些Java中的集合主要包括List、Set、Map和Queue等。其中，List是有序集合，可以存储重复元素；Set是无序集合，不允许存储重复元素；Map是键值对集合，每个键对应一个值；Queue是队列集合，用于存储元素并实现先">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-29T03:57:07.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:33:01.002Z">
+<meta property="article:modified_time" content="2024-03-29T09:37:22.622Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="面试">
@@ -255,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          2.1k 字
         
       </span>
     
@@ -266,7 +266,7 @@
         
         
         
-          5 分钟
+          7 分钟
         
       </span>
     
@@ -325,7 +325,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="第一次面试-Opay"><a href="#第一次面试-Opay" class="headerlink" title="第一次面试-Opay"></a>第一次面试-Opay</h1><p>待整理</p>
+                <h1 id="第一次面试-Opay"><a href="#第一次面试-Opay" class="headerlink" title="第一次面试-Opay"></a>第一次面试-Opay</h1><p>总之第一次面试答得不好，针对博客之前的内容印象不是很深刻，所以这里整理一下之前的内容，以便下次面试的时候能够更好的回答问题。<br>待整理</p>
 <h2 id="Java中的集合有哪些"><a href="#Java中的集合有哪些" class="headerlink" title="Java中的集合有哪些"></a>Java中的集合有哪些</h2><p>Java中的集合主要包括List、Set、Map和Queue等。其中，List是有序集合，可以存储重复元素；Set是无序集合，不允许存储重复元素；Map是键值对集合，每个键对应一个值；Queue是队列集合，用于存储元素并实现先进先出的操作。</p>
 <p><strong>List</strong></p>
 <ul>
@@ -350,7 +350,7 @@
 <li>PriorityQueue：基于堆实现，支持优先级队列操作。</li>
 <li>PriorityQueue: 基于堆实现，支持优先级队列操作。</li>
 </ul>
-<p><strong>除了生产者消费者模型，阻塞队列还有什么地方用</strong></p>
+<p><strong>除了生产者消费者模型，阻塞队列还有什么场景</strong><br>（当时除了生产消费者其他的都忘了）</p>
 <ul>
 <li>线程池中的任务队列</li>
 <li>事件驱动模型中的事件队列</li>
@@ -363,6 +363,10 @@
 <li>Undo&#x2F;Redo功能： 在应用程序中实现撤销和重做功能时，可以使用双端队列来管理操作历史。</li>
 <li>实现线程安全队列： 在多线程环境下，使用ConcurrentLinkedDeque实现线程安全的双端队列。</li>
 </ul>
+<h2 id="InputStream和BufferInputStream的区别"><a href="#InputStream和BufferInputStream的区别" class="headerlink" title="InputStream和BufferInputStream的区别"></a>InputStream和BufferInputStream的区别</h2><p>InputStream是Java中所有输入流的抽象基类，它定义了读取字节流的基本方法。BufferedInputStream是InputStream的子类，它提供了缓冲功能，可以提高读取字节流的性能。</p>
+<p><strong>BufferInputStream的优缺点</strong></p>
+<p>BufferedInputStream的优点是可以减少读取磁盘文件的次数，提高读取性能；缺点是会增加内存消耗，因为需要维护一个缓冲区，增加一定的内存消耗。</p>
+<h2 id="ThreadLocalMap的实现"><a href="#ThreadLocalMap的实现" class="headerlink" title="ThreadLocalMap的实现"></a>ThreadLocalMap的实现</h2><h2 id="Syncronized关键字"><a href="#Syncronized关键字" class="headerlink" title="Syncronized关键字"></a>Syncronized关键字</h2><h2 id="JVM的内存模型"><a href="#JVM的内存模型" class="headerlink" title="JVM的内存模型"></a>JVM的内存模型</h2><h2 id="JVM堆的结构"><a href="#JVM堆的结构" class="headerlink" title="JVM堆的结构"></a>JVM堆的结构</h2><h2 id="Eden区、s0，s1区关系和对象生成流程"><a href="#Eden区、s0，s1区关系和对象生成流程" class="headerlink" title="Eden区、s0，s1区关系和对象生成流程"></a>Eden区、s0，s1区关系和对象生成流程</h2><h2 id="mybatis和mybatis-plus的区别"><a href="#mybatis和mybatis-plus的区别" class="headerlink" title="mybatis和mybatis-plus的区别"></a>mybatis和mybatis-plus的区别</h2><p>mybatis-plus是mybatis的增强版，它在mybatis的基础上提供了更多的功能和特性。mybatis-plus提供了代码生成器、分页插件、性能分析插件等功能，简化了开发过程，提高了开发效率。此外，mybatis-plus还提供了更加强大的CRUD操作，支持更多的数据库操作。</p>
 <h2 id="讲到Nacos和Euareka的优缺点"><a href="#讲到Nacos和Euareka的优缺点" class="headerlink" title="讲到Nacos和Euareka的优缺点"></a>讲到Nacos和Euareka的优缺点</h2><p>首先，从实现方式上看，Nacos和Eureka都支持服务注册与发现，但是它们的实现方式略有不同。Nacos基于客户端&#x2F;服务器架构，服务提供者在启动时将自己注册到Nacos的服务注册表中，服务消费者从Nacos的服务注册表中获取服务列表。而Eureka则基于云原生架构，使用RESTful API进行通信，服务提供者将自己的信息注册到Eureka Server，服务消费者从Eureka Server获取服务列表。</p>
 <p>其次，从功能上看，Nacos和Eureka都提供了动态服务发现、配置管理、服务元数据管理和流量管理等功能。然而，它们之间也存在一些差异。例如，Nacos支持服务端主动检测提供者状态，而Eureka则采用客户端检测机制。此外，Nacos支持服务列表变更的消息推送模式，服务列表更新更及时，而Eureka则采用拉取模式。</p>
 <p>最后，从性能上看，Nacos和Eureka都具有较高的性能和可扩展性。然而，由于Nacos是基于长连接的，因此在处理大量并发请求时可能会表现出更高的性能。而Eureka则采用短连接和定时发送的方式，因此在处理少量请求时可能具有更好的性能。</p>

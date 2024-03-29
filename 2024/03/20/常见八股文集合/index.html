@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:15:11.411Z">
+<meta property="article:modified_time" content="2024-03-29T06:17:09.503Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月29日 中午
+                    本文最后更新于：2024年3月29日 下午
                   
                 
               </p>
@@ -378,7 +378,7 @@
 <p><strong>内存泄漏</strong><br>因为ThreadLocalMap中使用的 key 为 ThreadLocal 的弱引用：</p>
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
-<p>如何解决内存泄漏问题？使用完ThreadLocal后，及时调用remove()方法释放内存空间。</p>
+<p>如何解决内存泄漏问题？使用完ThreadLocal后，<strong>及时调用remove()方法</strong>释放内存空间。</p>
 <h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="JVM的内存结构"><a href="#JVM的内存结构" class="headerlink" title="JVM的内存结构"></a>JVM的内存结构</h2><p>JVM的内存结构大致分为五个部分，分别是程序计数器、虚拟机栈、本地方法栈、堆和方法区。除此之外，还有由堆中引用的JVM外的直接内存。</p>
 <p><strong>JDK1.7以前的内存区域</strong><br><img src="https://pic.liahnu.top/img/202403281536095.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>JDK1.8以后的内存区域</strong><br><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png" srcset="/img/loading.gif" lazyload></p>
