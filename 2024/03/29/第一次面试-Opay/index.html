@@ -24,7 +24,7 @@
 <meta property="og:description" content="第一次面试-Opay总之第一次面试答得不好，针对博客之前的内容印象不是很深刻，所以这里整理一下之前的内容，以便下次面试的时候能够更好的回答问题。待整理 大致的问题合集 Java中的集合有哪些 谈到双端队列，是什么，有什么使用场景 谈到阻塞队列，除了生产者消费者模型，还有什么场景 InputStream和BufferInputStream的区别，有什么优点 谈到了多线程，可以用什么做线程间同步 Th">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-29T03:57:07.000Z">
-<meta property="article:modified_time" content="2024-03-30T09:29:25.477Z">
+<meta property="article:modified_time" content="2024-03-30T09:32:23.735Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="面试">
@@ -439,7 +439,7 @@
     I -->E
     B -->D{Eden区是否有\n足够的空间}
     D -->|有,对象分配在Eden区| E(结束)
-    D -->|无,触发Minor GC|F[Eden区会移动到s0区，并将存活的对象\n移至s1区,同时交换s0和s1]
+    D -->|无,触发Minor GC|F[Eden区会移动到s0区，并将存活的对象\n移至s1区,并交换s0和s1]
     F -->G{对象是否\n达到晋升年龄}
     G -->|是|J[对象晋升到老年代]
     J --> C

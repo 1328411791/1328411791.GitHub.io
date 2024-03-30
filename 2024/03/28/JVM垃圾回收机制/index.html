@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png">
 <meta property="article:published_time" content="2024-03-28T07:34:59.000Z">
-<meta property="article:modified_time" content="2024-03-30T09:27:52.220Z">
+<meta property="article:modified_time" content="2024-03-30T09:32:53.850Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -383,7 +383,7 @@
     I -->E
     B -->D{Eden区是否有\n足够的空间}
     D -->|有,对象分配在Eden区| E(结束)
-    D -->|无,触发Minor GC|F[Eden区会移动到s0区，并将存活的对象\n移至s1区,同时交换s0和s1]
+    D -->|无,触发Minor GC|F[Eden区会移动到s0区，并将存活的对象\n移至s1区,并交换s0和s1]
     F -->G{对象是否\n达到晋升年龄}
     G -->|是|J[对象晋升到老年代]
     J --> C
