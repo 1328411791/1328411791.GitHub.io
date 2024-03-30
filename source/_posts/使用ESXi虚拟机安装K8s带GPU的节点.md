@@ -42,6 +42,8 @@ sudo apt install socat conntrack ebtables ipset
 ```
 ./kk create cluster --with-kubernetes v1.23.10 --with-kubesphere v3.4.1
 ```
+
+确保环境变量KKZONE的值为cn，
 后面的命令是选择安装的版本,其中kubernetes为1.23 kubesphere为3.4.1
 
 #### 查看安装结果
@@ -64,7 +66,6 @@ kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l 'app
 ## 安装Container gpu模块
 
 因为k8s在v1.20后容器由k8s换为container，因此我们需要安装container的gpu模块
-
 
 
 

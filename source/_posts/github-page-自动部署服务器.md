@@ -98,3 +98,6 @@ nohup ./update.sh > ./log 2>&1 &
 查看log 发现代码被正确拉取
 
 ![](https://pic.liahnu.top/img/202304221912578.png)
+
+
+**用websocket不如用ssh稳定**
