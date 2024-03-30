@@ -24,8 +24,9 @@
 <meta property="og:description" content="volatile在多线程并发编程中synchronized和volatile都扮演着重要的角色，相较于synchronized，volatile更加轻量级，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能同时读到这个修改的值。 volatile变量修饰的共享变量进行写操作的时候会使用处理器提供的Lock指令，将这个变量所在缓存行的数据写回到系">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-18T08:56:36.000Z">
-<meta property="article:modified_time" content="2024-03-30T09:28:33.635Z">
+<meta property="article:modified_time" content="2024-03-30T10:24:29.431Z">
 <meta property="article:author" content="liahnu">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -315,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月30日 下午
+                    本文最后更新于：2024年3月30日 晚上
                   
                 
               </p>
@@ -377,6 +378,13 @@
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/">#Java</a>
+      
+    </div>
   
 </div>
 
@@ -544,6 +552,19 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
 
 
 
