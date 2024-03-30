@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202403150154123.png">
 <meta property="article:published_time" content="2024-03-14T17:44:20.000Z">
-<meta property="article:modified_time" content="2024-03-20T05:07:22.497Z">
+<meta property="article:modified_time" content="2024-03-30T15:10:38.970Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          3.1k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          9 分钟
+          10 分钟
         
       </span>
     
@@ -318,7 +318,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月20日 下午
+                    本文最后更新于：2024年3月30日 晚上
                   
                 
               </p>
@@ -341,6 +341,7 @@
 </ul>
 <p>Pod 为特定于应用程序的“逻辑主机”建模，并且可以包含相对紧耦合的不同应用容器。例如，Pod 可能既包含带有 Node.js 应用的容器，也包含另一个不同的容器，用于提供 Node.js 网络服务器要发布的数据。Pod 中的容器共享 IP 地址和端口，<strong>始终位于同一位置并且共同调度</strong>，并在同一工作节点上的共享上下文中运行。</p>
 <p>Pod是 Kubernetes 平台上的原子单元。 当我们在 Kubernetes 上创建 Deployment 时，该 Deployment 会在其中创建包含容器的 Pod （而不是直接创建容器）。每个 Pod 都与调度它的工作节点绑定，并保持在那里直到终止（根据重启策略）或删除。 如果工作节点发生故障，则会在集群中的其他可用工作节点上调度相同的 Pod。</p>
+<p>Pod通常不需要像下面那样直接创建，而是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。</p>
 <h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>        <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>        <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
 
 
@@ -350,6 +351,9 @@
 <li>Kubelet，负责 Kubernetes 主节点和工作节点之间通信的过程; 它管理 Pod 和机器上运行的容器。</li>
 <li>容器运行时（如 Docker）负责从仓库中提取容器镜像，解压缩容器以及运行应用程序。</li>
 </ul>
+<p><strong>标签</strong><br>工作节点的标签是用来识别和组织工作节点和其他资源的关键工具。标签是一种键值对（Key-Value）结构，可以附加到 Kubernetes 资源上，为资源提供一种易于搜索和选择的方式。比如GPU节点代的标签可能是<code>gpu: true</code>，这样我们就可以通过标签选择器选择GPU节点。</p>
+<p><strong>污点</strong><br>在 Kubernetes 中，污点（Taints）和容忍度（Tolerations）是一种控制 Pod 调度的方法。</p>
+<p>污点是应用在节点（Node）上的，表示这个节点有某种特殊属性，可能不能或者不应该调度某些 Pod。例如，你可能有一些节点具有特殊硬件，只能运行特定的 Pod，或者你可能有一些节点正在维护，不应该调度任何 Pod。当一个节点被应用了污点后，只有具有相应容忍度的 Pod 才能被调度到这个节点上。</p>
 <h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service是用来协调Pod之间的通信的。Service定义了一组Pod的逻辑集合，并为这些Pod提供一个统一的访问入口。Service可以通过标签选择器来选择Pod，这样就可以将请求转发到这些Pod上。</p>
 <p>Service有四种类型：</p>
 <ul>

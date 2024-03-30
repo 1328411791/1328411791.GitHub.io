@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202403301823061.png">
 <meta property="article:published_time" content="2024-03-28T07:34:59.000Z">
-<meta property="article:modified_time" content="2024-03-30T10:24:03.343Z">
+<meta property="article:modified_time" content="2024-03-30T10:25:54.287Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -260,7 +260,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k 字
+          3.1k 字
         
       </span>
     
@@ -356,6 +356,7 @@
 <li><strong>老年代</strong>：存放新生代中经历多次 GC 仍然存活的对象。在老年代中，由于对象存活时间较长，所以很少发生 GC，当老年代满时，会触发 Major GC，进行老年代的内存清理。</li>
 <li><strong>永久代</strong>：用于存放 Class 的元数据，JDK1.8 之后被元空间（Metaspace）取代。</li>
 </ul>
+<p>JDK 8 版本之后 PermGen(永久) 已被 Metaspace(元空间) 取代，元空间使用的是直接内存 。元空间的本质和永久代类似，都是对JVM规范中方法区的实现。不过元空间与永久代之间仍然有一些区别。</p>
 <p><strong>方法区</strong><br>方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。</p>
 <p>当虚拟机要使用一个类时，它需要读取并解析 Class 文件获取相关信息，再将信息存入到方法区。方法区会存储已被虚拟机加载的 类信息、字段信息、方法信息、常量、静态变量、即时编译器编译后的代码缓存等数据。</p>
 <p><strong>方法区和永久代以及元空间是什么关系呢？</strong><br>方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。</p>
