@@ -2,7 +2,8 @@
 layout: p
 title: Java并发机制的底层实现
 date: 2024-03-18 16:56:36
-tags:
+tags: [Java]
+mermaid: true
 ---
 
 # volatile
