@@ -24,7 +24,7 @@
 <meta property="og:description" content="volatile在多线程并发编程中synchronized和volatile都扮演着重要的角色，相较于synchronized，volatile更加轻量级，它在多处理器开发中保证了共享变量的“可见性”。可见性的意思是当一个线程修改一个共享变量时，另外一个线程能同时读到这个修改的值。 volatile变量修饰的共享变量进行写操作的时候会使用处理器提供的Lock指令，将这个变量所在缓存行的数据写回到系">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-18T08:56:36.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:15:11.365Z">
+<meta property="article:modified_time" content="2024-03-30T09:28:33.635Z">
 <meta property="article:author" content="liahnu">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -253,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          2.9k 字
         
       </span>
     
@@ -264,7 +264,7 @@
         
         
         
-          8 分钟
+          10 分钟
         
       </span>
     
@@ -315,7 +315,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月29日 中午
+                    本文最后更新于：2024年3月30日 下午
                   
                 
               </p>
@@ -339,11 +339,26 @@
 <p>synchronized的实现是基于对象头中的Mark Word和锁记录来实现的，当一个线程获取锁的时候，会在锁记录中记录锁的持有者，当锁被释放的时候，会清空锁记录中的持有者信息。synchronized代码块的同步是通过monitorenter和monitorexit指令来实现的，而方法同步是另一种发放实现的。</p>
 <h2 id="锁升级的过程"><a href="#锁升级的过程" class="headerlink" title="锁升级的过程"></a>锁升级的过程</h2><p>对于同一问题的处理，并不一定是创建的线程数量越多，执行越快，这是由于线程有创建和上下文切换的开销。而锁的上下文消耗尤为严重，因此JDK6对锁进行了优化。</p>
 <p>JDK 1.6引入了偏向锁和轻量级锁，从而让锁拥有了四个状态：无锁状态（unlocked）、偏向锁状态（biasble）、轻量级锁状态（lightweight locked）和重量级锁状态（inflated）。这几个状态会随着竞争逐渐升级，锁可以升级但不能降级。</p>
+<p><strong>锁升级的过程</strong></p>
+<ol>
+<li>无锁状态：锁对象还没有被任何线程锁定，没有线程相互竞争，此时处于无锁状态。</li>
+<li>偏向锁状态：只有一个线程不停访问代码块，此时会使用偏向锁。(在JDK15后，偏向锁被废弃，因为撤销带来的性能开销大)</li>
+<li>轻量级锁状态：多个线程访问代码块，偏向锁会撤销，此时会使用轻量级锁。</li>
+<li>重量级锁状态：当CAS自旋达到一定次数没有拿到锁(有线程超过10次自旋，或者自旋线程数超过cpu核数的一半)，会撤销掉轻量级锁，此时会使用重量级锁。</li>
+</ol>
+<pre class="mermaid">graph LR
+    A[无锁状态] -->|有一个线程竞争锁| B[偏向锁状态]
+    B -->|多个线程竞争| C[偏向锁状态]
+    C -->|CAS自旋达到一定次数| D[重量级锁状态]</pre>
+
+<p><strong>相较于volatile的区别</strong></p>
 <ul>
-<li><strong>无锁状态：</strong>锁对象还没有被任何线程锁定，Mark Word中存储的是对象的哈希码。</li>
-<li><strong>偏向锁状态：</strong>锁对象只被一个线程锁定，Mark Word中存储的是线程ID。</li>
-<li><strong>轻量级锁状态：</strong>锁对象已经被多个线程锁定，但是还没有竞争，Mark Word中存储的是指向栈中锁记录的指针。</li>
-<li><strong>重量级锁状态：</strong>锁对象已经被多个线程锁定，并且有竞争，Mark Word中存储的是指向互斥量的指针。</li>
+<li>volatile主要用于修饰变量，而syschronized主要用于修饰方法和代码块；</li>
+<li>volatile相较于synchronized速度更快；</li>
+<li>volatile关键字是Java中的一种轻量级同步机制，它保证了线程的可见性，但是不保证原子性；</li>
+<li>synchronized关键字是Java中的一种重量级同步机制，它保证了线程的可见性和原子性，但是性能开销较大；</li>
+<li>volatile关键字一般使用乐观锁的思想实现，通常使用轻量级锁，使用CAS机制。</li>
+<li>synchronized关键字一般使用悲观锁的思想实现，通常有锁升级的过程。</li>
 </ul>
 <h1 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h1><p>CAS操作是一种乐观锁的实现方式，它的实现是基于CPU的原子操作指令，当一个线程获取锁的时候，会尝试使用CAS操作来获取锁，如果CAS操作失败，那么就会尝试重新获取锁，直到获取锁成功。</p>
 <p>CAS中文名为比较并交换，它是一种无锁的实现方式，它的实现是基于CPU的原子操作指令，当一个线程获取锁的时候，会检查数值</p>

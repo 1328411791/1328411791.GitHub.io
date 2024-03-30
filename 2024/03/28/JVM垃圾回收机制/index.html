@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/hotspot-heap-structure.png">
 <meta property="article:published_time" content="2024-03-28T07:34:59.000Z">
-<meta property="article:modified_time" content="2024-03-29T04:15:11.347Z">
+<meta property="article:modified_time" content="2024-03-30T09:27:52.220Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="JVM">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          3.3k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          9 分钟
+          11 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月29日 中午
+                    本文最后更新于：2024年3月30日 下午
                   
                 
               </p>
@@ -372,6 +372,24 @@
 <li>混合收集（Mixed GC）：对整个新生代和部分老年代进行垃圾收集<br>整堆收集 (Full GC)：收集整个 Java 堆和方法区</li>
 </ul>
 <p><strong>空间分配担保</strong><br>空间分配担保是为了确保在 Minor GC 之前老年代本身还有容纳新生代所有对象的剩余空间。</p>
+<h2 id="Eden区、s0，s1区关系和对象生成流程"><a href="#Eden区、s0，s1区关系和对象生成流程" class="headerlink" title="Eden区、s0，s1区关系和对象生成流程"></a>Eden区、s0，s1区关系和对象生成流程</h2><p>新创建一个对象，首先判断能否放到Eden区，如果Eden区满了，会触发mirror gc。此时Eden区和s0区中存活的对象移至s1区，并标志对象的分代年龄，eden区和s0区清空，如果此时对象还无法放置eden区，则直接放置老年代。反之亦然。</p>
+<pre class="mermaid">graph TD
+    A(堆对象内存分配) -->|小对象| B(Eden区)
+    A -->|大对象| C{老年代是否\n有足够的空间}
+    C -->|有,对象分配在老年代| E(结束)
+    C -->|无|H[触发Full GC]
+    H -->|内存足够|E
+    H -->|内存依然不够|I(触发OOM)
+    I -->E
+    B -->D{Eden区是否有\n足够的空间}
+    D -->|有,对象分配在Eden区| E(结束)
+    D -->|无,触发Minor GC|F[Eden区会移动到s0区，并将存活的对象\n移至s1区,同时交换s0和s1]
+    F -->G{对象是否\n达到晋升年龄}
+    G -->|是|J[对象晋升到老年代]
+    J --> C
+    G -->|否|K[对象继续留在s1区]
+    K -->E</pre>
+
 <h2 id="死亡对象判断方法"><a href="#死亡对象判断方法" class="headerlink" title="死亡对象判断方法"></a>死亡对象判断方法</h2><h3 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h3><p>引用计数法是通过引用计数器来判断对象是否存活。每个对象都有一个引用计数器，当有一个地方引用它时，计数器加 1；当引用失效时，计数器减 1。当计数器为 0 时，说明对象不再被引用，可以被回收。</p>
 <p>但是引用计数法有一个很大的问题，就是循环引用。循环引用是指两个对象相互引用，但是没有其他对象引用它们。这样的话，引用计数器永远不会为 0，导致对象永远不会被回收。</p>
 <h3 id="可达性分析法"><a href="#可达性分析法" class="headerlink" title="可达性分析法"></a>可达性分析法</h3><p>可达性分析法是通过一系列的称为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连时，则证明此对象是不可用的。</p>
