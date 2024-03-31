@@ -4,6 +4,40 @@
   
   
   <entry>
+    <title>Redission中RateLimiter相关的使用</title>
+    <link href="/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8-1/"/>
+    <url>/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8-1/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Redission中RateLimiter相关的使用</title>
+    <link href="/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <url>/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Redission中RateLimiter相关的使用"><a href="#Redission中RateLimiter相关的使用" class="headerlink" title="Redission中RateLimiter相关的使用"></a>Redission中RateLimiter相关的使用</h1><h2 id="RateLimiter对象介绍"><a href="#RateLimiter对象介绍" class="headerlink" title="RateLimiter对象介绍"></a>RateLimiter对象介绍</h2><p>RateLimiter是一个限流器，可以用来限制某个操作的频率，比如限制某个接口的访问频率。RateLimiter是基于令牌桶算法实现的，它可以控制每秒的访问次数，可以设置每秒的访问次数，也可以设置每秒的访问次数和每次请求的令牌数。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">redisKey</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;rateLimiter&quot;</span>;<br><span class="hljs-type">RRateLimiter</span> <span class="hljs-variable">rateLimiter</span> <span class="hljs-operator">=</span> redisson.getRateLimiter(redisKey);<br></code></pre></td></tr></table></figure><p>定义一个Key去生成RateLimiter对象,RateLimiter对象是通过RedissonClient对象获取的，通过getRateLimiter方法获取，getRateLimiter方法有一个参数，是Key，用来生成RateLimiter对象。</p><p>关于如何限制速率。如果你希望限制特定用户的请求速率，那么可以使用用户的IP地址作为key。如果你希望限制特定方法的调用速率，那么可以使用方法名作为key。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 设置限流策略</span><br>rateLimiter.trySetRate(annotation.rateType(), annotation.count(), annotation.period(), annotation.rateTimeUnit());<br></code></pre></td></tr></table></figure><p>trySetRate方法用来设置限流策略，其中有四个参数：</p><ul><li>rateType是限流类型，有两种类型：OVERALL和PER_CLIENT，OVERALL表示OVERALL表示所有RateLimiter实例的总速率，PER_CLIENT表示是指在使用同一Redisson实例的所有RateLimiter实例的总速率</li><li>rate是每次生成的令牌数，表示在指定的时间间隔内允许的操作次数。</li><li>period是时间间隔，定义指定的时间间隔内允许的操作次数</li><li>rateTimeUnit是时间单位，是生成令牌间隔时间的单位，可以是秒、分、时等</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">// 获取令牌</span><br><span class="hljs-type">boolean</span> <span class="hljs-variable">tryAcquire</span> <span class="hljs-operator">=</span> rateLimiter.tryAcquire(permits, timeout, TimeUnit);<br></code></pre></td></tr></table></figure><p>tryAcquire方法用来获取令牌，其中有三个参数：</p><ul><li>permits是请求的令牌数，也就是请求消耗的令牌数</li><li>timeout是超时时间</li><li>TimeUnit是时间单位</li></ul><p>意思是在timeout时间内获取permits个令牌，当获取的数量可用的时候，才会获取成功。</p><h3 id="如何理解请求的令牌数和生成的令牌数"><a href="#如何理解请求的令牌数和生成的令牌数" class="headerlink" title="如何理解请求的令牌数和生成的令牌数"></a>如何理解请求的令牌数和生成的令牌数</h3><ul><li>请求的令牌数是指每次请求消耗的令牌数，比如设置每次请求消耗1个令牌，那么每次请求都会消耗1个令牌</li><li>生成的令牌数是指每隔多长时间生成一个令牌，比如设置每隔1秒生成1个令牌，那么每秒都会生成1个令牌</li></ul><p>例如，设置每秒生成1个令牌，每次请求消耗1个令牌，那么每秒可以请求1次；设置每秒生成1个令牌，每次请求消耗2个令牌，那么每秒可以请求0.5次。</p><h2 id="限流与AOP切面注解配合"><a href="#限流与AOP切面注解配合" class="headerlink" title="限流与AOP切面注解配合"></a>限流与AOP切面注解配合</h2><p>大致在之前的AOP文章中。</p><h1 id="具体的实现"><a href="#具体的实现" class="headerlink" title="具体的实现"></a>具体的实现</h1><p>rateLimiter在初始化后，会在redis中生成三个key，分别是：</p><ul><li>value: {limit:${key}}:value - 限流器的值</li><li>ZSort: {limit:${key}}:permits - 限流器的令牌</li><li>Hash: limit:${key} - 限流器的配置</li></ul><p><strong>限流器的配置</strong></p><p><img src="https://pic.liahnu.top/img/202403312224850.png"></p><ul><li>type: 限流类型</li><li>rate: 生成的令牌数</li><li>period: 生成令牌的时间间隔,这里的单位应该是毫秒</li></ul><p><strong>限流器的令牌</strong></p><p><img src="https://pic.liahnu.top/img/202403312231905.png"></p><ul><li>value: 一串生成的标准符</li><li>score: 最近一次生成令牌的时间戳</li></ul><p><strong>限流器的值</strong></p><ul><li>value: 存储着目前可用的令牌数</li></ul><h2 id="大致的流程"><a href="#大致的流程" class="headerlink" title="大致的流程"></a>大致的流程</h2><ol><li>初始化</li><li>定义限流器</li><li>尝试获取令牌</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+      <tag>Redis</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>第一次面试-Opay</title>
     <link href="/2024/03/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95-Opay/"/>
     <url>/2024/03/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E9%9D%A2%E8%AF%95-Opay/</url>
