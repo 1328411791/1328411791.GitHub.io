@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>联想一面面经</title>
+    <link href="/2024/04/12/%E8%81%94%E6%83%B3%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/"/>
+    <url>/2024/04/12/%E8%81%94%E6%83%B3%E4%B8%80%E9%9D%A2%E9%9D%A2%E7%BB%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="联想一面面经"><a href="#联想一面面经" class="headerlink" title="联想一面面经"></a>联想一面面经</h1><ul><li>英语自我介绍</li><li>项目介绍</li><li>项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新</li><li>Dubbo的默认服务调用方式是什么</li><li>MySQL的索引有哪些</li><li>MySQL的事物是基于什么实现的</li><li>索引失效的情况有哪些</li><li>如果有a,b,c三个联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢</li><li>提到了SPI，SpringBoot配置创建是怎么实现的</li><li>Spring怎么切换Bean的创建方式</li><li>Etcd中间件和Zookeeper有什么优缺点</li><li>能不能通过RabbitMQ去拿取指定的数据</li><li>反问</li></ul><h2 id="项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新"><a href="#项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新" class="headerlink" title="项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新"></a>项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新</h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Redission中RateLimiter相关的使用</title>
     <link href="/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <url>/2024/03/31/Redission%E4%B8%ADRateLimiter%E7%9B%B8%E5%85%B3%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
