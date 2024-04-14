@@ -24,7 +24,7 @@
 <meta property="og:description" content="联想一面面经 英语自我介绍 项目介绍 项目用了Nacos，他的配置中心能不能动态更新，怎么动态更新 Dubbo的默认服务调用方式是什么 MySQL的索引有哪些 MySQL的事物是基于什么实现的 索引失效的情况有哪些 如果有a,b,c三个联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢 SpringBoot的LOC了解吗 提到了SPI，SpringBoot配置创建是怎么实现的 Sprin">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-12T06:51:33.000Z">
-<meta property="article:modified_time" content="2024-04-12T14:44:54.695Z">
+<meta property="article:modified_time" content="2024-04-14T05:19:40.713Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.6k 字
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年4月12日 晚上
+                    本文最后更新于：2024年4月14日 下午
                   
                 
               </p>
@@ -348,7 +348,7 @@
 <li>通过@NacosPropertySource注解实现</li>
 </ul>
 <h2 id="Dubbo的默认服务调用方式是什么"><a href="#Dubbo的默认服务调用方式是什么" class="headerlink" title="Dubbo的默认服务调用方式是什么"></a>Dubbo的默认服务调用方式是什么</h2><p>（这个问题指的是同步还是异步调用）<br>Dubbo的默认服务调用方式是同步调用，即服务提供者和消费者之间是一对一的关系，消费者调用服务提供者的服务时，会阻塞等待服务提供者的响应。</p>
-<p>（怎么答成多个服务提供者是怎么调用的问题了）</p>
+<p>（怎么理解成成多个服务提供者的均衡负载之类的问题了）</p>
 <h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照应用维度划分主要有以下几种：</p>
 <ul>
 <li>主键索引：加速查询 + 列值唯一（不可以有 NULL）+ 表中只有一个。</li>
@@ -375,7 +375,8 @@
 <p><strong>使用Scope注解</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Scope(&quot;prototype&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="Etcd做服务发现中间件和Zookeeper有什么优缺点"><a href="#Etcd做服务发现中间件和Zookeeper有什么优缺点" class="headerlink" title="Etcd做服务发现中间件和Zookeeper有什么优缺点"></a>Etcd做服务发现中间件和Zookeeper有什么优缺点</h2><p>Etcd和Zookeeper都是服务发现中间件，主要用于服务注册、服务发现、服务配置等。</p>
+<h2 id="Etcd做服务发现中间件和Zookeeper比有什么优缺点"><a href="#Etcd做服务发现中间件和Zookeeper比有什么优缺点" class="headerlink" title="Etcd做服务发现中间件和Zookeeper比有什么优缺点"></a>Etcd做服务发现中间件和Zookeeper比有什么优缺点</h2><p>Etcd和Zookeeper都是服务发现中间件，主要用于服务注册、服务发现、服务配置等。</p>
+<h2 id="能不能通过RabbitMQ去拿取指定的数据，例如拿取时间为2024-04-12的数据"><a href="#能不能通过RabbitMQ去拿取指定的数据，例如拿取时间为2024-04-12的数据" class="headerlink" title="能不能通过RabbitMQ去拿取指定的数据，例如拿取时间为2024-04-12的数据"></a>能不能通过RabbitMQ去拿取指定的数据，例如拿取时间为2024-04-12的数据</h2><p>RabbitMQ是消息队列中间件，主要用于消息的生产和消费，不支持直接查询数据。</p>
 
                 
               </div>
