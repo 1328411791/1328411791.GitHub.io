@@ -16,26 +16,24 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。 DeploymentDeployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deploym">
+    <meta name="description" content="前言在微服务架构中，中间件是非常重要的一环，它可以帮助我们解决服务注册、服务发现、服务调用、负载均衡、熔断降级、配置管理等问题。在中间件中，Zookeeper、Etcd和Redis是非常常见的中间件（同时也被问到过他们之中的优缺点）。同时，在手写的玩具RPC框架中，三者都可以做为注册中心，本文也会对这三种中间件在注册中心中的使用进行对比分析。 RedisRedis的做项目时候的使用基本上是作为缓存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="k8s基础知识入门">
-<meta property="og:url" content="https://www.liahnu.top/2024/03/15/k8s%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:title" content="Zookeeper，Etcd和Redis做微服务中间件的特点">
+<meta property="og:url" content="https://www.liahnu.top/2024/04/14/Zookeeper%EF%BC%8CEtcd%E5%92%8CRedis%E5%81%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E7%89%B9%E7%82%B9/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="前言k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。 DeploymentDeployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deploym">
+<meta property="og:description" content="前言在微服务架构中，中间件是非常重要的一环，它可以帮助我们解决服务注册、服务发现、服务调用、负载均衡、熔断降级、配置管理等问题。在中间件中，Zookeeper、Etcd和Redis是非常常见的中间件（同时也被问到过他们之中的优缺点）。同时，在手写的玩具RPC框架中，三者都可以做为注册中心，本文也会对这三种中间件在注册中心中的使用进行对比分析。 RedisRedis的做项目时候的使用基本上是作为缓存">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pic.liahnu.top/img/202403150154123.png">
-<meta property="article:published_time" content="2024-03-14T17:44:20.000Z">
-<meta property="article:modified_time" content="2024-04-18T11:33:35.512Z">
+<meta property="article:published_time" content="2024-04-14T14:29:44.000Z">
+<meta property="article:modified_time" content="2024-04-18T11:33:35.510Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="运维">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pic.liahnu.top/img/202403150154123.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>k8s基础知识入门 - liahnu Blogs</title>
+  <title>Zookeeper，Etcd和Redis做微服务中间件的特点 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="k8s基础知识入门"></span>
+            <span id="subtitle" data-typed-text="Zookeeper，Etcd和Redis做微服务中间件的特点"></span>
           
         </div>
 
@@ -244,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-15 01:44" pubdate>
-          2024年3月15日 凌晨
+        <time datetime="2024-04-14 22:29" pubdate>
+          2024年4月14日 晚上
         </time>
       </span>
     
@@ -256,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          2.1k 字
         
       </span>
     
@@ -267,7 +265,7 @@
         
         
         
-          10 分钟
+          7 分钟
         
       </span>
     
@@ -313,7 +311,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">k8s基础知识入门</h1>
+            <h1 style="display: none">Zookeeper，Etcd和Redis做微服务中间件的特点</h1>
             
               <p class="note note-info">
                 
@@ -326,52 +324,59 @@
             
               <div class="markdown-body">
                 
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>k8s是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。k8s是由Google设计并捐赠给Cloud Native Computing Foundation（CNCF）的，它是一个开源的容器编排引擎，它可以自动化地部署、扩展和管理容器化的应用程序。</p>
-<h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>Deployment 会指挥 Kubernetes 如何创建和更新应用程序的实例。创建 Deployment 后，Kubernetes master 将应用程序实例调度到集群中的各个节点上。</p>
-<p>创建应用程序实例后，Kubernetes Deployment 控制器会持续监视这些实例。 如果托管实例的节点关闭或被删除，则 Deployment 控制器会将该实例替换为集群中另一个节点上的实例。 这提供了一种自我修复机制来解决机器故障维护问题。</p>
-<p>在没有 Kubernetes 这种编排系统之前，安装脚本通常用于启动应用程序，但它们不允许从机器故障中恢复。通过创建应用程序实例并使它们在节点之间运行， Kubernetes Deployments 提供了一种与众不同的应用程序管理方法。</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>          <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>          <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>          <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>      <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
-
-
-<h2 id="Pods"><a href="#Pods" class="headerlink" title="Pods"></a>Pods</h2><p>Pod 是 Kubernetes 抽象出来的，表示一组一个或多个应用程序容器（如 Docker），以及这些容器的一些共享资源。这些资源包括:</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在微服务架构中，中间件是非常重要的一环，它可以帮助我们解决服务注册、服务发现、服务调用、负载均衡、熔断降级、配置管理等问题。在中间件中，Zookeeper、Etcd和Redis是非常常见的中间件（同时也被问到过他们之中的优缺点）。同时，在手写的玩具RPC框架中，三者都可以做为注册中心，本文也会对这三种中间件在注册中心中的使用进行对比分析。</p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis的做项目时候的使用基本上是作为缓存使用的，但是Redis也可以作为注册中心使用。Redis的优点是性能高，他的数据都是存储在内存中的，所以读写速度非常快。但是Redis的缺点也很明显，因为数据都是存储在内存中的，所以数据量不能太大，否则会导致内存溢出。所以Redis适合做一些小型的注册中心。</p>
+<p><strong>主要的应用</strong></p>
 <ul>
-<li>共享存储，当作卷</li>
-<li>网络，作为唯一的集群 IP 地址</li>
-<li>有关每个容器如何运行的信息，例如容器镜像版本或要使用的特定端口。</li>
+<li>缓存（大头）</li>
+<li>分布式中同步数据</li>
+<li>分布式锁</li>
+<li>任务队列</li>
 </ul>
-<p>Pod 为特定于应用程序的“逻辑主机”建模，并且可以包含相对紧耦合的不同应用容器。例如，Pod 可能既包含带有 Node.js 应用的容器，也包含另一个不同的容器，用于提供 Node.js 网络服务器要发布的数据。Pod 中的容器共享 IP 地址和端口，<strong>始终位于同一位置并且共同调度</strong>，并在同一工作节点上的共享上下文中运行。</p>
-<p>Pod是 Kubernetes 平台上的原子单元。 当我们在 Kubernetes 上创建 Deployment 时，该 Deployment 会在其中创建包含容器的 Pod （而不是直接创建容器）。每个 Pod 都与调度它的工作节点绑定，并保持在那里直到终止（根据重启策略）或删除。 如果工作节点发生故障，则会在集群中的其他可用工作节点上调度相同的 Pod。</p>
-<p>Pod通常不需要像下面那样直接创建，而是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。</p>
-<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>        <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>        <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
-
-
-<h2 id="工作节点"><a href="#工作节点" class="headerlink" title="工作节点"></a>工作节点</h2><p>一个 pod 会运行在 工作节点。工作节点是 Kubernetes 中的参与计算的机器，可以是虚拟机或物理计算机，具体取决于集群。每个工作节点由主节点管理。工作节点可以有多个 pod ，Kubernetes 主节点会自动处理在集群中的工作节点上调度 pod 。 主节点的自动调度考量了每个工作节点上的可用资源。</p>
-<p>每个 Kubernetes 工作节点至少运行:</p>
+<p><strong>优点</strong></p>
 <ul>
-<li>Kubelet，负责 Kubernetes 主节点和工作节点之间通信的过程; 它管理 Pod 和机器上运行的容器。</li>
-<li>容器运行时（如 Docker）负责从仓库中提取容器镜像，解压缩容器以及运行应用程序。</li>
+<li>性能高</li>
+<li>支持多种数据结构</li>
+<li>支持持久化</li>
 </ul>
-<p><strong>标签</strong><br>工作节点的标签是用来识别和组织工作节点和其他资源的关键工具。标签是一种键值对（Key-Value）结构，可以附加到 Kubernetes 资源上，为资源提供一种易于搜索和选择的方式。比如GPU节点代的标签可能是<code>gpu: true</code>，这样我们就可以通过标签选择器选择GPU节点。</p>
-<p><strong>污点</strong><br>在 Kubernetes 中，污点（Taints）和容忍度（Tolerations）是一种控制 Pod 调度的方法。</p>
-<p>污点是应用在节点（Node）上的，表示这个节点有某种特殊属性，可能不能或者不应该调度某些 Pod。例如，你可能有一些节点具有特殊硬件，只能运行特定的 Pod，或者你可能有一些节点正在维护，不应该调度任何 Pod。当一个节点被应用了污点后，只有具有相应容忍度的 Pod 才能被调度到这个节点上。</p>
-<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>Service是用来协调Pod之间的通信的。Service定义了一组Pod的逻辑集合，并为这些Pod提供一个统一的访问入口。Service可以通过标签选择器来选择Pod，这样就可以将请求转发到这些Pod上。</p>
-<p>Service有四种类型：</p>
-<ul>
-<li>ClusterIP：默认类型，Service只能在集群内部访问</li>
-<li>NodePort：Service会在每个Node上开放一个端口，外部可以通过Node的IP和端口访问Service</li>
-<li>LoadBalancer：Service会在云服务商上创建一个负载均衡器，外部可以通过负载均衡器访问Service</li>
-<li>ExternalName：Service会返回一个CNAME记录，这个记录指向Service的外部地址</li>
+<h1 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h1><p>ZooKeeper 是一个开源的分布式协调服务，它的设计目标是将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。</p>
+<h2 id="主要的应用"><a href="#主要的应用" class="headerlink" title="主要的应用"></a>主要的应用</h2><p>核心其实就是分布式协调，处理复杂且容易出错的分布式一致性服务</p>
+<h2 id="主要的特点"><a href="#主要的特点" class="headerlink" title="主要的特点"></a>主要的特点</h2><ul>
+<li><strong>顺序一致性：</strong>从同一客户端发起的事务请求，最终将会严格地按照顺序被应用到 ZooKeeper 中去。</li>
+<li><strong>原子性：</strong> 所有事务请求的处理结果在整个集群中所有机器上的应用情况是一致的，也就是说，要么整个集群中所有的机器都成功应用了某一个事务，要么都没有应用。</li>
+<li>单一系统映像： 无论客户端连到哪一个 ZooKeeper 服务器上，其看到的服务端数据模型都是一致的。</li>
+<li><strong>可靠性：</strong> 一旦一次更改请求被应用，更改的结果就会被持久化，直到被下一次更改覆盖。</li>
+<li><strong>实时性：</strong> 一旦数据发生变更，其他节点会实时感知到。每个客户端的系统视图都是最新的。</li>
+<li><strong>集群部署：</strong>3~5 台（最好奇数台）机器就可以组成一个集群，每台机器都在内存保存了 ZooKeeper 的全部数据，机器之间互相通信同步数据，客户端连接任何一台机器都可以。</li>
+<li><strong>高可用：</strong>如果某台机器宕机，会保证数据不丢失。集群中挂掉不超过一半的机器，都能保证集群可用。比如 3 台机器可以挂 1 台，5 台机器可以挂 2 台。</li>
 </ul>
-<p>Service 匹配一组 Pod 是使用 标签(Label)和选择器(Selector), 它们是允许对 Kubernetes 中的对象进行逻辑操作的一种分组原语。标签(Label)是附加在对象上的键&#x2F;值对，可以以多种方式使用:</p>
-<ul>
-<li>指定用于开发，测试和生产的对象</li>
-<li>嵌入版本标签</li>
-<li>使用 Label 将对象进行分类</li>
+<h2 id="Zookeeper的使用场景"><a href="#Zookeeper的使用场景" class="headerlink" title="Zookeeper的使用场景"></a>Zookeeper的使用场景</h2><ul>
+<li>命名服务：可以通过 ZooKeeper 的顺序节点生成全局唯一 ID。</li>
+<li>数据发布&#x2F;订阅：通过 Watcher 机制 可以很方便地实现数据发布&#x2F;订阅。当你将数据发布到 ZooKeeper 被监听的节点上，其他机器可通过监听 ZooKeeper 上节点的变化来实现配置的动态更新。</li>
+<li>分布式锁：通过创建唯一节点获得分布式锁，当获得锁的一方执行完相关代码或者是挂掉之后就释放锁。分布式锁的实现也需要用到 Watcher 机制 ，当锁释放时，其他等待锁的机器可以收到通知（这点Redis实现的分布式锁不同，Redis分布式锁需要依靠看门狗机制来解决）。</li>
 </ul>
-<p><img src="https://pic.liahnu.top/img/202403150154123.png" srcset="/img/loading.gif" lazyload><br>这张图我觉得很清晰反映了前面各个组件之间的关系。其中Service选择了Label为app&#x3D;A的Pod，然后通过对其中的Pod进行负载均衡。</p>
-<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">selector:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">protocol:</span> <span class="hljs-string">TCP</span><br>        <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>        <span class="hljs-attr">targetPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许您根据路径或主机名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。</p>
+<p><strong>ZooKeeper建议使用奇数个节点</strong></p>
+<p>因为ZooKeeper的选举机制是基于Paxos算法的，所以ZooKeeper集群中的节点数最好是（2n+1）个，这样才能保证选举出来的Leader是唯一的。例如4个节点的集群，如果有一个节点宕机，剩下的3个节点无法选出Leader，集群就无法正常工作了。同样的，如果有3个节点的集群，如果有一个节点宕机，剩下的2个节点可以选出Leader，这样的集群容错性与4个相同，所以ZooKeeper建议使用奇数个节点。</p>
+<h1 id="Etcd"><a href="#Etcd" class="headerlink" title="Etcd"></a>Etcd</h1><p>Etcd 是一个高可用的键值存储系统，主要用于共享配置和服务发现。Etcd 是由 CoreOS 开发并维护的，它的设计受到了 ZooKeeper 和 Doozer 的启发，但是在 Raft 上实现了一些不同的设计。</p>
+<h2 id="主要的应用-1"><a href="#主要的应用-1" class="headerlink" title="主要的应用"></a>主要的应用</h2><ul>
+<li>服务发现</li>
+<li>配置中心</li>
+<li>分布式锁</li>
+</ul>
+<p>（Etcd的应用场景和Zookeeper有很多重合的地方，但是Etcd的设计更加简单，性能更好）</p>
+<p>在K8s中，Etcd是K8s的数据存储后端，用于存储K8s的集群状态，比如存储Pod、Service、Namespace等信息。</p>
+<h2 id="主要的特点-1"><a href="#主要的特点-1" class="headerlink" title="主要的特点"></a>主要的特点</h2><ul>
+<li><strong>简单：</strong> Etcd 的 API 设计简单，易于使用。</li>
+<li><strong>安全：</strong> Etcd 支持 SSL 安全访问，保证数据传输的安全。</li>
+<li><strong>快速：</strong> Etcd 使用 Raft 一致性算法，保证分布式系统的一致性，同时保证高可用。</li>
+<li><strong>可靠：</strong> Etcd 使用 Raft 一致性算法，保证分布式系统的一致性，同时保证高可用。</li>
+<li><strong>分布式：</strong> Etcd 是一个分布式系统，支持多个节点，保证系统的高可用。</li>
+</ul>
+<h1 id="优缺点对比"><a href="#优缺点对比" class="headerlink" title="优缺点对比"></a>优缺点对比</h1><h2 id="三者做注册中心的对比"><a href="#三者做注册中心的对比" class="headerlink" title="三者做注册中心的对比"></a>三者做注册中心的对比</h2><ul>
+<li><strong>Zookeeper：</strong> 适合做注册中心，因为Zookeeper是一个分布式协调服务，处理复杂且容易出错的分布式一致性服务。Zookeeper的数据是存储在磁盘上的，所以可以存储大量的数据，适合做大型的注册中心。</li>
+<li><strong>Redis：</strong> 我认为更适合做缓存，因为Redis的数据是存储在内存中的，同时不具备有看门狗类似的功能，在性能上相较于其他两项略差，所以只适合做一些小型的注册中心。</li>
+<li><strong>Etcd：</strong> 适合做注册中心，因为Etcd是一个高可用的键值存储系统，主要用于共享配置和服务发现。相较于Zookeeper，Etcd的设计更加简单，性能更好，实现的功能需求更好。</li>
+</ul>
 
                 
               </div>
@@ -384,7 +389,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BF%90%E7%BB%B4/">#运维</a>
+        <a href="/tags/Java/">#Java</a>
       
     </div>
   
@@ -396,8 +401,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>k8s基础知识入门</div>
-      <div>https://www.liahnu.top/2024/03/15/k8s基础知识入门/</div>
+      <div>Zookeeper，Etcd和Redis做微服务中间件的特点</div>
+      <div>https://www.liahnu.top/2024/04/14/Zookeeper，Etcd和Redis做微服务中间件的特点/</div>
     </div>
     <div class="license-meta">
       
@@ -409,7 +414,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月15日</div>
+          <div>2024年4月14日</div>
         </div>
       
       
@@ -441,18 +446,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/15/%E4%BD%BF%E7%94%A8ESXi%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85K8s%E5%B8%A6GPU%E7%9A%84%E8%8A%82%E7%82%B9/" title="使用ESXi虚拟机安装K8s带GPU的节点">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用ESXi虚拟机安装K8s带GPU的节点</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/02/20/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%A4%84%E7%90%86kswapd0%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92/" title="记录一次处理kswapd0挖矿病毒">
-                        <span class="hidden-mobile">记录一次处理kswapd0挖矿病毒</span>
+                      <a href="/2024/04/12/%E8%81%94%E6%83%B3%E4%B8%80%E9%9D%A2%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/" title="联想一面面试复盘">
+                        <span class="hidden-mobile">联想一面面试复盘</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
