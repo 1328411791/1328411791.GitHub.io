@@ -16,28 +16,32 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="独立表空间结构区（extent）空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。  第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页">
+    <meta name="description" content="前言在看这篇文章前，你需要了解 Git 的基本操作，如果你还不了解，可以查看 Git 基本操作。 对于新人而言，学完 Git 的基本操作后，如何在团队开发中使用 Git 了以及了解相关的规范是非常重要的。 本文主要介绍团队中 Git 使用相关规范，以及开源项目的项目管理规范，包括分支管理、Commit Message 规范、代码 Review 规范等。除此之外，还会介绍一些有关DevOps的内容，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySql的表空间">
-<meta property="og:url" content="https://www.liahnu.top/2023/09/14/MySql%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/index.html">
+<meta property="og:title" content="团队中Git使用相关规范">
+<meta property="og:url" content="https://www.liahnu.top/2023/11/26/%E5%9B%A2%E9%98%9F%E4%B8%ADGit%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3%E8%A7%84%E8%8C%83/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="独立表空间结构区（extent）空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。  第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页">
+<meta property="og:description" content="前言在看这篇文章前，你需要了解 Git 的基本操作，如果你还不了解，可以查看 Git 基本操作。 对于新人而言，学完 Git 的基本操作后，如何在团队开发中使用 Git 了以及了解相关的规范是非常重要的。 本文主要介绍团队中 Git 使用相关规范，以及开源项目的项目管理规范，包括分支管理、Commit Message 规范、代码 Review 规范等。除此之外，还会介绍一些有关DevOps的内容，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pic.liahnu.top/img/202309142121057.png">
-<meta property="og:image" content="https://pic.liahnu.top/img/202309181643532.png">
-<meta property="article:published_time" content="2023-09-14T07:03:09.000Z">
-<meta property="article:modified_time" content="2023-12-04T14:46:41.787Z">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262152032.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262155656.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262155814.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262157379.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262158485.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262158465.png">
+<meta property="og:image" content="https://pic.liahnu.top/img/202404262159859.png">
+<meta property="article:published_time" content="2023-11-26T03:34:05.000Z">
+<meta property="article:modified_time" content="2024-04-26T14:00:59.425Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="MySQL">
-<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pic.liahnu.top/img/202309142121057.png">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202404262152032.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>MySql的表空间 - liahnu Blogs</title>
+  <title>团队中Git使用相关规范 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MySql的表空间"></span>
+            <span id="subtitle" data-typed-text="团队中Git使用相关规范"></span>
           
         </div>
 
@@ -246,8 +250,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-14 15:03" pubdate>
-          2023年9月14日 下午
+        <time datetime="2023-11-26 11:34" pubdate>
+          2023年11月26日 中午
         </time>
       </span>
     
@@ -258,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2.1k 字
         
       </span>
     
@@ -269,7 +273,7 @@
         
         
         
-          6 分钟
+          7 分钟
         
       </span>
     
@@ -315,12 +319,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">MySql的表空间</h1>
+            <h1 style="display: none">团队中Git使用相关规范</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年12月4日 晚上
+                    本文最后更新于：2024年4月26日 晚上
                   
                 
               </p>
@@ -328,46 +332,91 @@
             
               <div class="markdown-body">
                 
-                <h1 id="独立表空间结构"><a href="#独立表空间结构" class="headerlink" title="独立表空间结构"></a>独立表空间结构</h1><h2 id="区（extent）"><a href="#区（extent）" class="headerlink" title="区（extent）"></a>区（extent）</h2><p>空间中的页实在是太多了，为了更好的管理这些页面，设计InnoDB的提出了区（英文名：extent）的概念。对于16KB的页来说，连续的64个页就是一个区，也就是说一个区默认占用1MB空间大小。不论是系统表空间还是独立表空间，都可以看成是由若干个区组成的，每256个区被划分成一组。</p>
-<p><img src="https://pic.liahnu.top/img/202309142121057.png" srcset="/img/loading.gif" lazyload></p>
-<p>第一个组最开始的3个页面的类型是固定的，也就是说extent 0这个区最开始的3个页面的类型是固定的，分别是：</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在看这篇文章前，你需要了解 Git 的基本操作，如果你还不了解，可以查看 <a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-basic-operations.html">Git 基本操作</a>。</p>
+<p>对于新人而言，学完 Git 的基本操作后，如何在团队开发中使用 Git 了以及了解相关的规范是非常重要的。</p>
+<p>本文主要介绍团队中 Git 使用相关规范，以及开源项目的项目管理规范，包括分支管理、Commit Message 规范、代码 Review 规范等。除此之外，还会介绍一些有关DevOps的内容，以GitHub Action为例子。</p>
+<p>一般来说，以下规范作为参考，具体的规范需要根据实际情况来制定。</p>
+<p>如果你不想了解规范，只想快速上手提交代码，可以通过目录跳转到第二部分。</p>
+<h1 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h1><p>在团队中，分支管理是非常重要的，一个好的分支管理规范可以提高团队的协作效率，降低代码冲突的概率。其中，主要包括分支命名规范、分支合并规范等。</p>
+<h2 id="分支命名规范"><a href="#分支命名规范" class="headerlink" title="分支命名规范"></a>分支命名规范</h2><p>在团队中，分支命名规范是非常重要的，一个好的分支命名规范可以提高团队的协作效率，降低代码冲突的概率。通常，我们会采用以下分支命名规范：</p>
 <ul>
-<li><p>FSP_HDR类型：这个类型的页面是用来登记整个表空间的一些整体属性以及本组所有的区，也就是extent 0 ~ extent 255这256个区的属性。需要注意的一点是，整个表空间只有一个FSP_HDR类型的页面。</p>
-</li>
-<li><p>IBUF_BITMAP类型：这个类型的页面是存储本组所有的区的所有页面关于INSERT BUFFER的信息。</p>
-</li>
-<li><p>INODE类型：这个类型的页面存储了许多称为INODE的数据结构。</p>
-</li>
+<li><code>master(或main)</code>：主分支，用于发布稳定版本。</li>
+<li><code>develop</code>：开发分支，用于日常开发。</li>
+<li><code>feature/xxx</code>：功能分支，用于开发新功能。</li>
+<li><code>release/xxx</code>：发布分支，用于发布版本。</li>
+<li><code>fix/xxx</code>：修复分支，用于修复 Bug。</li>
+<li><code>hotfix/xxx</code>：热修复分支，用于紧急修复 Bug。</li>
 </ul>
-<p>其余各组最开始的2个页面的类型是固定的，也就是说extent 256、extent 512这些区最开始的2个页面的类型是固定的，分别是：</p>
+<p>这些分支命名规范是比较常见的雷系，具体的分支命名规范根据团队的实际情况来制定。一般来说，常见的分支组合有以下几种：</p>
+<p><strong>单master分支</strong><br>分支列表：</p>
 <ul>
-<li><p>XDES类型：全称是extent descriptor，用来登记本组256个区的属性，也就是说对于在extent 256区中的该类型页面存储的就是extent 256 ~ extent 511这些区的属性，对于在extent 512区中的该类型页面存储的就是extent 512 ~ extent 767这些区的属性。上边介绍的FSP_HDR类型的页面其实和XDES类型的页面的作用类似，只不过FSP_HDR类型的页面还会额外存储一些表空间的属性。</p>
-</li>
-<li><p>IBUF_BITMAP类型：上边介绍过了。</p>
-</li>
+<li>master</li>
 </ul>
-<h3 id="为什么要提出区"><a href="#为什么要提出区" class="headerlink" title="为什么要提出区"></a>为什么要提出区</h3><p>我们每向表中插入一条记录时，也就是想索引添加记录，B+树的每一层中的页都会形成一个双向链表，如果是以页为单位来分配存储空间的话，双向链表相邻的两个页之间的物理位置可能离得非常远。我们介绍B+树索引的适用场景的时候特别提到范围查询只需要定位到最左边的记录和最右边的记录，然后沿着双向链表一直扫描就可以了，而如果链表中相邻的两个页物理位置离得非常远，就是所谓的随机I&#x2F;O。这对于速度影响恒大，所以我们需要尽量减少随机I&#x2F;O的次数。</p>
-<p>引入了区（extent）的概念，一个区就是在物理位置上连续的64个页。在表中数据量大的时候，为某个索引分配空间的时候就不再按照页为单位分配了，而是按照区为单位分配，甚至在表中的数据十分非常特别多的时候，可以一次性分配多个连续的区。虽然可能造成一点点空间的浪费，但是从性能角度看，可以消除很多的随机I&#x2F;O，功大于过嘛！</p>
-<h2 id="段（segment）"><a href="#段（segment）" class="headerlink" title="段（segment）"></a>段（segment）</h2><p>InnoDB对B+树的叶子节点和非叶子节点进行了区别对待，也就是说叶子节点有自己独有的区，非叶子节点也有自己独有的区。存放叶子节点的区的集合就算是一个段（segment），存放非叶子节点的区的集合也算是一个段。也就是说一个索引会生成2个段，一个叶子节点段，一个非叶子节点段。</p>
-<p>默认情况下一个使用InnoDB存储引擎的表只有一个聚簇索引，一个索引会生成2个段，而段是以区为单位申请存储空间的。，一个区默认占用1M存储空间，对于不足以填满一个区的情况，提出了碎片（fragment）区的概念。也就是在一个碎片区中，并不是所有的页都是为了存储同一个段的数据而存在的，而是碎片区中的页可以用于不同的目的，比如有些页用于段A，有些页用于段B，有些页甚至哪个段都不属于。碎片区直属于表空间，并不属于任何一个段。所以此后为某个段分配存储空间的策略是这样的：</p>
+<p><strong>单master分支+develop分支</strong></p>
 <ul>
-<li><p>在刚开始向表中插入数据的时候，段是从某个碎片区以单个页面为单位来分配存储空间的。</p>
-</li>
-<li><p>当某个段已经占用了32个碎片区页面之后，就会以完整的区为单位来分配存储空间。</p>
+<li>master</li>
+<li>develop</li>
+</ul>
+<p><strong>Gitflow 分支规范</strong></p>
+<ul>
+<li>master</li>
+<li>develop</li>
+<li>feature&#x2F;xxx (xxx 为功能名称)</li>
+<li>release&#x2F;xxx (xxx 为版本号)</li>
+<li>hotfix&#x2F;*</li>
+</ul>
+<h1 id="Commit-Message-规范"><a href="#Commit-Message-规范" class="headerlink" title="Commit Message 规范"></a>Commit Message 规范</h1><p>在团队中，Commit Message 规范是非常重要的，一个好的 Commit Message 规范可以提高团队的协作效率，降低代码维护的难度。通常，我们会采用以下 Commit Message 规范：</p>
+<p><strong>Commit Message 格式：</strong><code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</code></p>
+<ul>
+<li><code>&lt;type&gt;</code>：用于说明 commit 的类别，只允许使用下面7个标识。<ul>
+<li><code>feat</code>：新功能（feature）。</li>
+<li><code>fix</code>：修补 Bug。</li>
+<li><code>docs</code>：文档（documentation）。</li>
+<li><code>style</code>： 格式（不影响代码运行的变动）。</li>
+<li><code>refactor</code>：重构（即不是新增功能，也不是修改 Bug 的代码变动）。</li>
+<li><code>test</code>：增加测试。</li>
+<li><code>chore</code>：构建过程或辅助工具的变动。</li>
+</ul>
 </li>
 </ul>
-<h3 id="区的分类"><a href="#区的分类" class="headerlink" title="区的分类"></a>区的分类</h3><ul>
-<li><p><strong>空闲的区（FREE）</strong>现在还没有用到这个区中的任何页面。</p>
-</li>
-<li><p><strong>有剩余空间的碎片区（FREE_FRAG）</strong>表示碎片区中还有可用的页面。</p>
-</li>
-<li><p><strong>没有剩余空间的碎片区（FULL_FRAG）</strong>表示碎片区中的所有页面都被使用，没有空闲页面。</p>
-</li>
-<li><p><strong>附属于某个段的区（FSEG）</strong>每一个索引都可以分为叶子节点段和非叶子节点段，除此之外InnoDB还会另外定义一些特殊作用的段，在这些段中的数据量很大时将使用区来作为基本的分配单位。</p>
-</li>
-</ul>
-<p>为了方便管理这些区，设计InnoDB的设计了一个称为XDES Entry的结构（全称就是Extent Descriptor Entry），每一个区都对应着一个XDES Entry结构，这个结构记录了对应的区的一些属性。</p>
-<p><img src="https://pic.liahnu.top/img/202309181643532.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="分支合并规范"><a href="#分支合并规范" class="headerlink" title="分支合并规范"></a>分支合并规范</h2><p>一般来说，我们会采用以下分支合并规范：</p>
+<ol>
+<li><code>feature</code> 分支合并到 <code>develop</code> 分支。</li>
+<li><code>release</code> 分支合并到 <code>master</code> 分支和 <code>develop</code> 分支。</li>
+<li><code>fix</code> 分支合并到 <code>master</code> 分支和 <code>develop</code> 分支。</li>
+<li><code>hotfix</code> 分支合并到 <code>master</code> 分支和 <code>develop</code> 分支。</li>
+</ol>
+<p>在此基础上，配合分支合并的权限设置，可以固定团队中每个人的分支合并权限，避免不必要的代码冲突。</p>
+<h2 id="Pull-Request-规范"><a href="#Pull-Request-规范" class="headerlink" title="Pull Request 规范"></a>Pull Request 规范</h2><p>在团队开发中，例如feature分支开发完成后，必须需要提交Pull Request，由组长等人员进行代码Review后才能合并到develop分支中。</p>
+<p>在这个过程中，我们会采用以下Pull Request规范：</p>
+<ol>
+<li>Pull Request 标题：简洁明了，描述本次提交的主要内容。</li>
+<li>Pull Request 描述：详细描述本次提交的内容，包括修改的原因、解决的问题等。</li>
+</ol>
+<p>提交完成后会进入以下阶段：</p>
+<ol>
+<li>代码门禁：必须由代码测试工具进行代码检查，保证代码质量后，合格才能提交。</li>
+<li>Test Case：必须提供测试用例，通过相关的测试用例后，合格才能提交。</li>
+<li>Pull Request Review：由组长等人员进行代码Review，Review 通过后，方可合并。</li>
+</ol>
+<h1 id="快速上手提交代码"><a href="#快速上手提交代码" class="headerlink" title="快速上手提交代码"></a>快速上手提交代码</h1><p>下文中使用Idea作为演示工具，GitHub作为演示平台。</p>
+<h2 id="1-Clone-项目"><a href="#1-Clone-项目" class="headerlink" title="1. Clone 项目"></a>1. Clone 项目</h2><p>首先，我们需要将项目克隆到本地，可以通过以下命令克隆项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/1328411791/Blog_Service.git<br></code></pre></td></tr></table></figure>
+
+<p>如果是开源项目，需要在 GitHub 上 Fork 项目，然后用Fork创建的项目克隆到本地。</p>
+<h2 id="2-创建分支"><a href="#2-创建分支" class="headerlink" title="2. 创建分支"></a>2. 创建分支</h2><p><img src="https://pic.liahnu.top/img/202404262152032.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中规范的分支命名可以参考上文中的分支命名规范，这里作为示例创建为<code>fix/fix_test</code>。</p>
+<h2 id="3-修改代码"><a href="#3-修改代码" class="headerlink" title="3. 修改代码"></a>3. 修改代码</h2><p>在本地修改代码，勾选提交的文件，然后提交Commit。</p>
+<p><img src="https://pic.liahnu.top/img/202404262155656.png" srcset="/img/loading.gif" lazyload></p>
+<p>Commit Message 规范可以参考上文中的 Commit Message 规范。</p>
+<h2 id="4-Push-代码"><a href="#4-Push-代码" class="headerlink" title="4. Push 代码"></a>4. Push 代码</h2><p>在提交代码后，我们需要将代码推送到远程仓库</p>
+<p><img src="https://pic.liahnu.top/img/202404262155814.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="5-创建-Pull-Request"><a href="#5-创建-Pull-Request" class="headerlink" title="5. 创建 Pull Request"></a>5. 创建 Pull Request</h2><p>在推送代码后，我们需要创建 Pull Request，等待代码 Review。<br><img src="https://pic.liahnu.top/img/202404262157379.png" srcset="/img/loading.gif" lazyload></p>
+<p>选择要合并的分支，填写标题和描述，然后点击Create Pull Request。</p>
+<p><img src="https://pic.liahnu.top/img/202404262158485.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://pic.liahnu.top/img/202404262158465.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="6-合并代码"><a href="#6-合并代码" class="headerlink" title="6. 合并代码"></a>6. 合并代码</h2><p>在 Pull Request 通过后，我们可以合并代码。<br><img src="https://pic.liahnu.top/img/202404262159859.png" srcset="/img/loading.gif" lazyload></p>
+<p>后续的流程就是代码合并到主分支，然后发布版本，流水线工作。</p>
 
                 
               </div>
@@ -380,9 +429,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/MySQL/">#MySQL</a>
-      
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+        <a href="/tags/Git/">#Git</a>
       
     </div>
   
@@ -394,8 +441,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MySql的表空间</div>
-      <div>https://www.liahnu.top/2023/09/14/MySql的表空间/</div>
+      <div>团队中Git使用相关规范</div>
+      <div>https://www.liahnu.top/2023/11/26/团队中Git使用相关规范/</div>
     </div>
     <div class="license-meta">
       
@@ -407,7 +454,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月14日</div>
+          <div>2023年11月26日</div>
         </div>
       
       
@@ -439,9 +486,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/11/26/%E5%9B%A2%E9%98%9F%E4%B8%ADGit%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3%E8%A7%84%E8%8C%83/" title="团队中Git使用相关规范">
+                      <a href="/2023/12/25/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">团队中Git使用相关规范</span>
+                        <span class="hidden-mobile">计算机网络期末复习</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -449,8 +496,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/04/RPC%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="RPC与多线程">
-                        <span class="hidden-mobile">RPC与多线程</span>
+                      <a href="/2023/09/14/MySql%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/" title="MySql的表空间">
+                        <span class="hidden-mobile">MySql的表空间</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
