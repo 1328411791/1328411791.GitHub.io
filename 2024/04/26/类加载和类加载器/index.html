@@ -24,7 +24,7 @@
 <meta property="og:description" content="类的生命周期类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。 其中，验证、准备、解析三个阶段统称为连接阶段。 具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。 加载加载阶段是类加载过程的第一步，主要是完成以下步骤：  通过类的全限定名来获取类的二进制数据。 将类的二进制数据加载到内存中，并创建">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T11:18:53.000Z">
-<meta property="article:modified_time" content="2024-04-26T13:32:31.620Z">
+<meta property="article:modified_time" content="2024-04-26T14:15:24.552Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.2k 字
         
       </span>
     
@@ -348,7 +348,8 @@
 <li>进行内存分配的对象仅仅包括类变量（static），而不包括实例变量。</li>
 <li>这个阶段为类变量分配内存并设置默认初始值，这里的初始值是数据类型的零值（0、null、false）。如果是 final 修饰的类变量，那么这个初始值就是在准备阶段设置的。</li>
 </ol>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段是虚拟机将常量池中的符号引用替换为直接引用的过程。</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段是虚拟机将常量池中的符号引用替换为直接引用的过程。 解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用限定符 7 类符号引用进行。</p>
+<p>其实就是根据符号表中内容，将对应字段转换为内存地址。</p>
 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化阶段是类加载过程的最后一步，主要是执行类构造器 <code>&lt;clinit&gt;()</code> 方法的过程。</p>
 <p>类构造器 <code>&lt;clinit&gt;()</code> 方法是由编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并产生的。</p>
 <p>对于初始化阶段，虚拟机严格规范了有且只有 6 种情况下，必须对类进行初始化(只有主动去使用类才会初始化类)：</p>
