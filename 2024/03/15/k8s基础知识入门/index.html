@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202403150154123.png">
 <meta property="article:published_time" content="2024-03-14T17:44:20.000Z">
-<meta property="article:modified_time" content="2024-03-30T15:10:38.970Z">
+<meta property="article:modified_time" content="2024-04-29T08:14:35.959Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          3.4k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          10 分钟
+          11 分钟
         
       </span>
     
@@ -318,7 +318,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年3月30日 晚上
+                    本文最后更新于：2024年4月29日 下午
                   
                 
               </p>
@@ -341,7 +341,7 @@
 </ul>
 <p>Pod 为特定于应用程序的“逻辑主机”建模，并且可以包含相对紧耦合的不同应用容器。例如，Pod 可能既包含带有 Node.js 应用的容器，也包含另一个不同的容器，用于提供 Node.js 网络服务器要发布的数据。Pod 中的容器共享 IP 地址和端口，<strong>始终位于同一位置并且共同调度</strong>，并在同一工作节点上的共享上下文中运行。</p>
 <p>Pod是 Kubernetes 平台上的原子单元。 当我们在 Kubernetes 上创建 Deployment 时，该 Deployment 会在其中创建包含容器的 Pod （而不是直接创建容器）。每个 Pod 都与调度它的工作节点绑定，并保持在那里直到终止（根据重启策略）或删除。 如果工作节点发生故障，则会在集群中的其他可用工作节点上调度相同的 Pod。</p>
-<p>Pod通常不需要像下面那样直接创建，而是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。</p>
+<p>Pod通常不需要像下面那样直接创建，而是一般是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。</p>
 <h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Pod</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br>        <span class="hljs-attr">image:</span> <span class="hljs-string">talangtuandui-docker.pkg.coding.net/wawa/wa-backend/wa-backend:develop</span><br>        <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">Always</span><br>        <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">imagePullSecrets:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">coding-docker</span><br></code></pre></td></tr></table></figure>
 
 
@@ -371,7 +371,14 @@
 <p><img src="https://pic.liahnu.top/img/202403150154123.png" srcset="/img/loading.gif" lazyload><br>这张图我觉得很清晰反映了前面各个组件之间的关系。其中Service选择了Label为app&#x3D;A的Pod，然后通过对其中的Pod进行负载均衡。</p>
 <h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子"></a>例子</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">wa-backend</span><br><span class="hljs-attr">spec:</span><br>    <span class="hljs-attr">selector:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">wa-backend</span><br>    <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">protocol:</span> <span class="hljs-string">TCP</span><br>        <span class="hljs-attr">port:</span> <span class="hljs-number">80</span><br>        <span class="hljs-attr">targetPort:</span> <span class="hljs-number">5050</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许您根据路径或主机名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。</p>
+<p>他对外访问的类型主要有三种：</p>
+<ul>
+<li>ClusterIP：默认类型，Service只能在集群内部访问</li>
+<li>NodePort：Service会在每个Node上开放一个端口，外部可以通过Node的IP和端口访问Service（只能开30000-32767之间的端口）</li>
+<li>LoadBalancer：Service会在云服务商上创建一个负载均衡器，外部可以通过负载均衡器访问Service</li>
+</ul>
+<h2 id="ReplicaSet"><a href="#ReplicaSet" class="headerlink" title="ReplicaSet"></a>ReplicaSet</h2><p>ReplicaSet 是 Kubernetes 中的一种资源对象，用于确保指定数量的 Pod 副本在任何时间都在运行。如果 Pod 由于节点故障或其他原因而终止，ReplicaSet 控制器将启动一个新 Pod 来替换它。</p>
+<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许你通过CoreDNS，根据路径或域名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。</p>
 
                 
               </div>
