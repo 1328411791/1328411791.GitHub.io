@@ -24,7 +24,7 @@
 <meta property="og:description" content="类的生命周期类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。 其中，验证、准备、解析三个阶段统称为连接阶段。 具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。 加载加载阶段是类加载过程的第一步，主要是完成以下步骤：  通过类的全限定名来获取类的二进制数据。 将类的二进制数据加载到内存中，并创建">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T11:18:53.000Z">
-<meta property="article:modified_time" content="2024-04-26T14:15:24.552Z">
+<meta property="article:modified_time" content="2024-04-28T06:25:16.193Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k 字
+          2.5k 字
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          7 分钟
+          8 分钟
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年4月26日 晚上
+                    本文最后更新于：2024年4月28日 下午
                   
                 
               </p>
@@ -384,6 +384,8 @@
 
 <h3 id="如何打破双亲委派模型"><a href="#如何打破双亲委派模型" class="headerlink" title="如何打破双亲委派模型"></a>如何打破双亲委派模型</h3><p>打破双亲委派模型的主要方法是重写ClassLoader中的 <code>loadClass()</code> 方法：重写 <code>loadClass()</code> 方法，自定义类加载逻辑。</p>
 <p>如果不打破双亲委派模型，那么自定义的类加载器只需要继承 <code>ClassLoader</code> 类，然后重写 <code>findClass()</code> 方法即可。</p>
+<p>例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClassLoader</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ClassLoader</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;<br>        <span class="hljs-comment">// 自定义类加载逻辑</span><br>        <span class="hljs-type">AppClassLoader</span> <span class="hljs-variable">appClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AppClassLoader</span>();<br>        <span class="hljs-keyword">return</span> appClassLoader.loadClass(name);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
