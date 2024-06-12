@@ -16,15 +16,15 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。 未来可能会把手头上做过的一些笔记整理一波扔上去。">
+    <meta name="description" content="终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。 未来可能会把手头上做过的一些笔记整理一波扔上去。 graph LR     A[Start] --&gt; B[bindGithubId(UserBindDto userBindDto)]     B --&gt; C[获取登录信息]     C --&gt; D[获取GitHub ID]     D">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一篇博客">
 <meta property="og:url" content="https://www.liahnu.top/2022/11/16/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。 未来可能会把手头上做过的一些笔记整理一波扔上去。">
+<meta property="og:description" content="终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。 未来可能会把手头上做过的一些笔记整理一波扔上去。 graph LR     A[Start] --&gt; B[bindGithubId(UserBindDto userBindDto)]     B --&gt; C[获取登录信息]     C --&gt; D[获取GitHub ID]     D">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-15T16:09:14.000Z">
-<meta property="article:modified_time" content="2023-12-04T14:46:41.791Z">
+<meta property="article:modified_time" content="2024-06-10T13:46:19.053Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="建站">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          79 字
+          579 字
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2023年12月4日 晚上
+                    本文最后更新于：2024年6月10日 晚上
                   
                 
               </p>
@@ -326,7 +326,27 @@
                 
                 <p>终于把github上面的github page大概搞了，大概去年这个时候创的仓库，拖到今年才开始，都快一年了了。</p>
 <p>未来可能会把手头上做过的一些笔记整理一波扔上去。</p>
+<pre class="mermaid">graph LR
+    A[Start] --> B[bindGithubId(UserBindDto userBindDto)]
+    B --> C[获取登录信息]
+    C --> D[获取GitHub ID]
+    D --> E{校验验证码}
+    E -- 验证码超时 --> F[返回AUTHORIZATION_TIMEOUT]
+    E -- 验证码错误 --> G[返回AUTHORIZATION_ERROR]
+    E -- 验证成功 --> H[更新用户GitHub ID]
+    H --> I[保存更新后的用户信息]
+    I --> J[删除Redis中的授权信息]
+    J --> K[返回Result.success()]
 
+    L[loginByGithub(GithubLoginDto githubLoginDto)]
+    L --> M{检查鉴权有效性}
+    M -- 鉴权超时 --> N[返回AUTHORIZATION_TIMEOUT]
+    M -- 鉴权错误 --> O[返回AUTHORIZATION_ERROR]
+    M -- 鉴权有效 --> P[查询用户]
+    P -- 用户未绑定 --> Q[返回NOT_BIND_ACCOUNT]
+    P -- 用户已绑定 --> R[用户登录]
+    R --> S[删除Redis中的授权信息]
+    S --> T[返回Result.success()]</pre>
                 
               </div>
             

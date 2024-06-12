@@ -16,26 +16,24 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，System分区损坏，只能进入fastboot模式。同时进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。 准备工作 一台电脑">
+    <meta name="description" content="基础概念训练集  训练集是用来训练模型的数据集。 测试集 测试集是用于最终评估模型性能的数据集 验证集  验证集是用于评估模型性能和调整超参数的数据集 泛化能力  泛化能力是指模型对未知数据的适应能力。 过拟合 过拟合是指模型在训练集上表现很好，但在测试集上表现很差。 欠拟合 欠拟合则是模型在训练数据和测试数据上的表现都不佳。这可能是由于模型过于简单,无法捕捉到数据中的复杂模式。 归一化什么是归一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拯救安卓11中的System分区">
-<meta property="og:url" content="https://www.liahnu.top/2024/05/06/%E6%8B%AF%E6%95%91%E5%AE%89%E5%8D%9311%E4%B8%AD%E7%9A%84System%E5%88%86%E5%8C%BA/index.html">
+<meta property="og:title" content="机器学习期末考试重点">
+<meta property="og:url" content="https://www.liahnu.top/2024/06/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95%E9%87%8D%E7%82%B9/index.html">
 <meta property="og:site_name" content="liahnu Blogs">
-<meta property="og:description" content="前言前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，System分区损坏，只能进入fastboot模式。同时进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。 准备工作 一台电脑">
+<meta property="og:description" content="基础概念训练集  训练集是用来训练模型的数据集。 测试集 测试集是用于最终评估模型性能的数据集 验证集  验证集是用于评估模型性能和调整超参数的数据集 泛化能力  泛化能力是指模型对未知数据的适应能力。 过拟合 过拟合是指模型在训练集上表现很好，但在测试集上表现很差。 欠拟合 欠拟合则是模型在训练数据和测试数据上的表现都不佳。这可能是由于模型过于简单,无法捕捉到数据中的复杂模式。 归一化什么是归一">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-06T14:48:06.000Z">
-<meta property="article:modified_time" content="2024-05-07T04:23:36.289Z">
+<meta property="article:published_time" content="2024-06-12T03:18:39.000Z">
+<meta property="article:modified_time" content="2024-06-12T05:35:19.038Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="搞机">
-<meta property="article:tag" content="安卓">
-<meta property="article:tag" content="系统">
+<meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>拯救安卓11中的System分区 - liahnu Blogs</title>
+  <title>机器学习期末考试重点 - liahnu Blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="拯救安卓11中的System分区"></span>
+            <span id="subtitle" data-typed-text="机器学习期末考试重点"></span>
           
         </div>
 
@@ -244,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-06 22:48" pubdate>
-          2024年5月6日 晚上
+        <time datetime="2024-06-12 11:18" pubdate>
+          2024年6月12日 上午
         </time>
       </span>
     
@@ -256,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          2.7k 字
         
       </span>
     
@@ -267,7 +265,7 @@
         
         
         
-          4 分钟
+          9 分钟
         
       </span>
     
@@ -313,12 +311,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">拯救安卓11中的System分区</h1>
+            <h1 style="display: none">机器学习期末考试重点</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年5月7日 中午
+                    本文最后更新于：2024年6月12日 下午
                   
                 
               </p>
@@ -326,21 +324,58 @@
             
               <div class="markdown-body">
                 
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，System分区损坏，只能进入fastboot模式。同时进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
-<li>一台电脑（fastboot工具，recovery工具）</li>
-<li>一根数据线</li>
-<li>手机</li>
-<li>官方卡刷包线刷包</li>
-</ol>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><p>通过线刷recovey的方式，进入recovery模式，查看log，发现提示无法加载system-root分区。同时，使用fastboot flash命令无法将线刷包中的system.img刷入system分区。提示分区不存在，出现了异常操作，怀疑是System分区因为扩容或其他原因丢失。</p>
-<p>在摸索的过程中，期初一直在<code>/dev/block/sda</code>目录下查找system分区，但是始终发现没有找到system分区。以为是安卓10后的动态System分区机制导致无法读取，后来在<code>/dev/block/sde</code>（将闪存分为了不同的磁盘）下找到了vender分区，同时看块号和分区id提示，缺少一个3.6G左右的分区，该分区应该就是缺失system分区。</p>
-<p>在查阅系统的硬件时候发现，sda存储的是userdata数据，sde存储的是vender、system分区存储的是系统数据，sdf存储的是数据数据。本来以为在安卓10后，System分区修改为一个动态分区，在正常的dd中无法显示。后来才发现，system分区不存储在sda中，而是存储在sde中。</p>
-<p>同样的，线刷包中存在gpt_main0.bin<del>gpt_main4.bin（5个块），gpt_backup0.bin</del>gpt_backup5.bin（4个块），其中gpt_main0.bin存储的是userdata分区表，gpt_main4.bin存储的是system分区和vender分区表，gpt_main5.bin存储的基带分区的分区表。通过dd命令将gpt_main4.bin和gpt_backup4.bin刷入sde中的头块和尾块，重启即可修复sde中的分区表。（注意分区表的分区名称和分区大小是否与原始对应）</p>
-<p>参考命令，注意块的大小和位移</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">dd if=gpt_main4.bin of=/dev/block/sde bs=4096 seek=0 count=6<br>dd if=gpt_backup4.bin of=/dev/block/sde bs=4096 seek=0 count=5<br></code></pre></td></tr></table></figure>
-
-<p>重启后进recovey模式，发现system分区已经恢复，重新卡刷线刷rom即可。</p>
+                <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><p><strong>训练集</strong> </p>
+<p>训练集是用来训练模型的数据集。</p>
+<p><strong>测试集</strong></p>
+<p>测试集是用于最终评估模型性能的数据集</p>
+<p><strong>验证集</strong> </p>
+<p>验证集是用于评估模型性能和调整超参数的数据集</p>
+<p><strong>泛化能力</strong> </p>
+<p>泛化能力是指模型对未知数据的适应能力。</p>
+<p><strong>过拟合</strong></p>
+<p>过拟合是指模型在训练集上表现很好，但在测试集上表现很差。</p>
+<p><strong>欠拟合</strong></p>
+<p>欠拟合则是模型在训练数据和测试数据上的表现都不佳。这可能是由于模型过于简单,无法捕捉到数据中的复杂模式。</p>
+<h1 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h1><h2 id="什么是归一化"><a href="#什么是归一化" class="headerlink" title="什么是归一化"></a>什么是归一化</h2><p>归一化是将数据按比例缩放，使之落入一个小的特定区间。在某些比较和评价的指标处理中经常会用到，去除数据的单位限制，将其转化为无量纲的纯数值，便于不同单位或量级的指标能够进行比较和加权。通常这个区间为[0,1]。</p>
+<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><p>$$<br>X_{new} &#x3D; \frac{X - X_{min}}{X_{max} - X_{min}}<br>$$</p>
+<h1 id="模型性能评估指标计算"><a href="#模型性能评估指标计算" class="headerlink" title="模型性能评估指标计算"></a>模型性能评估指标计算</h1><h2 id="错误率"><a href="#错误率" class="headerlink" title="错误率"></a>错误率</h2><p>$$<br>\text{错误率} &#x3D; \frac{\text{错误分类的样本数}}{\text{总样本数}}<br>$$</p>
+<p>错误率越小，模型性能越好。</p>
+<h2 id="精确率"><a href="#精确率" class="headerlink" title="精确率"></a>精确率</h2><p>精确率是指分类器正确识别出的正例数据在所有识别为正例数据中的比例。<br>$$<br>\text{精确率} &#x3D; \frac{\text{正确的个数}}{\text{识别到的样本个数}}<br>$$</p>
+<h2 id="召回率"><a href="#召回率" class="headerlink" title="召回率"></a>召回率</h2><p>召回率是指分类器正确识别出的正例数据在所有正例数据中的比例。<br>$$<br>\text{召回率} &#x3D; \frac{\text{正确的个数}}{\text{样本中的个数}}<br>$$</p>
+<h2 id="调和平均值-F1指标"><a href="#调和平均值-F1指标" class="headerlink" title="调和平均值 F1指标"></a>调和平均值 F1指标</h2><p>F1指标为精确率和召回率的调和平均数。<br>$$<br>F1 &#x3D; \frac{2 \times \text{精确率} \times \text{召回率}}{\text{精确率} + \text{召回率}}<br>$$</p>
+<h2 id="均方误差MSE"><a href="#均方误差MSE" class="headerlink" title="均方误差MSE"></a>均方误差MSE</h2><p>均方误差是指预测值与真实值之间的差值的平方和的平均值。</p>
+<p>$$<br>MSE &#x3D; \frac{1}{n} \sum_{i&#x3D;1}^{n} (y_i - \hat{y_i})^2<br>$$</p>
+<h2 id="ROC曲线"><a href="#ROC曲线" class="headerlink" title="ROC曲线"></a>ROC曲线</h2><p>ROC曲线是以假正例率为横轴，真正例率为纵轴的曲线。</p>
+<h2 id="AUC"><a href="#AUC" class="headerlink" title="AUC"></a>AUC</h2><p>AUC是ROC曲线下的面积，AUC越大，模型性能越好。</p>
+<h1 id="聚类算法"><a href="#聚类算法" class="headerlink" title="聚类算法"></a>聚类算法</h1><p>聚类算法是一种无监督学习算法，它将数据集中的数据分成若干个类，使得同一个类中的数据相似度较高，不同类之间的数据相似度较低。</p>
+<p>通常的聚类算法有K-means、DBSCAN、层次聚类等。</p>
+<h2 id="怎么样评价好坏"><a href="#怎么样评价好坏" class="headerlink" title="怎么样评价好坏"></a>怎么样评价好坏</h2><p>通常评价方法有3种：外部有效性评价，内部有效性评价和相关性测试评价。</p>
+<h3 id="外部有效性评价"><a href="#外部有效性评价" class="headerlink" title="外部有效性评价"></a>外部有效性评价</h3><p>外部有效性评价可以反应聚类结果的整体直观效果。常用的外部有效性指标有Jaccard系数、FM指数、Rand指数等。</p>
+<h3 id="内部有效性评价"><a href="#内部有效性评价" class="headerlink" title="内部有效性评价"></a>内部有效性评价</h3><p>内部有效性评价利用数据集内部特征来评价聚类结果。常用的内部有效性指标有DB指数、Dunn指数、轮廓系数等。</p>
+<h3 id="相关性测试评价"><a href="#相关性测试评价" class="headerlink" title="相关性测试评价"></a>相关性测试评价</h3><p>相关性测试评价是选定某个评价指标，通过对比不同聚类算法在该指标上的表现来评价聚类算法的优劣。</p>
+<h1 id="推荐算法"><a href="#推荐算法" class="headerlink" title="推荐算法"></a>推荐算法</h1><h2 id="什么是推荐算法"><a href="#什么是推荐算法" class="headerlink" title="什么是推荐算法"></a>什么是推荐算法</h2><p>推荐算法是一种根据用户的历史行为和偏好，为用户推荐可能感兴趣的物品的算法。主要分为协同过滤、基于内容的推荐、混合推荐等。</p>
+<h2 id="应用案例"><a href="#应用案例" class="headerlink" title="应用案例"></a>应用案例</h2><p>推荐算法在电商、社交、音乐、视频等领域都有广泛的应用。比如淘宝、京东的商品推荐，微信、QQ的好友推荐，网易云音乐的歌曲推荐，抖音的视频推荐等。</p>
+<h2 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a>评价指标</h2><p>评价指标主要分为用户信任度，推荐准确度，覆盖率，多样性，实时性等。</p>
+<p><strong>用户信任度</strong></p>
+<p>用户信任度是指用户对推荐系统的信任程度，通常通过用户的点击率、购买率等来衡量。</p>
+<p><strong>推荐准确度</strong></p>
+<p>推荐准确度是指推荐系统的推荐结果与用户实际兴趣的吻合程度，通常通过准确率、召回率、F1值等来衡量。</p>
+<p><strong>覆盖率</strong></p>
+<p>覆盖率是指推荐系统能够覆盖的物品数量，通常通过推荐物品的覆盖率、用户覆盖率等来衡量。</p>
+<p><strong>多样性</strong></p>
+<p>多样性是指推荐系统推荐的物品之间的差异性，通常通过物品之间的相似度、用户的兴趣多样性等来衡量。</p>
+<p><strong>实时性</strong></p>
+<p>实时性是指推荐系统能够在用户行为发生变化时及时更新推荐结果的能力，通常通过推荐结果的更新速度、推荐结果的实时性等来衡量。</p>
+<h1 id="回归算法"><a href="#回归算法" class="headerlink" title="回归算法"></a>回归算法</h1><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归是一种用于建立自变量和因变量之间关系的回归分析模型。通常用于预测连续型变量。</p>
+<h2 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h2><p>逻辑回归是一种用于建立自变量和因变量之间关系的回归分析模型。通常用于预测二分类问题。</p>
+<h3 id="逻辑回归里面有线性回归和逻辑回归之间的区别和联系？"><a href="#逻辑回归里面有线性回归和逻辑回归之间的区别和联系？" class="headerlink" title="逻辑回归里面有线性回归和逻辑回归之间的区别和联系？"></a>逻辑回归里面有线性回归和逻辑回归之间的区别和联系？</h3><p>逻辑回归是在线性回归的基础上加了一个sigmoid函数，将线性回归的输出映射到[0,1]之间，用于预测二分类问题。</p>
+<h3 id="逻辑回归的损失函数"><a href="#逻辑回归的损失函数" class="headerlink" title="逻辑回归的损失函数"></a>逻辑回归的损失函数</h3><p>损失是指模型预测值与真实值之间的差异。逻辑回归的损失函数通常使用交叉熵损失函数。常见的损失函数有对数损失函数、平方损失函数、绝对损失函数等。<br>逻辑回归的损失函数是对数损失函数。损失函数约小，模型性能越好。</p>
+<h2 id="与线性回归区别与联系"><a href="#与线性回归区别与联系" class="headerlink" title="与线性回归区别与联系"></a>与线性回归区别与联系</h2><p>线性回归是用于预测连续型变量，逻辑回归是用于预测二分类问题。逻辑回归是在线性回归的基础上加了一个sigmoid函数，将线性回归的输出映射到[0,1]之间。</p>
+<h1 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h1><p>支持向量机是一种用于分类和回归的监督学习算法。目标是在有限的数据星系下，渐进求解得到最优的结果。核心思想是假设一个函数集合，其每个函数都能渠道最小的误差。从中选择一个最优的函数。</p>
+<h2 id="线性判别分析LDA"><a href="#线性判别分析LDA" class="headerlink" title="线性判别分析LDA"></a>线性判别分析LDA</h2><h3 id="什么是LDA"><a href="#什么是LDA" class="headerlink" title="什么是LDA"></a>什么是LDA</h3><p>线性判别分析是一种用于降维和分类的监督学习算法。其目标是找到一个投影方向，使得同一类别的样本尽可能接近，不同类别的样本尽可能远离。在对新样本进行分类时，将其投影到这个方向上，根据投影值的大小来判断其类别。</p>
+<h3 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h3><p>LDA的核心思想是找到一个投影方向，使得同一类别的样本尽可能接近，不同类别的样本尽可能远离。在对新样本进行分类时，将其投影到这个方向上，根据投影值的大小来判断其类别。</p>
+<h3 id="什么是核函数-课件p21"><a href="#什么是核函数-课件p21" class="headerlink" title="什么是核函数(课件p21)"></a>什么是核函数(课件p21)</h3><p>核函数，统计学术语，支持向量机通过某非线性变换 φ( x) ，将输入空间映射到高维特征空间。特征空间的维数可能非常高。如果支持向量机的求解只用到内积运算，而在低维输入空间又存在某个函数 K(x, x′) ，它恰好等于在高维空间中这个内积，即K(x,x′) &#x3D;φ(x)⋅φ(x′) ; 。那么支持向量机就不用计算复杂的非线性变换，而由这个函数 K(x, x′) 直接得到非线性变换的内积，使大大简化了计算。这样的函数 K(x, x′) 称为核函数。</p>
+<p>核函数包括线性核函数、多项式核函数、高斯核函数等，其中高斯核函数最常用，可以将数据映射到无穷维，也叫做径向基函数（Radial Basis Function 简称 RBF），是某种沿径向对称的标量函数。通常定义为空间中任一点x到某一中心xc之间欧氏距离的单调函数，可记作 k（||x-xc||）， 其作用往往是局部的，即当x远离xc时函数取值很小。</p>
 
                 
               </div>
@@ -353,11 +388,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%90%9E%E6%9C%BA/">#搞机</a>
-      
-        <a href="/tags/%E5%AE%89%E5%8D%93/">#安卓</a>
-      
-        <a href="/tags/%E7%B3%BB%E7%BB%9F/">#系统</a>
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#机器学习</a>
       
     </div>
   
@@ -369,8 +400,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>拯救安卓11中的System分区</div>
-      <div>https://www.liahnu.top/2024/05/06/拯救安卓11中的System分区/</div>
+      <div>机器学习期末考试重点</div>
+      <div>https://www.liahnu.top/2024/06/12/机器学习期末考试重点/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +413,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月6日</div>
+          <div>2024年6月12日</div>
         </div>
       
       
@@ -414,18 +445,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95%E9%87%8D%E7%82%B9/" title="机器学习期末考试重点">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">机器学习期末考试重点</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/26/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" title="类加载和类加载器">
-                        <span class="hidden-mobile">类加载和类加载器</span>
+                      <a href="/2024/05/06/%E6%8B%AF%E6%95%91%E5%AE%89%E5%8D%9311%E4%B8%AD%E7%9A%84System%E5%88%86%E5%8C%BA/" title="拯救安卓11中的System分区">
+                        <span class="hidden-mobile">拯救安卓11中的System分区</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
