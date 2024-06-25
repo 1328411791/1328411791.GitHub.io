@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202406242156244.png">
 <meta property="article:published_time" content="2024-06-24T12:46:30.000Z">
-<meta property="article:modified_time" content="2024-06-25T12:15:16.595Z">
+<meta property="article:modified_time" content="2024-06-25T12:20:54.849Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="数字图像处理">
 <meta property="article:tag" content="复习">
@@ -257,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          3.9k 字
         
       </span>
     
@@ -268,7 +268,7 @@
         
         
         
-          12 分钟
+          13 分钟
         
       </span>
     
@@ -480,7 +480,13 @@
 <li>理想高通滤波器：物理上无法实现，会出现振铃现象，图像会出现严重模糊</li>
 <li>巴特沃斯高通滤波器：核的矩阵为 $1 - \frac{1}{1 + (\frac{D(u,v)}{D_0})^{2n}}$，$D(u,v)$为频率域中的距离，$D_0$为截止频率，$n$为滤波器的阶数</li>
 </ul>
-
+<h1 id="图像变换与频域滤波"><a href="#图像变换与频域滤波" class="headerlink" title="图像变换与频域滤波"></a>图像变换与频域滤波</h1><h2 id="一维傅里叶变换"><a href="#一维傅里叶变换" class="headerlink" title="一维傅里叶变换"></a>一维傅里叶变换</h2><p>傅里叶变换是一种信号处理技术，用于将信号从时域转换到频域。傅里叶变换的基本思想是，任何一个周期信号都可以看作是一系列正弦波的叠加。</p>
+<h3 id="傅里叶变换基础"><a href="#傅里叶变换基础" class="headerlink" title="傅里叶变换基础"></a>傅里叶变换基础</h3><p>连续信号的傅里叶变换公式为：</p>
+<p>$$<br>F(\omega) &#x3D; \int_{-\infty}^{\infty} f(t) e^{-j\omega t} dt<br>$$</p>
+<p>其中，$F(\omega)$为频率域中的信号，$f(t)$为时域中的信号，$\omega$为频率</p>
+<p>离散信号的傅里叶变换公式为：</p>
+<p>$$<br>F(k) &#x3D; \sum_{n&#x3D;0}^{N-1} f(n) e^{-j\frac{2\pi}{N}kn}<br>$$</p>
+<h3 id="傅里叶变换性质"><a href="#傅里叶变换性质" class="headerlink" title="傅里叶变换性质"></a>傅里叶变换性质</h3>
                 
               </div>
             
