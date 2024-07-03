@@ -59,7 +59,7 @@ Pod 为特定于应用程序的“逻辑主机”建模，并且可以包含相�
 
 Pod是 Kubernetes 平台上的原子单元。 当我们在 Kubernetes 上创建 Deployment 时，该 Deployment 会在其中创建包含容器的 Pod （而不是直接创建容器）。每个 Pod 都与调度它的工作节点绑定，并保持在那里直到终止（根据重启策略）或删除。 如果工作节点发生故障，则会在集群中的其他可用工作节点上调度相同的 Pod。
 
-Pod通常不需要像下面那样直接创建，而是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。
+Pod通常不需要像下面那样直接创建，而是一般是通过 Deployment、StatefulSet、DaemonSet等控制器创建。这些控制器会自动创建和管理Pod，确保Pod的数量符合预期。
 
 ### 例子
 ```yaml
@@ -132,6 +132,15 @@ spec:
     type: NodePort
 ```
 
+他对外访问的类型主要有三种：
+- ClusterIP：默认类型，Service只能在集群内部访问
+- NodePort：Service会在每个Node上开放一个端口，外部可以通过Node的IP和端口访问Service（只能开30000-32767之间的端口）
+- LoadBalancer：Service会在云服务商上创建一个负载均衡器，外部可以通过负载均衡器访问Service
+
+## ReplicaSet
+
+ReplicaSet 是 Kubernetes 中的一种资源对象，用于确保指定数量的 Pod 副本在任何时间都在运行。如果 Pod 由于节点故障或其他原因而终止，ReplicaSet 控制器将启动一个新 Pod 来替换它。
+
 ## Ingress
-Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许您根据路径或主机名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。
+Ingress是Kubernetes中的一种API对象，我认为是更高一层的Service，用于管理对集群中服务的外部访问。Ingress可以提供HTTP和HTTPS路由，允许你通过CoreDNS，根据路径或域名将请求路由到不同的服务。Ingress控制器通常是一个负载均衡器，它可以在集群外部公开服务。
 
