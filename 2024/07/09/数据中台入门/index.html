@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic3.zhimg.com/v2-7800ec5a4a3a18ce7fbcb2174df76a7e_r.jpg">
 <meta property="article:published_time" content="2024-07-09T05:58:58.000Z">
-<meta property="article:modified_time" content="2024-07-18T06:00:59.353Z">
+<meta property="article:modified_time" content="2024-07-18T06:15:56.363Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="大数据">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          795 字
+          1k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -348,8 +348,10 @@
 </ol>
 <p>存放用于多个维度的快速查找、分组和排序等的数据。这一层主要用于整理和存储数据仓库中的维度信息。</p>
 <p><img src="https://pic3.zhimg.com/v2-7800ec5a4a3a18ce7fbcb2174df76a7e_r.jpg" srcset="/img/loading.gif" lazyload alt="数仓分层"></p>
-<h1 id="数据处理流程"><a href="#数据处理流程" class="headerlink" title="数据处理流程"></a>数据处理流程</h1><p>以下按照数据处理架构的流程来介绍大数据的处理流程：</p>
-<h2 id="源数据"><a href="#源数据" class="headerlink" title="源数据"></a>源数据</h2><p>源数据是指的进入数据中台的来源，一般是从各个业务层的数据库中获取，如MySQL、Oracle、SQLServer等。</p>
+<h1 id="数据处理流程"><a href="#数据处理流程" class="headerlink" title="数据处理流程"></a>数据处理流程</h1><p>根据上面的数据分层，我们可以看到数据的处理流程是从源数据层开始的，然后逐渐向上处理，最终到达ADS层，最后返回给后台开发使用对应的数据。<br>以下按照数据处理架构的流程来介绍大数据的处理流程：</p>
+<h2 id="架构变迁过程"><a href="#架构变迁过程" class="headerlink" title="架构变迁过程"></a>架构变迁过程</h2><p>实习时候了解这个数据中台架构的变迁过程</p>
+<p>最初各个业务层的数据库是独立的，后台开发者需要从各个业务的数据库中使用Mybatis获取数据，然后进行数据的处理。</p>
+<h2 id="源数据"><a href="#源数据" class="headerlink" title="源数据"></a>源数据</h2><p>源数据是指的进入数据中台的来源，一般是从各个业务层的数据库中获取，如MySQL、Oracle、SQLServer等。将原始数据库中的数据通过数据同步工具同步到数据中台的kudu数据库中，导入的数据就变成了ods层的数据。</p>
 <p>在数据的传输方式中，一般有实时传输和离线传输两种方式。</p>
 <p><strong>离线传输</strong></p>
 <p>离线传输说白了就是一个批处理脚本，按照一定时间（如每天凌晨）从源数据库中拉取数据到数据中台的kudu数据库中。</p>
@@ -357,7 +359,7 @@
 <p>实时传输是指的数据的实时传输，一般是通过kafka等工具将数据实时传输到数据中台的kudu中。</p>
 <p>在mysql中，可以通过binlog来实现数据的实时传输。具体逻辑和后端数据同步中的Canal类似（其实同步这块同步方法是相通的）。</p>
 <p>在Oracle中，一般需要使用Oracle的GoldenGate(ogg)来实现数据的实时传输。ogg通过监听Oracle的redo log，然后将数据传输到kafka中，通过kafka的流处理来实现数据的实时传输。</p>
-
+<h2 id="ods层"><a href="#ods层" class="headerlink" title="ods层"></a>ods层</h2>
                 
               </div>
             
