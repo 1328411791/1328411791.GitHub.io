@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-13T07:31:53.060Z">
+<meta property="article:modified_time" content="2024-08-13T07:53:48.660Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -482,6 +482,13 @@
 <h3 id="悲观锁的实现"><a href="#悲观锁的实现" class="headerlink" title="悲观锁的实现"></a>悲观锁的实现</h3><p>悲观锁的实现主要是通过synchronized关键字来实现的，synchronized是Java中最基本的同步手段，它保证了线程的安全性，但是它的性能开销也是比较大的。</p>
 <h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>volatile是Java中的一个关键字，它的主要作用是保证变量的可见性和防止 JVM 的指令重排序。<br>在并发控制方面，主要是运用乐观锁的一种实现方式，底层有CAS操作，保证了变量的可见性，但是它并不能保证原子性。</p>
 <h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><p>synchronized是Java中的一个关键字，它的主要作用是保证线程的安全性。<br>synchronized可以修饰代码块，也可以修饰方法，它的底层是通过monitor对象来实现的，monitor对象是每个Java对象都有的一个对象，它是一个互斥锁，保证了线程的安全性。</p>
+<p><strong>加锁对象是谁</strong></p>
+<ul>
+<li>实例方法：加锁对象是当前实例对象</li>
+<li>静态方法：加锁对象是当前类的Class对象</li>
+<li>代码块：加锁对象是括号里面的对象</li>
+<li>对象锁：加锁对象是当前对象</li>
+</ul>
 <h1 id="Spring框架"><a href="#Spring框架" class="headerlink" title="Spring框架"></a>Spring框架</h1><h2 id="Spring的IOC和AOP"><a href="#Spring的IOC和AOP" class="headerlink" title="Spring的IOC和AOP"></a>Spring的IOC和AOP</h2><ul>
 <li>IOC：控制反转，是一种设计思想，它的核心思想是将对象的创建和对象之间的依赖关系的管理交给Spring容器来管理，而不是由程序员来管理。</li>
 <li>AOP：面向切面编程，是一种设计思想，它的核心思想是将程序的业务逻辑和系统服务分离，通过对系统服务的封装，将系统服务的功能切面化，然后通过切面的方式将系统服务的功能插入到业务逻辑中。</li>
