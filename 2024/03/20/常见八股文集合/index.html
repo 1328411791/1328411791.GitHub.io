@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-13T06:40:55.888Z">
+<meta property="article:modified_time" content="2024-08-13T07:31:53.060Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          16k 字
+          18k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          51 分钟
+          57 分钟
         
       </span>
     
@@ -408,7 +408,16 @@
 <p>G1全称为Garbage First ，G1垃圾回收器是一种面向服务端应用的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于多核CPU的环境。</p>
 <p><strong>ZGC垃圾收集器</strong></p>
 <p>ZGC垃圾回收器是一种低延迟的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于对响应时间有要求的应用。</p>
-<h2 id="JVM的垃圾回收算法"><a href="#JVM的垃圾回收算法" class="headerlink" title="JVM的垃圾回收算法"></a>JVM的垃圾回收算法</h2><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
+<h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><ol>
+<li>标记-清除（Mark-and-Sweep）<br>工作原理：首先，GC 会遍历所有的对象，标记出所有可达的对象（即仍在使用的对象）。然后，GC 会遍历堆内存，清除所有未被标记的对象（即不可达的对象），释放这些对象占用的内存。<br>优点：简单且高效，适用于一般场景。<br>缺点：可能会导致内存碎片化，因为清除后留下的空闲内存块大小不一。</li>
+<li>标记-整理（Mark-Compact）<br>工作原理：与标记-清除类似，首先标记所有可达对象。不同的是，在清除阶段，GC 会将存活的对象向一端移动，整理堆内存，使得所有的空闲内存集中在一起。<br>优点：避免了内存碎片化问题，适合需要长时间运行的应用程序。<br>缺点：相比标记-清除算法，移动对象的开销更大。</li>
+<li>复制算法（Copying or Scavenge）<br>工作原理：将内存划分为两块相等的区域，每次只使用其中一块。当一块区域满时，将存活的对象复制到另一块区域，清除原来区域的所有对象。<br>优点：避免了内存碎片化，复制过程中可以自然地整理内存。<br>缺点：内存利用率低，因为始终有一半的内存处于空闲状态。</li>
+<li>分代收集算法（Generational GC）<br>工作原理：将堆内存划分为不同的代（通常是年轻代和老年代）。新创建的对象通常放在年轻代，GC 会频繁地回收年轻代中的对象，而老年代中的对象生命周期较长，GC 对其回收频率较低。<br>优点：优化了垃圾回收的效率，因为大多数对象的生命周期很短（即“朝生夕灭”对象），可以快速回收。<br>缺点：需要额外的逻辑来管理对象的分代和晋升。</li>
+<li>增量收集算法（Incremental GC）<br>工作原理：将垃圾回收过程拆分成多个小的步骤，分散到正常程序执行的过程中，以避免长时间的停顿。<br>优点：减少了应用程序的停顿时间，适用于对响应时间要求高的应用。<br>缺点：整体回收效率可能会降低，且实现较为复杂。</li>
+<li>并行收集算法（Parallel GC）<br>工作原理：在多核 CPU 环境下，利用多线程同时执行垃圾回收工作，以加快回收过程。<br>优点：提高了垃圾回收的效率，适合多处理器或多核系统。<br>缺点：在某些情况下，可能会导致应用程序线程的响应时间变长。</li>
+<li>并发收集算法（Concurrent GC）<br>工作原理：垃圾回收器在应用程序运行的同时进行垃圾回收工作，减少因垃圾回收引起的应用停顿时间。<br>优点：大大降低了垃圾回收的停顿时间，适用于对响应时间敏感的应用。<br>缺点：由于垃圾回收与应用程序并发执行，可能会导致整体性能下降。</li>
+</ol>
+<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
 <li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
 <li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
 </ol>
@@ -502,6 +511,26 @@
 <p><strong>用途：</strong>TCP通常用于需要高可靠性的应用，如Web服务器、邮件服务器等。而UDP通常用于对实时性要求高的应用，如视频流、VoIP等，这些应用可以容忍一些数据丢失，但需要快速传输。</p>
 <p><strong>头部大小：</strong>TCP的头部最小为20字节，而UDP的头部固定为8字节，因此UDP的开销更小。</p>
 <p><strong>流控制和拥塞控制：</strong>TCP有流控制和拥塞控制机制，可以防止发送端发送速度过快导致接收端或网络无法处理。而UDP没有这些控制机制。</p>
+<h2 id="对称加密和非对称加密"><a href="#对称加密和非对称加密" class="headerlink" title="对称加密和非对称加密"></a>对称加密和非对称加密</h2><ul>
+<li>对称加密：对称加密是一种加密方式，它使用相同的密钥来加密和解密数据。对称加密的优点是加密和解密速度快，缺点是密钥的传输比较困难。</li>
+<li>非对称加密：非对称加密是一种加密方式，它使用一对密钥来加密和解密数据，这对密钥分别是公钥和私钥。公钥用来加密数据，私钥用来解密数据。非对称加密的优点是密钥的传输比较容易，缺点是加密和解密速度比较慢。</li>
+</ul>
+<h2 id="https的加密过程"><a href="#https的加密过程" class="headerlink" title="https的加密过程"></a>https的加密过程</h2><p>https是基于http的一种安全传输协议，它使用了SSL&#x2F;TLS协议来加密数据。https的加密过程主要分为两个部分：握手和数据传输。</p>
+<p><strong>时序图</strong></p>
+<pre class="mermaid">
+sequenceDiagram
+    participant Client
+    participant Server
+    Client->>Server: 请求https
+    Server->>Client: 返回证书
+    Client->>Server: 生成随机数，使用公钥加密
+    Server->>Client: 使用私钥解密
+    Client->>Server: 生成对称密钥，使用公钥加密
+    Server->>Client: 使用私钥解密
+    Client->>Server: 使用对称密钥加密数据
+    Server->>Client: 使用对称密钥解密数据</pre>
+
+
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。<br>此外，还有三种特殊的数据结构：HyperLogLog、Geo、Stream。</p>
 <h2 id="为什么Redis速度快"><a href="#为什么Redis速度快" class="headerlink" title="为什么Redis速度快"></a>为什么Redis速度快</h2><ul>
 <li>Redis是基于内存的，内存的读写速度非常快。</li>
@@ -534,6 +563,14 @@
 <li>AOF日志：是指在每次写操作时，将写操作的命令追加到AOF文件的末尾。AOF日志是一个文本文件，它保存了所有的写操作命令。（像mysql的redolog）</li>
 </ul>
 <h2 id="Redis宕机哪种恢复的快"><a href="#Redis宕机哪种恢复的快" class="headerlink" title="Redis宕机哪种恢复的快"></a>Redis宕机哪种恢复的快</h2><p>RDB快照恢复的速度比AOF日志快，因为RDB快照是一个二进制文件，它保存了某个时间点上的所有数据，所以恢复速度比较快。</p>
+<h2 id="Redis集群的三种模式"><a href="#Redis集群的三种模式" class="headerlink" title="Redis集群的三种模式"></a>Redis集群的三种模式</h2><p>Redis集群有三种模式：主从复制、哨兵模式、集群模式。这些也是Redis的高可用方案。</p>
+<ul>
+<li>主从复制：主从复制是指一个主节点可以有多个从节点，主节点的数据会同步到从节点上，从节点可以用来读取数据。</li>
+<li>哨兵模式：哨兵模式是指在主从复制的基础上，增加了哨兵节点，哨兵节点用来监控主节点和从节点的状态，当主节点宕机时，会自动将从节点切换为主节点。</li>
+<li>集群模式：集群模式是指多个Redis节点组成一个集群，每个节点都是一个主节点，每个主节点都有多个从节点，数据会分片存储在不同的节点上。</li>
+</ul>
+<h2 id="哨兵模式的选举机制"><a href="#哨兵模式的选举机制" class="headerlink" title="哨兵模式的选举机制"></a>哨兵模式的选举机制</h2><p>哨兵模式的选举机制是通过投票的方式来选举主节点。Raft算法是一种分布式一致性算法，它的核心思想是通过投票的方式来选举主节点。</p>
+<p>Raft算法的选举过程主要分为两个阶段：选举阶段和日志复制阶段。</p>
 <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照<strong>物理存储</strong>维度划分主要有以下几种：</p>
 <ul>
 <li>B+树索引：最常见的索引类型，适用于等值查询、范围查询、排序查询。</li>
