@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-13T06:19:26.690Z">
+<meta property="article:modified_time" content="2024-08-13T06:36:12.691Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          15k 字
+          16k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          48 分钟
+          51 分钟
         
       </span>
     
@@ -453,7 +453,8 @@
 <p>其中n+1和2n是上文中线程池设置线程的数量；</p>
 <p>主要是因为，如果线程数量太多的话，线程的竞争大，会导致大量上下文切换，因为CPU是分配给时间片给线程来处理任务的，时间片一到，那么线程就得保存当前任务，等待下一次CPU分配时间片，那么下一次线程获取到CPU时间片之后，会重新加载任务来处理，保存到加载的过程就称之为上问下切换。</p>
 <p><strong>CPU n+1</strong><br>如果程序的计算量特别高，那么就属于CPU密集型，线程数量可以设置为N（CPU的核心数）+1。</p>
-<p><strong>I&#x2F;O密集型（2N）</strong><br>如果程序的是网络传输或者I&#x2F;O操作比较多，那么线程池应该设置为2N。</p>
+<p><strong>I&#x2F;O密集型（2N）</strong><br>如果程序的是网络传输或者I&#x2F;O操作比较多，那么线程池应该设置为2N，2n可以保证在运行时，有足够的线程在等待，从而最大的利用线程池。</p>
+<h2 id="线程池的核心线程会被回收吗？"><a href="#线程池的核心线程会被回收吗？" class="headerlink" title="线程池的核心线程会被回收吗？"></a>线程池的核心线程会被回收吗？</h2><p>一般情况下，线程池的核心线程是不会被回收的，只有非核心线程会被回收。</p>
 <h2 id="乐观锁悲观锁"><a href="#乐观锁悲观锁" class="headerlink" title="乐观锁悲观锁"></a>乐观锁悲观锁</h2><ul>
 <li>乐观锁：乐观锁是一种乐观的思想，它认为并发访问的情况是比较少的，所以在读取数据的时候不加锁，只在更新数据的时候加锁，这样可以提高并发访问的效率。</li>
 <li>悲观锁：悲观锁是一种悲观的思想，它认为并发访问的情况是比较多的，所以在读取数据的时候加锁，这样可以保证并发访问的安全性。</li>
@@ -648,6 +649,23 @@
 
 <h2 id="MySQL联合索引"><a href="#MySQL联合索引" class="headerlink" title="MySQL联合索引"></a>MySQL联合索引</h2><p>MySQL的联合索引，也被称为复合索引或多列索引，是一种在多个列上创建的索引。联合索引可以提高查询性能，特别是在你需要从多个列中检索数据时。</p>
 <p>联合索引的工作原理是，它会根据索引中的列顺序，首先对第一列进行排序，然后在每个相同的第一列值中，对第二列进行排序，以此类推。因此，你可以在查询中使用任何前缀列（即索引中的第一列，第一列和第二列，等等）来利用联合索引。</p>
+<h2 id="如果有a-b-c-组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢"><a href="#如果有a-b-c-组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢" class="headerlink" title="如果有a,b,c 组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢"></a>如果有a,b,c 组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢</h2><ul>
+<li>查询条件是a和b，这个查询会使用到联合索引a,b,c。</li>
+<li>查询条件是a和c，这个查询不会使用到联合索引a,b,c。</li>
+</ul>
+<p>联合索引的使用基于<strong>最左前缀原则</strong>，即查询条件必须是联合索引的最左边的列的子列，才能使用到联合索引。同时最左匹配原则会一直向右匹配直到遇到范围查询(&gt;、&lt;) 就会停止匹配。对于 &gt;&#x3D;、&lt;&#x3D;、BETWEEN、like 前缀匹配这四种范围查询，并不会停止匹配。<br>如(a,b),查询条件是a和b，会使用到索引；查询条件是b，不会使用到索引。</p>
+<h2 id="如果回表过多改怎么解决"><a href="#如果回表过多改怎么解决" class="headerlink" title="如果回表过多改怎么解决"></a>如果回表过多改怎么解决</h2><p>“回表”指的是当查询使用了非聚簇索引（也叫辅助索引或二级索引）时，MySQL 需要先通过索引查找到主键值，然后再通过主键值回到聚簇索引（也就是数据表本身）获取所需的完整记录。回表操作增加了查询的I&#x2F;O开销，可能会导致性能下降。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> INDEX idx_name <span class="hljs-keyword">ON</span> table_name(user_id,order_id);<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 查询全部字段要回表查询<br><span class="hljs-keyword">SELECT</span> user_id <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> ; <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 只查询user_id不需要回表查询<br></code></pre></td></tr></table></figure>
+
+<p><strong>解决方法</strong></p>
+<ol>
+<li>覆盖索引：覆盖索引是指索引包含了查询所需的所有字段，不需要回表查询。</li>
+<li>调整查询：调整查询的字段，只查询需要的字段，避免回表查询。</li>
+</ol>
+<h2 id="什么是索引下推"><a href="#什么是索引下推" class="headerlink" title="什么是索引下推"></a>什么是索引下推</h2><p>索引下推（Index Condition Pushdown, ICP）是一种优化技术，用于减少数据库在查询过程中访问表的次数，从而提高查询性能。这个技术是 MySQL 5.6 引入的，主要用于辅助索引扫描（即二级索引扫描）时的查询优化。</p>
+<h3 id="索引下推的概念"><a href="#索引下推的概念" class="headerlink" title="索引下推的概念"></a>索引下推的概念</h3><p><strong>传统的索引扫描：</strong>在 MySQL 5.6 之前，查询过程中即使某些查询条件可以在索引中评估，MySQL 也会先通过索引查找到主键值，然后再回表（即访问数据行）进行剩余的条件过滤。<br><strong>索引下推：</strong>MySQL 5.6 引入的索引下推技术，允许在扫描索引时，将部分查询条件推送到索引扫描过程中进行评估。只有那些在索引扫描过程中满足条件的记录，才会进行回表操作。这大大减少了回表次数，提高了查询性能。</p>
+<h3 id="索引下推的工作机制"><a href="#索引下推的工作机制" class="headerlink" title="索引下推的工作机制"></a>索引下推的工作机制</h3><p>当一个查询使用了索引下推，MySQL 会在索引的叶子节点中先应用查询条件，过滤掉不符合条件的记录，然后再将符合条件的记录的主键值用于回表查找数据行。<br>例如，对于 WHERE 子句中的某些过滤条件，MySQL 可以在索引扫描时就直接应用这些条件，而不是在回表后再应用。</p>
+<h3 id="索引下推的优势"><a href="#索引下推的优势" class="headerlink" title="索引下推的优势"></a>索引下推的优势</h3><p><strong>减少回表次数：</strong>通过在索引扫描阶段应用部分过滤条件，减少了回表次数，从而降低了I&#x2F;O操作的开销。<br><strong>提高查询效率：</strong>尤其在大表查询中，索引下推能够显著减少需要读取的数据行数，从而提高查询效率。</p>
 <h2 id="MySql的四个隔离级别以及默认的隔离级别"><a href="#MySql的四个隔离级别以及默认的隔离级别" class="headerlink" title="MySql的四个隔离级别以及默认的隔离级别"></a>MySql的四个隔离级别以及默认的隔离级别</h2><p>MySQL的四个隔离级别分别是：读未提交（Read Uncommitted）、读提交（Read Committed）、可重复读（Repeatable Read）、串行化（Serializable）。</p>
 <ul>
 <li>读未提交（Read Uncommitted）：允许一个事务读取另一个事务未提交的数据。</li>
@@ -741,11 +759,6 @@
 <li>通过锁机制实现事务的隔离性：InnoDB存储引擎通过锁机制实现事务的隔离性，通过锁机制保证事务的隔禽性。</li>
 </ul>
 <h3 id="锁机制-1"><a href="#锁机制-1" class="headerlink" title="锁机制"></a>锁机制</h3><p>InnoDB存储引擎通过行级锁实现事务的隔离性，通过锁机制保证事务的隔禽性。</p>
-<h2 id="如果有a-b-c-组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢"><a href="#如果有a-b-c-组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢" class="headerlink" title="如果有a,b,c 组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢"></a>如果有a,b,c 组合为联合索引，查询条件是a和b，这个查询会不会用到索引，a和c呢</h2><ul>
-<li>查询条件是a和b，这个查询会使用到联合索引a,b,c。</li>
-<li>查询条件是a和c，这个查询不会使用到联合索引a,b,c。</li>
-</ul>
-<p>联合索引的使用基于<strong>最左前缀原则</strong>，即查询条件必须是联合索引的最左边的列的子列，才能使用到联合索引。同时最左匹配原则会一直向右匹配直到遇到范围查询(&gt;、&lt;) 就会停止匹配。对于 &gt;&#x3D;、&lt;&#x3D;、BETWEEN、like 前缀匹配这四种范围查询，并不会停止匹配。<br>如(a,b),查询条件是a和b，会使用到索引；查询条件是b，不会使用到索引。</p>
 <h2 id="索引失效的情况有哪些"><a href="#索引失效的情况有哪些" class="headerlink" title="索引失效的情况有哪些"></a>索引失效的情况有哪些</h2><ul>
 <li>模糊查询的前导通配符： 当使用模糊查询（如 LIKE ‘%abc’）时，索引失效，因为通配符在前面会导致索引无法使用。</li>
 <li>未使用索引字段进行过滤： 如果查询条件没有使用到创建的索引字段，数据库可能不会使用该索引。</li>
