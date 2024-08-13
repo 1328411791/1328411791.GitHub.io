@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-13T06:36:12.691Z">
+<meta property="article:modified_time" content="2024-08-13T06:40:55.888Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -654,7 +654,9 @@
 <li>查询条件是a和c，这个查询不会使用到联合索引a,b,c。</li>
 </ul>
 <p>联合索引的使用基于<strong>最左前缀原则</strong>，即查询条件必须是联合索引的最左边的列的子列，才能使用到联合索引。同时最左匹配原则会一直向右匹配直到遇到范围查询(&gt;、&lt;) 就会停止匹配。对于 &gt;&#x3D;、&lt;&#x3D;、BETWEEN、like 前缀匹配这四种范围查询，并不会停止匹配。<br>如(a,b),查询条件是a和b，会使用到索引；查询条件是b，不会使用到索引。</p>
-<h2 id="如果回表过多改怎么解决"><a href="#如果回表过多改怎么解决" class="headerlink" title="如果回表过多改怎么解决"></a>如果回表过多改怎么解决</h2><p>“回表”指的是当查询使用了非聚簇索引（也叫辅助索引或二级索引）时，MySQL 需要先通过索引查找到主键值，然后再通过主键值回到聚簇索引（也就是数据表本身）获取所需的完整记录。回表操作增加了查询的I&#x2F;O开销，可能会导致性能下降。</p>
+<p><strong>如果存了个NULL，这个NULL会走索引吗</strong></p>
+<p>NULL值不会走索引，因为NULL值在索引中是不存储的。</p>
+<h2 id="如果回表过多该怎么解决"><a href="#如果回表过多该怎么解决" class="headerlink" title="如果回表过多该怎么解决"></a>如果回表过多该怎么解决</h2><p>“回表”指的是当查询使用了非聚簇索引（也叫辅助索引或二级索引）时，MySQL 需要先通过索引查找到主键值，然后再通过主键值回到聚簇索引（也就是数据表本身）获取所需的完整记录。回表操作增加了查询的I&#x2F;O开销，可能会导致性能下降。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> INDEX idx_name <span class="hljs-keyword">ON</span> table_name(user_id,order_id);<br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 查询全部字段要回表查询<br><span class="hljs-keyword">SELECT</span> user_id <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> user_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> ; <span class="hljs-operator">/</span><span class="hljs-operator">/</span> 只查询user_id不需要回表查询<br></code></pre></td></tr></table></figure>
 
 <p><strong>解决方法</strong></p>
