@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-07-03T17:35:09.462Z">
+<meta property="article:modified_time" content="2024-08-13T06:19:26.690Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -270,7 +270,7 @@
         
         
         
-          46 分钟
+          48 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年7月4日 凌晨
+                    本文最后更新于：2024年8月13日 下午
                   
                 
               </p>
@@ -356,6 +356,11 @@
 <p><strong>ArrayList的扩容策略</strong></p>
 <p>ArrayList的扩容策略是每次扩容为原来的1.5倍，当数组长度小于10时，每次扩容为原来的2倍。<br>最大容量为Integer.MAX_VALUE - 8。</p>
 <p><strong>ArrayList的默认大小</strong><br>如果使用无参构造函数ArrayList()创建一个空的ArrayList对象,那么它的初始容量为10。</p>
+<h3 id="补充-为什么扩容为1-5倍或两倍"><a href="#补充-为什么扩容为1-5倍或两倍" class="headerlink" title="[补充] 为什么扩容为1.5倍或两倍"></a>[补充] 为什么扩容为1.5倍或两倍</h3><ol>
+<li>为了减少扩容的次数，提高性能。如果每次扩容为原来的大小，那么会导致扩容的次数过多，影响性能。</li>
+<li>如果扩容倍数太大（比如3倍或更高），虽然减少了扩容次数，但会导致每次扩容后的内存空间利用率较低，即可能浪费较多的内存。</li>
+<li>从内存角度，一般内存以块进行分配，如果扩容为2的倍数，可以更好的利用内存块。1.5倍的扩容倍数在某些情况下可以避免数组过快地达到内存上限，同时还能有效利用内存块，从而减少内存碎片。</li>
+</ol>
 <h2 id="介绍一下Stream流的并行API-Parallelstream"><a href="#介绍一下Stream流的并行API-Parallelstream" class="headerlink" title="介绍一下Stream流的并行API Parallelstream"></a>介绍一下Stream流的并行API Parallelstream</h2><p>ParallelStream通过内部使用Fork&#x2F;Join框架实现并行处理。当你调用Collection的parallelStream方法时，你会得到一个ParallelStream对象。</p>
 <h2 id="HashMap和HashTable的区别"><a href="#HashMap和HashTable的区别" class="headerlink" title="HashMap和HashTable的区别"></a>HashMap和HashTable的区别</h2><ul>
 <li>HashMap：线程不安全，允许key和value为null</li>
@@ -366,7 +371,7 @@
 <li>ConcurrentHashMap：线程安全，效率高，允许key和value为null</li>
 <li>HashTable：线程安全，效率低，不允许key和value为null</li>
 </ul>
-<h2 id="ConcurrentHashMap的实现原理"><a href="#ConcurrentHashMap的实现原理" class="headerlink" title="ConcurrentHashMap的实现原理"></a>ConcurrentHashMap的实现原理</h2><p>ConcurrentHashMap是Java中的一个线程安全的哈希表，它的实现原理是分段锁。ConcurrentHashMap中有一个Segment数组，每个Segment都是一个哈希表，每个Segment都是一个独立的锁，这样就可以实现对每个Segment的并发访问，从而提高了并发访问的效率。</p>
+<h2 id="ConcurrentHashMap的实现原理"><a href="#ConcurrentHashMap的实现原理" class="headerlink" title="ConcurrentHashMap的实现原理"></a>ConcurrentHashMap的实现原理</h2><p>ConcurrentHashMap是Java中的一个线程安全的哈希表，它的实现原理是分段锁。ConcurrentHashMap中有一个Segment数组，每个Segment都是一个哈希表，每个Segment都是一个独立的锁。通过Segment数组，ConcurrentHashMap将整个哈希表分成了多个小的哈希表，每个小的哈希表都有一个独立的锁，这样就可以实现对每个小的哈希表的并发访问，从而提高了并发访问的效率。这样就可以实现对每个Segment的并发访问，从而提高了并发访问的效率。</p>
 <h2 id="java的反射机制"><a href="#java的反射机制" class="headerlink" title="java的反射机制"></a>java的反射机制</h2><p>Java的反射机制是指在运行时动态获取类的信息，比如类的属性、方法、构造器等。Java的反射机制主要是通过Class类来实现的，Class类是Java中的一个类，它是一个类的类，它是一个类的模板，它是一个类的元数据，它是一个类的描述。</p>
 <h2 id="ThreadLocal的使用场景有哪些？原理？内存泄漏？"><a href="#ThreadLocal的使用场景有哪些？原理？内存泄漏？" class="headerlink" title="ThreadLocal的使用场景有哪些？原理？内存泄漏？"></a>ThreadLocal的使用场景有哪些？原理？内存泄漏？</h2><p>ThreadLocal，即线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。</p>
 <p>ThreadLocal原理</p>
@@ -400,7 +405,7 @@
 <p><strong>CMS垃圾收集器</strong></p>
 <p>CMS垃圾回收器是并发垃圾回收器，它是一种以获取最短回收停顿时间为目标的收集器，适用于对响应时间有要求的应用。</p>
 <p><strong>G1垃圾收集器</strong></p>
-<p>G1垃圾回收器是一种面向服务端应用的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于多核CPU的环境。</p>
+<p>G1全称为Garbage First ，G1垃圾回收器是一种面向服务端应用的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于多核CPU的环境。</p>
 <p><strong>ZGC垃圾收集器</strong></p>
 <p>ZGC垃圾回收器是一种低延迟的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于对响应时间有要求的应用。</p>
 <h2 id="JVM的垃圾回收算法"><a href="#JVM的垃圾回收算法" class="headerlink" title="JVM的垃圾回收算法"></a>JVM的垃圾回收算法</h2><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
@@ -497,6 +502,11 @@
 <p><strong>头部大小：</strong>TCP的头部最小为20字节，而UDP的头部固定为8字节，因此UDP的开销更小。</p>
 <p><strong>流控制和拥塞控制：</strong>TCP有流控制和拥塞控制机制，可以防止发送端发送速度过快导致接收端或网络无法处理。而UDP没有这些控制机制。</p>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。<br>此外，还有三种特殊的数据结构：HyperLogLog、Geo、Stream。</p>
+<h2 id="为什么Redis速度快"><a href="#为什么Redis速度快" class="headerlink" title="为什么Redis速度快"></a>为什么Redis速度快</h2><ul>
+<li>Redis是基于内存的，内存的读写速度非常快。</li>
+<li>Redis是单线程的，避免了线程切换和锁的开销。</li>
+<li>Redis在网络IO方面使用了多路复用技术，可以处理多个客户端的请求。</li>
+</ul>
 <h2 id="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"><a href="#讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）" class="headerlink" title="讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）"></a>讲一下缓存三兄弟（缓存穿透、缓存击穿、缓存雪崩）</h2><ul>
 <li>缓存穿透：指的是查询一个不存在的数据，由于缓存中没有，所以每次都会去数据库中查询，这样会导致数据库压力过大。</li>
 <li>缓存击穿：指的是一个热点数据突然失效，导致大量请求直接打到数据库上，这样会导致数据库压力过大。</li>
