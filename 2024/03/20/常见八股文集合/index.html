@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-13T07:53:48.660Z">
+<meta property="article:modified_time" content="2024-08-15T05:37:31.782Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年8月13日 下午
+                    本文最后更新于：2024年8月15日 下午
                   
                 
               </p>
@@ -384,6 +384,11 @@
 <p><strong>弱引用：</strong>只要垃圾回收机制一运行，不管JVM的内存空间是否充足，都会回收该对象占用的内存。</p>
 <p>弱引用比较容易被回收。因此，如果ThreadLocal（ThreadLocalMap的Key）被垃圾回收器回收了，但是因为ThreadLocalMap生命周期和Thread是一样的，它这时候如果不被回收，就会出现这种情况：ThreadLocalMap的key没了，value还在，这就会造成了内存泄漏问题。</p>
 <p>解决内存泄漏问题，使用完ThreadLocal后，<strong>及时调用remove()方法</strong>释放内存空间。</p>
+<h2 id="发生oom，该怎么排查"><a href="#发生oom，该怎么排查" class="headerlink" title="发生oom，该怎么排查"></a>发生oom，该怎么排查</h2><ul>
+<li>查看堆内存使用情况，使用jmap命令查看堆内存使用情况，查看是否有内存泄漏。</li>
+<li>查看GC日志，查看GC日志，查看GC的情况，查看是否有频繁的Full GC。</li>
+<li>可以用jprofiler等工具查看内存使用情况，查看内存泄漏的地方。</li>
+</ul>
 <h1 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h1><h2 id="JVM的内存结构"><a href="#JVM的内存结构" class="headerlink" title="JVM的内存结构"></a>JVM的内存结构</h2><p>JVM的内存结构大致分为五个部分，分别是程序计数器、虚拟机栈、本地方法栈、堆和方法区。除此之外，还有由堆中引用的JVM外的直接内存。</p>
 <p><strong>JDK1.7以前的内存区域</strong><br><img src="https://pic.liahnu.top/img/202403281536095.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>JDK1.8以后的内存区域</strong><br><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png" srcset="/img/loading.gif" lazyload></p>
@@ -815,6 +820,8 @@ sequenceDiagram
 <li>表连接中的索引失效： 如果在表连接查询中，连接条件中的字段没有索引，可能导致索引失效。</li>
 </ul>
 <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
                 
               </div>
             
