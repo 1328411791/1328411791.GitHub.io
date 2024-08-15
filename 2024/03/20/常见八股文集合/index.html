@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-08-15T06:21:49.845Z">
+<meta property="article:modified_time" content="2024-08-15T06:54:04.617Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18k 字
+          19k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          58 分钟
+          59 分钟
         
       </span>
     
@@ -501,6 +501,13 @@
 <h2 id="Resource和-Autowired的区别是什么？"><a href="#Resource和-Autowired的区别是什么？" class="headerlink" title="@Resource和@Autowired的区别是什么？"></a>@Resource和@Autowired的区别是什么？</h2><ul>
 <li>@Resource：是JavaEE提供的注解，它是按照名称进行装配的，如果没有指定name属性，那么它会按照类型进行装配。</li>
 <li>@Autowired：是Spring提供的注解，它是按照类型进行装配的，如果有多个类型相同的bean，那么它会按照名称进行装配。</li>
+</ul>
+<h2 id="什么情况下-Transaction注解不生效？"><a href="#什么情况下-Transaction注解不生效？" class="headerlink" title="什么情况下@Transaction注解不生效？"></a>什么情况下@Transaction注解不生效？</h2><p>@Transaction注解不生效的情况主要有两种：一种是在同一个类中，一个方法调用另一个方法，事务注解不生效；另一种是在同一个类中，一个方法调用自己，事务注解不生效。</p>
+<h2 id="Spring的事务传播行为"><a href="#Spring的事务传播行为" class="headerlink" title="Spring的事务传播行为"></a>Spring的事务传播行为</h2><ul>
+<li>PROPAGATION_REQUIRED：如果当前没有事务，就新建一个事务，如果当前存在事务，就加入这个事务。</li>
+<li>PROPAGATION_SUPPORTS：支持当前事务，如果当前存在事务，就加入这个事务，如果当前不存在事务，就以非事务执行。</li>
+<li>PROPAGATION_MANDATORY：支持当前事务，如果当前存在事务，就加入这个事务，如果当前不存在事务，就抛出异常。</li>
+<li>PROPAGATION_REQUIRES_NEW：新建事务，如果当前存在事务，就把当前事务挂起。</li>
 </ul>
 <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="tcp三次握手，四次挥手"><a href="#tcp三次握手，四次挥手" class="headerlink" title="tcp三次握手，四次挥手"></a>tcp三次握手，四次挥手</h2><p>TCP是面向连接的，可靠的，基于字节流的传输层协议。TCP连接的建立和断开都需要经过三次握手和四次挥手。</p>
 <p><strong>TPC的三次握手（建立连接）</strong> </p>
