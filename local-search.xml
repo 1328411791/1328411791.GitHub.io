@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>LeetCode 115 不同的子序列</title>
+    <link href="/2024/09/04/LeetCode-115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <url>/2024/09/04/LeetCode-115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数，结果需要对 109 + 7 取模。</p><h2 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h2><pre><code class="hljs">输入：s = &quot;rabbbit&quot;, t = &quot;rabbit&quot;输出：3</code></pre><h2 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h2><pre><code class="hljs">输入：s = &quot;babgbag&quot;, t = &quot;bag&quot;输出：5</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>算法，动态规划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>数据中台入门</title>
     <link href="/2024/07/09/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E5%85%A5%E9%97%A8/"/>
     <url>/2024/07/09/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E5%85%A5%E9%97%A8/</url>
