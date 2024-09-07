@@ -16,15 +16,15 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。">
+    <meta name="description" content="前言由于小米手机在rom制作圈中的地位，本文以小米手机为例，介绍安卓ROM制作的基本流程。  认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安卓ROM制作入门">
 <meta property="og:url" content="https://www.liahnu.top/2024/09/08/%E5%AE%89%E5%8D%93ROM%E5%88%B6%E4%BD%9C%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="云墨阁">
-<meta property="og:description" content="认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。">
+<meta property="og:description" content="前言由于小米手机在rom制作圈中的地位，本文以小米手机为例，介绍安卓ROM制作的基本流程。  认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-07T16:12:30.000Z">
-<meta property="article:modified_time" content="2024-09-07T16:15:23.937Z">
+<meta property="article:modified_time" content="2024-09-07T16:32:25.223Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="安卓">
@@ -255,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          174 字
+          2.4k 字
         
       </span>
     
@@ -266,7 +266,7 @@
         
         
         
-          1 分钟
+          8 分钟
         
       </span>
     
@@ -325,7 +325,9 @@
             
               <div class="markdown-body">
                 
-                <h1 id="认识刷机包文件"><a href="#认识刷机包文件" class="headerlink" title="认识刷机包文件"></a>认识刷机包文件</h1><p>在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><pre><code class="hljs">由于小米手机在rom制作圈中的地位，本文以小米手机为例，介绍安卓ROM制作的基本流程。
+</code></pre>
+<h1 id="认识刷机包文件"><a href="#认识刷机包文件" class="headerlink" title="认识刷机包文件"></a>认识刷机包文件</h1><p>在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。</p>
 <p>现在的刷机包主要分为两类：</p>
 <ul>
 <li>线刷包: 使用fastboot工具刷入</li>
@@ -333,6 +335,38 @@
 <li>9008包: 使用9008工具刷入</li>
 </ul>
 <p>但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。</p>
+<p>下面来具体分析几个包文件的结构：</p>
+<h2 id="miui-FUXI-OS1-0-8-0-UMCCNXM-14-0-240326-ENC"><a href="#miui-FUXI-OS1-0-8-0-UMCCNXM-14-0-240326-ENC" class="headerlink" title="miui_FUXI_OS1.0.8.0.UMCCNXM_14.0_240326_ENC"></a>miui_FUXI_OS1.0.8.0.UMCCNXM_14.0_240326_ENC</h2><pre><code class="hljs">小米13的线刷卡刷合一包，作者为酷安的@白羊
+</code></pre>
+<p><strong>解压后的文件结构如下：</strong> 已经删除了一些不必要的文件</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><code class="hljs stylus">│  刷机脚本<span class="hljs-selector-class">.bat</span><br>│<br>├─bin<br>│  ├─android<br>│  │      busybox<br>│  │      zstd<br>│  │<br>│  ├─platform-tools-darwin<br>│  │  │  adb<br>│  │  │  dmtracedump<br>│  │  │  e2fsdroid<br>│  │  │  etc1tool<br>│  │  │  fastboot<br>│  │  │  hprof-conv<br>│  │  │  make_f2fs<br>│  │  │  make_f2fs_casefold<br>│  │  │  mke2fs<br>│  │  │  mke2fs<span class="hljs-selector-class">.conf</span><br>│  │  │  NOTICE<span class="hljs-selector-class">.txt</span><br>│  │  │  sload_f2fs<br>│  │  │  source<span class="hljs-selector-class">.properties</span><br>│  │  │  sqlite3<br>│  │  │<br>│  │  └─lib64<br>│  │          libc++<span class="hljs-selector-class">.dylib</span><br>│  │<br>│  ├─platform-tools-linux<br>│  │  │  adb<br>│  │  │  dmtracedump<br>│  │  │  e2fsdroid<br>│  │  │  etc1tool<br>│  │  │  fastboot<br>│  │  │  hprof-conv<br>│  │  │  make_f2fs<br>│  │  │  make_f2fs_casefold<br>│  │  │  mke2fs<br>│  │  │  mke2fs<span class="hljs-selector-class">.conf</span><br>│  │  │  NOTICE<span class="hljs-selector-class">.txt</span><br>│  │  │  sload_f2fs<br>│  │  │  source<span class="hljs-selector-class">.properties</span><br>│  │  │  sqlite3<br>│  │  │<br>│  │  └─lib64<br>│  │          libc++<span class="hljs-selector-class">.so</span><br>│  │<br>│  └─platform-tools-windows<br>│          adb<span class="hljs-selector-class">.exe</span><br>│          AdbWinApi<span class="hljs-selector-class">.dll</span><br>│          AdbWinUsbApi<span class="hljs-selector-class">.dll</span><br>│          awk<span class="hljs-selector-class">.exe</span><br>│          busybox<span class="hljs-selector-class">.exe</span><br>│          cho<span class="hljs-selector-class">.exe</span><br>│          curl<span class="hljs-selector-class">.exe</span><br>│          cut<span class="hljs-selector-class">.exe</span><br>│          dmtracedump<span class="hljs-selector-class">.exe</span><br>│          etc1tool<span class="hljs-selector-class">.exe</span><br>│          fastboot<span class="hljs-selector-class">.exe</span><br>│          FstabQF<span class="hljs-selector-class">.exe</span><br>│          hprof-conv<span class="hljs-selector-class">.exe</span><br>│          libwinpthread-<span class="hljs-number">1</span><span class="hljs-selector-class">.dll</span><br>│          make_f2fs<span class="hljs-selector-class">.exe</span><br>│          make_f2fs_casefold<span class="hljs-selector-class">.exe</span><br>│          mke2fs<span class="hljs-selector-class">.conf</span><br>│          mke2fs<span class="hljs-selector-class">.exe</span><br>│          NOTICE<span class="hljs-selector-class">.txt</span><br>│          source<span class="hljs-selector-class">.properties</span><br>│          sqlite3<span class="hljs-selector-class">.exe</span><br>│          zstd<span class="hljs-selector-class">.exe</span><br>│<br>├─images<br>│      abl<span class="hljs-selector-class">.img</span><br>│      aop<span class="hljs-selector-class">.img</span><br>│      aop_config<span class="hljs-selector-class">.img</span><br>│      bluetooth<span class="hljs-selector-class">.img</span><br>│      boot<span class="hljs-selector-class">.img</span><br>│      boot_kernelsu<span class="hljs-selector-class">.img</span><br>│      cpucp<span class="hljs-selector-class">.img</span><br>│      cust<span class="hljs-selector-class">.img</span><br>│      devcfg<span class="hljs-selector-class">.img</span><br>│      dsp<span class="hljs-selector-class">.img</span><br>│      dtbo<span class="hljs-selector-class">.img</span><br>│      featenabler<span class="hljs-selector-class">.img</span><br>│      hyp<span class="hljs-selector-class">.img</span><br>│      imagefv<span class="hljs-selector-class">.img</span><br>│      init_boot<span class="hljs-selector-class">.img</span><br>│      init_boot_kernelsu<span class="hljs-selector-class">.img</span><br>│      init_boot_magisk<span class="hljs-selector-class">.img</span><br>│      keymaster<span class="hljs-selector-class">.img</span><br>│      modem<span class="hljs-selector-class">.img</span><br>│      multiimgqti<span class="hljs-selector-class">.img</span><br>│      qupfw<span class="hljs-selector-class">.img</span><br>│      recovery<span class="hljs-selector-class">.img</span><br>│      recovery_twrp<span class="hljs-selector-class">.img</span><br>│      shrm<span class="hljs-selector-class">.img</span><br>│      super<span class="hljs-selector-class">.img</span><br>│      tz<span class="hljs-selector-class">.img</span><br>│      uefi<span class="hljs-selector-class">.img</span><br>│      uefisecapp<span class="hljs-selector-class">.img</span><br>│      vbmeta<span class="hljs-selector-class">.img</span><br>│      vbmeta_system<span class="hljs-selector-class">.img</span><br>│      vendor_boot<span class="hljs-selector-class">.img</span><br>│      vendor_boot_less<span class="hljs-selector-class">.img</span><br>│      xbl<span class="hljs-selector-class">.img</span><br>│      xbl_config<span class="hljs-selector-class">.img</span><br>│      xbl_ramdump<span class="hljs-selector-class">.img</span><br>│<br>└─META-INF<br>    └─com<br>        ├─android<br>        │      metadata<br>        │      metadata<span class="hljs-selector-class">.pb</span><br>        │      otacert<br>        │<br>        └─google<br>            └─android<br>                    update-binary<br></code></pre></td></tr></table></figure>
+
+<p>下面来解释一下文件夹中的文件的作用：</p>
+<ul>
+<li>bin.android: 里面存放了一些常用工具，在刷机包中放置了busybox和zstd</li>
+</ul>
+<div class="note note-success">
+            <ul><li>busybox: 一个类似于linux的工具集，可以在android中执行一些linux命令，如ls, cp等</li><li>zstd: 一个压缩工具，用于解压缩刷机包中的压缩文件</li></ul>
+          </div>
+
+<ul>
+<li>bin.platform-tools-darwin: 里面存放了一些macOS下的工具与依赖库</li>
+<li>bin.platform-tools-linux: 里面存放了一些linux下的工具与依赖库</li>
+<li>bin.platform-tools-windows: 里面存放了一些windows下的工具与依赖库</li>
+</ul>
+<p>这部分主要是用在刷机脚本中，用于多平台的兼容。</p>
+<div class="note note-success">
+            <ul><li>adb: android调试桥，用于和手机进行通信</li><li>fastboot: 一个刷机工具，用于刷入img文件</li></ul>
+          </div>
+
+<ul>
+<li>images: 里面存放了一些img分区镜像文件，这些文件是刷机包的核心，是要刷入到手机的分区中的文件</li>
+</ul>
+<h2 id="image-分区文件解析"><a href="#image-分区文件解析" class="headerlink" title="image 分区文件解析"></a>image 分区文件解析</h2><div class="note note-primary">
+            <p>这些镜像文件是刷机包的核心，是要刷入到手机的分区中的文件，每个文件对应一个分区，刷机包的制作就是将这些文件打包成一个刷机包文件。</p>
+          </div>
+
+
 
                 
               </div>
