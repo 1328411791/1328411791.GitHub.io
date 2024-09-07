@@ -16,26 +16,25 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，只能进入fastboot模式。线刷系统过后进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。 准备工作 一台电脑（fastbo">
+    <meta name="description" content="认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拯救安卓11中的System分区">
-<meta property="og:url" content="https://www.liahnu.top/2024/05/06/%E6%8B%AF%E6%95%91%E5%AE%89%E5%8D%9311%E4%B8%AD%E7%9A%84System%E5%88%86%E5%8C%BA/index.html">
+<meta property="og:title" content="安卓ROM制作入门">
+<meta property="og:url" content="https://www.liahnu.top/2024/09/08/%E5%AE%89%E5%8D%93ROM%E5%88%B6%E4%BD%9C%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="云墨阁">
-<meta property="og:description" content="前言前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，只能进入fastboot模式。线刷系统过后进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。 准备工作 一台电脑（fastbo">
+<meta property="og:description" content="认识刷机包文件在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。 现在的刷机包主要分为两类：  线刷包: 使用fastboot工具刷入 卡刷包: 使用recovery工具刷入 9008包: 使用9008工具刷入  但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-06T14:48:06.000Z">
-<meta property="article:modified_time" content="2024-07-03T17:34:42.168Z">
+<meta property="article:published_time" content="2024-09-07T16:12:30.000Z">
+<meta property="article:modified_time" content="2024-09-07T16:15:23.937Z">
 <meta property="article:author" content="liahnu">
+<meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="安卓">
-<meta property="article:tag" content="搞机">
-<meta property="article:tag" content="系统">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>拯救安卓11中的System分区 - 云墨阁</title>
+  <title>安卓ROM制作入门 - 云墨阁</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -228,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="拯救安卓11中的System分区"></span>
+            <span id="subtitle" data-typed-text="安卓ROM制作入门"></span>
           
         </div>
 
@@ -244,8 +243,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-06 22:48" pubdate>
-          2024年5月6日 晚上
+        <time datetime="2024-09-08 00:12" pubdate>
+          2024年9月8日 凌晨
         </time>
       </span>
     
@@ -256,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          174 字
         
       </span>
     
@@ -267,7 +266,7 @@
         
         
         
-          4 分钟
+          1 分钟
         
       </span>
     
@@ -313,12 +312,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">拯救安卓11中的System分区</h1>
+            <h1 style="display: none">安卓ROM制作入门</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年7月4日 凌晨
+                    本文最后更新于：2024年9月8日 凌晨
                   
                 
               </p>
@@ -326,21 +325,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前段时间，打算给我的小米9刷一个澎湃的系统，但是在刷机的时候，发现了一个问题，就是在小米9中安卓11中的System分区容量不足，需要手动扩容。但是经过我的错误扩容操作后经过出现一点小失误，导致手机无法开机，只能进入fastboot模式。线刷系统过后进入系统提示System被破坏，这篇文章就是记录我是如何拯救安卓11中的System分区的（不想交钱9008）。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
-<li>一台电脑（fastboot工具，recovery工具）</li>
-<li>一根数据线</li>
-<li>手机</li>
-<li>官方卡刷包线刷包</li>
-</ol>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><p>通过线刷recovey的方式，进入recovery模式，查看log，发现提示无法加载system-root分区。同时，使用fastboot flash命令无法将线刷包中的system.img刷入system分区。提示分区不存在，出现了异常操作，怀疑是System分区因为扩容或其他原因丢失。</p>
-<p>在摸索的过程中，期初一直在<code>/dev/block/sda</code>目录下查找system分区，但是始终发现没有找到system分区。以为是安卓10后的动态System分区机制导致无法读取，后来在<code>/dev/block/sde</code>（将闪存分为了不同的磁盘）下找到了vender分区，同时看块号和分区id提示，缺少一个3.6G左右的分区，该分区应该就是缺失system分区。</p>
-<p>在查阅系统的硬件时候发现，sda存储的是userdata数据，sde存储的是vender、system分区存储的是系统数据，sdf存储的是数据数据。本来以为在安卓10后，System分区修改为一个动态分区，在正常的dd中无法显示。后来才发现，system分区不存储在sda中，而是存储在sde中。</p>
-<p>同样的，线刷包中存在gpt_main0.bin<del>gpt_main4.bin（5个块），gpt_backup0.bin</del>gpt_backup5.bin（4个块），其中gpt_main0.bin存储的是userdata分区表，gpt_main4.bin存储的是system分区和vender分区表，gpt_main5.bin存储的基带分区的分区表。通过dd命令将gpt_main4.bin和gpt_backup4.bin刷入sde中的头块和尾块，重启即可修复sde中的分区表。（注意分区表的分区名称和分区大小是否与原始对应）</p>
-<p>参考命令，注意块的大小和位移</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">dd if=gpt_main4.bin of=/dev/block/sde bs=4096 seek=0 count=6<br>dd if=gpt_backup4.bin of=/dev/block/sde bs=4096 seek=0 count=5<br></code></pre></td></tr></table></figure>
-
-<p>重启后进recovey模式，发现system分区已经恢复，重新卡刷线刷rom即可。</p>
+                <h1 id="认识刷机包文件"><a href="#认识刷机包文件" class="headerlink" title="认识刷机包文件"></a>认识刷机包文件</h1><p>在制作入门前，首先先来拆解一个刷机包文件，了解一下其中内部的结构。</p>
+<p>现在的刷机包主要分为两类：</p>
+<ul>
+<li>线刷包: 使用fastboot工具刷入</li>
+<li>卡刷包: 使用recovery工具刷入</li>
+<li>9008包: 使用9008工具刷入</li>
+</ul>
+<p>但实际上，这三种包只是刷入方式和格式的区别，其内部结构是一样的。刷机包的本质是将打包好的img镜像，通过某种方式，刷入到手机指定的分区中。</p>
 
                 
               </div>
@@ -353,11 +345,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">#操作系统</a>
+      
         <a href="/tags/%E5%AE%89%E5%8D%93/">#安卓</a>
-      
-        <a href="/tags/%E6%90%9E%E6%9C%BA/">#搞机</a>
-      
-        <a href="/tags/%E7%B3%BB%E7%BB%9F/">#系统</a>
       
     </div>
   
@@ -369,8 +359,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>拯救安卓11中的System分区</div>
-      <div>https://www.liahnu.top/2024/05/06/拯救安卓11中的System分区/</div>
+      <div>安卓ROM制作入门</div>
+      <div>https://www.liahnu.top/2024/09/08/安卓ROM制作入门/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +372,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月6日</div>
+          <div>2024年9月8日</div>
         </div>
       
       
@@ -414,18 +404,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95%E9%87%8D%E7%82%B9/" title="机器学习期末考试重点">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">机器学习期末考试重点</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/26/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" title="类加载和类加载器">
-                        <span class="hidden-mobile">类加载和类加载器</span>
+                      <a href="/2024/09/04/LeetCode-115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/" title="LeetCode 115 不同的子序列">
+                        <span class="hidden-mobile">LeetCode 115 不同的子序列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
