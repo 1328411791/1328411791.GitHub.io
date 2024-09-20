@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-09-20T01:33:21.696Z">
+<meta property="article:modified_time" content="2024-09-20T01:56:05.574Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -270,7 +270,7 @@
         
         
         
-          65 分钟
+          68 分钟
         
       </span>
     
@@ -491,7 +491,7 @@
 <p>当竞争不激烈 (出现并发冲突的概率小)时，乐观锁更有优势，因为悲观锁会锁住代码块或数据，其他线程无法同时访问，影响并发，而且加锁和释放锁都需要消耗额外的资源。<br>当竞争激烈(出现并发冲突的概率大)时，悲观锁更有优势，因为乐观锁在执行更新时频繁失败，需要不断重试，浪费CPU资源。</p>
 <h3 id="悲观锁的实现"><a href="#悲观锁的实现" class="headerlink" title="悲观锁的实现"></a>悲观锁的实现</h3><p>悲观锁的实现主要是通过synchronized关键字来实现的，synchronized是Java中最基本的同步手段，它保证了线程的安全性，但是它的性能开销也是比较大的。</p>
 <h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>volatile是Java中的一个关键字，它的主要作用是保证变量的可见性和防止 JVM 的指令重排序。<br>在并发控制方面，主要是运用乐观锁的一种实现方式，底层有CAS操作，保证了变量的可见性，但是它并不能保证原子性。</p>
-<h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><p>synchronized是Java中的一个关键字，它的主要作用是保证线程的安全性。<br>synchronized可以修饰代码块，也可以修饰方法，它的底层是通过monitor对象来实现的，monitor对象是每个Java对象都有的一个对象，它是一个互斥锁，保证了线程的安全性。</p>
+<h2 id="synchronized关键字范围"><a href="#synchronized关键字范围" class="headerlink" title="synchronized关键字范围"></a>synchronized关键字范围</h2><p>synchronized是Java中的一个关键字，它的主要作用是保证线程的安全性。<br>synchronized可以修饰代码块，也可以修饰方法，它的底层是通过monitor对象来实现的，monitor对象是每个Java对象都有的一个对象，它是一个互斥锁，保证了线程的安全性。</p>
 <p><strong>加锁对象是谁</strong></p>
 <ul>
 <li>实例方法：加锁对象是当前实例对象</li>
@@ -539,6 +539,10 @@
 <li>对称加密：对称加密是一种加密方式，它使用相同的密钥来加密和解密数据。对称加密的优点是加密和解密速度快，缺点是密钥的传输比较困难。</li>
 <li>非对称加密：非对称加密是一种加密方式，它使用一对密钥来加密和解密数据，这对密钥分别是公钥和私钥。公钥用来加密数据，私钥用来解密数据。非对称加密的优点是密钥的传输比较容易，缺点是加密和解密速度比较慢。</li>
 </ul>
+<h2 id="http和https的区别"><a href="#http和https的区别" class="headerlink" title="http和https的区别"></a>http和https的区别</h2><ul>
+<li>http：是超文本传输协议，是一种无状态的协议，它使用明文传输数据，安全性较差。</li>
+<li>https：是http的安全版本，在http的基础上增加了SSL&#x2F;TLS协议来加密数据，安全性较高。</li>
+</ul>
 <h2 id="https的加密过程"><a href="#https的加密过程" class="headerlink" title="https的加密过程"></a>https的加密过程</h2><p>https是基于http的一种安全传输协议，它使用了SSL&#x2F;TLS协议来加密数据。https的加密过程主要分为两个部分：握手和数据传输。</p>
 <p><strong>时序图</strong></p>
 <pre class="mermaid">
@@ -554,7 +558,20 @@ sequenceDiagram
     Client->>Server: 使用对称密钥加密数据
     Server->>Client: 使用对称密钥解密数据</pre>
 
-
+<h2 id="http的各个版本的区别"><a href="#http的各个版本的区别" class="headerlink" title="http的各个版本的区别"></a>http的各个版本的区别</h2><ul>
+<li>HTTP&#x2F;0.9：最早的HTTP协议版本，只支持GET方法，且仅用于文本传输。它没有请求头、状态码，也没有持久连接的概念。</li>
+<li>HTTP&#x2F;1.0：引入了请求头和状态码，支持多种请求方法（如GET、POST、HEAD），并引入了持久连接的概念，但默认情况下每次请求后都会关闭连接。它还引入了内容协商和缓存控制机制。</li>
+<li>HTTP&#x2F;1.1：是目前使用最广泛的HTTP协议版本，它默认启用持久连接（Keep-Alive），支持请求管道化（Pipelining），引入了更多的缓存控制策略，如Entity tag、If-Unmodified-Since等。此外，HTTP&#x2F;1.1还支持范围请求，允许请求资源的一部分，并通过Host头部支持虚拟主机。</li>
+<li>HTTP&#x2F;2：基于HTTPS，引入了二进制格式传输、头部压缩、多路复用、服务器推送等特性，显著提高了性能。它允许在单个连接上并行交错地发送多个请求和响应，有效解决了队头阻塞问题。</li>
+</ul>
+<p><strong>持久连接</strong></p>
+<p>持久连接是http&#x2F;1.1的一个重要特性，它可以在一个连接上发送多个请求和响应，而不需要每次都建立连接。这样可以减少连接的数量，提高传输效率。</p>
+<p><strong>多路复用</strong></p>
+<p>多路复用是http&#x2F;2.0的一个重要特性，它可以在一个连接上同时发送多个请求和响应，而不需要按照顺序来发送。这样可以减少连接的数量，提高传输效率。</p>
+<p><strong>头部压缩</strong></p>
+<p>头部压缩是http&#x2F;2.0的一个重要特性，它可以减少头部的大小，提高传输效率。</p>
+<p><strong>服务器推送</strong></p>
+<p>服务器推送是http&#x2F;2.0的一个重要特性，它可以在客户端请求一个资源的时候，服务器可以主动推送相关的资源给客户端，提高传输效率。</p>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。<br>此外，还有三种特殊的数据结构：HyperLogLog、Geo、Stream。</p>
 <h2 id="为什么Redis速度快"><a href="#为什么Redis速度快" class="headerlink" title="为什么Redis速度快"></a>为什么Redis速度快</h2><ul>
 <li>Redis是基于内存的，内存的读写速度非常快。</li>
