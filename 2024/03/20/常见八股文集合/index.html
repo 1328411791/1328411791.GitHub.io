@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-09-20T01:56:05.574Z">
+<meta property="article:modified_time" content="2024-09-29T09:02:26.797Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          21k 字
+          22k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          68 分钟
+          70 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年9月20日 上午
+                    本文最后更新于：2024年9月29日 下午
                   
                 
               </p>
@@ -464,6 +464,23 @@
 <li>newSingleThreadExecutor：单个线程的线程池</li>
 <li>newCachedThreadPool：可缓存的线程池，线程池的大小是没有限制的</li>
 <li>newScheduledThreadPool：定时任务的线程池</li>
+</ul>
+<h2 id="线程池的工作提交流程"><a href="#线程池的工作提交流程" class="headerlink" title="线程池的工作提交流程"></a>线程池的工作提交流程</h2><p><strong>任务提交到工作队列：</strong></p>
+<p>当任务被提交到线程池时，首先会被放入工作队列中。</p>
+<p><strong>线程池处理任务：</strong></p>
+<ul>
+<li><p>如果线程池中的线程数小于核心线程数，则创建一个新线程来执行任务。</p>
+</li>
+<li><p>如果线程池中的线程数达到或超过核心线程数，则将任务放入工作队列中。</p>
+</li>
+<li><p>如果工作队列已满且线程池中的线程数小于最大线程数，则创建一个新线程来执行任务。</p>
+</li>
+<li><p>如果工作队列已满且线程池中的线程数达到最大线程数，则根据拒绝策略处理任务。<br><strong>任务执行：</strong></p>
+</li>
+<li><p>线程从工作队列中获取任务并执行。</p>
+</li>
+<li><p>任务执行完毕后，线程返回线程池，等待下一个任务。</p>
+</li>
 </ul>
 <h2 id="Cpu密集型和IO密集型-N-1-2N-具体是如何计算的"><a href="#Cpu密集型和IO密集型-N-1-2N-具体是如何计算的" class="headerlink" title="Cpu密集型和IO密集型  N+1  2N  具体是如何计算的"></a>Cpu密集型和IO密集型  N+1  2N  具体是如何计算的</h2><ul>
 <li>CPU密集型：CPU密集型是指CPU的使用率非常高，而I&#x2F;O操作非常少的程序。CPU密集型程序的特点是CPU使用率很高，而内存和硬盘I&#x2F;O操作的使用率很低。</li>
@@ -898,9 +915,19 @@ sequenceDiagram
 <li>消费端确认机制：RabbitMQ 提供了消费端确认机制，可以确保消息成功消费。</li>
 <li>事务机制：RabbitMQ 提供了事务机制，可以确保消息的生产和消费是原子性的。</li>
 </ul>
-<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="怎么保证消息的有序性"><a href="#怎么保证消息的有序性" class="headerlink" title="怎么保证消息的有序性"></a>怎么保证消息的有序性</h2><h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h2><h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2>
+<h2 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h2><h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><h2 id="一致性hash"><a href="#一致性hash" class="headerlink" title="一致性hash"></a>一致性hash</h2><p>很多请求的情况下，因为单机的并发量和数据量都是有限的，所以都会用多台服务器构成集群来对外提供服务。<br>但是问题是，用户的请求应该分配到哪个服务器节点上处理呢，这就涉及到负载均衡问题。</p>
+<p>常见有以下几种负载均衡策略：</p>
+<ul>
+<li>轮询策略：按照请求的顺序依次分配给服务器节点。</li>
+<li>随机策略：随机选择一个服务器节点处理请求。</li>
+<li>最少连接策略：选择当前连接数最少的服务器节点处理请求。</li>
+<li>一致性哈希策略：根据请求的 key 值选择服务器节点处理请求。</li>
+</ul>
+<p>一致性哈希算法是一种用于负载均衡的算法，它可以将请求的 key 值通过哈希函数计算得到一个哈希值，然后根据哈希值选择服务器节点处理请求。<br>但是加权轮询算法使用场景是建立在每个节点存储的数据都是相同的前提。所以，每次读数据的请求，访问任意一个节点都能得到结果。<br>但是，加权轮询算法是无法应对「分布式系统（数据分片的系统）」的，因为分布式系统中，每个节点存储的数据是<strong>不同的</strong></p>
+<p>所以，一致性哈希算法就是为了解决这个问题而诞生的。一致性哈希算法的核心思想是将整个哈希值空间组织成一个虚拟的圆环，将服务器节点映射到圆环上，然后根据请求的 key 值选择离 key 值最近的服务器节点处理请求。</p>
+
                 
               </div>
             
