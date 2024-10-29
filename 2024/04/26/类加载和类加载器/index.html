@@ -20,11 +20,11 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="类加载和类加载器">
 <meta property="og:url" content="https://www.liahnu.top/2024/04/26/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/index.html">
-<meta property="og:site_name" content="liahnu Blogs">
+<meta property="og:site_name" content="云墨阁">
 <meta property="og:description" content="类的生命周期类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。 其中，验证、准备、解析三个阶段统称为连接阶段。 具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。 加载加载阶段是类加载过程的第一步，主要是完成以下步骤：  通过类的全限定名来获取类的二进制数据。 将类的二进制数据加载到内存中，并创建">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-26T11:18:53.000Z">
-<meta property="article:modified_time" content="2024-04-30T03:47:56.206Z">
+<meta property="article:modified_time" content="2024-10-29T09:17:07.592Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>类加载和类加载器 - liahnu Blogs</title>
+  <title>类加载和类加载器 - 云墨阁</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -112,7 +112,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>liahnu Blog</strong>
+      <strong>云墨阁</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          2.6k 字
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年4月30日 中午
+                    本文最后更新于：2024年10月29日 下午
                   
                 
               </p>
@@ -360,7 +360,7 @@
 <li>当虚拟机启动时，用户需要指定一个要执行的主类（包含 <code>main()</code> 方法的类），虚拟机会先初始化这个主类。</li>
 <li>当使用 JDK 1.7 的动态语言支持时，如果一个 <code>java.lang.invoke.MethodHandle</code> 实例最后的解析结果为 <code>REF_getStatic</code>、<code>REF_putStatic</code>、<code>REF_invokeStatic</code> 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
 </ol>
-<h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><p>类加载器是 Java 虚拟机的一项重要功能，类加载器的主要作用就是加载 Java 类的字节码（ .class 文件）到 JVM 中（在内存中生成一个代表该类的 Class 对象）。</p>
+<h1 id="Redis-过期"><a href="#Redis-过期" class="headerlink" title="Redis 过期"></a>Redis 过期</h1><h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><p>类加载器是 Java 虚拟机的一项重要功能，类加载器的主要作用就是加载 Java 类的字节码（ .class 文件）到 JVM 中（在内存中生成一个代表该类的 Class 对象）。</p>
 <ul>
 <li>类加载器是一个负责加载类的对象，用于实现类加载过程中的加载这一步。</li>
 <li>每个 Java 类都有一个引用指向加载它的 ClassLoader。</li>
@@ -382,6 +382,8 @@
     B -->|委派| C[BootstrapClassLoader];
     C -->|加载类| D[Class];</pre>
 
+<h3 id="为什么要使用双亲委派模型"><a href="#为什么要使用双亲委派模型" class="headerlink" title="为什么要使用双亲委派模型"></a>为什么要使用双亲委派模型</h3><p>双亲委派模型的主要目的是为了保证 Java 类的安全性，防止用户自定义的类加载器加载 Java 核心类库，从而破坏 Java 的安全性。同时，双亲委派模型还可以避免类的重复加载，提高类的加载效率。</p>
+<h3 id="为什么要打破双亲委派模型"><a href="#为什么要打破双亲委派模型" class="headerlink" title="为什么要打破双亲委派模型"></a>为什么要打破双亲委派模型</h3><p>有时候，我们需要自定义类加载器来加载一些特殊的类，这时就需要打破双亲委派模型。</p>
 <h3 id="如何打破双亲委派模型"><a href="#如何打破双亲委派模型" class="headerlink" title="如何打破双亲委派模型"></a>如何打破双亲委派模型</h3><p>打破双亲委派模型的主要方法是重写ClassLoader中的 <code>loadClass()</code> 方法：重写 <code>loadClass()</code> 方法，自定义类加载逻辑。</p>
 <p>如果不打破双亲委派模型，那么自定义的类加载器只需要继承 <code>ClassLoader</code> 类，然后重写 <code>findClass()</code> 方法即可。</p>
 <p>例如</p>
@@ -662,23 +664,6 @@
       粤ICP备2023007052号
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2023007052"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>粤ICP备2023007052号</span>
-        </a>
-      </span>
-    
   
 </div>
 

@@ -20,12 +20,12 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="数字图像处理期末复习">
 <meta property="og:url" content="https://www.liahnu.top/2024/06/24/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
-<meta property="og:site_name" content="liahnu Blogs">
+<meta property="og:site_name" content="云墨阁">
 <meta property="og:description" content="数字图像基础图像的获取与感知图像的获取图像通常使用感光传感器获取，感光传感器是一种能够将光信号转换为电信号的器件。常见的感光传感器有CCD和CMOS。     CCD CMOS    原理 电荷耦合器件 互补金属氧化物半导体   耗电量 高 低   价格 昂贵 便宜   速度 慢 快   噪声 低 高   图像的采样与量化图像的采样是指对一张图片的坐标轴进行数字化，将连续的坐标轴转换为离散的坐标轴">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202406242156244.png">
 <meta property="article:published_time" content="2024-06-24T12:46:30.000Z">
-<meta property="article:modified_time" content="2024-06-25T12:47:07.274Z">
+<meta property="article:modified_time" content="2024-06-25T13:10:32.065Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="数字图像处理">
 <meta property="article:tag" content="复习">
@@ -36,7 +36,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>数字图像处理期末复习 - liahnu Blogs</title>
+  <title>数字图像处理期末复习 - 云墨阁</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -115,7 +115,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>liahnu Blog</strong>
+      <strong>云墨阁</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -257,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          4.4k 字
         
       </span>
     
@@ -487,7 +487,14 @@
 <p>离散信号的傅里叶变换公式为：</p>
 <p>$$<br>F(k) &#x3D; \sum_{n&#x3D;0}^{N-1} f(n) e^{-j\frac{2\pi}{N}kn}<br>$$</p>
 <p>其中，$F(k)$为频率域中的信号，$f(n)$为时域中的信号，$k$为频率</p>
-<h3 id="傅里叶变换性质"><a href="#傅里叶变换性质" class="headerlink" title="傅里叶变换性质"></a>傅里叶变换性质</h3><h1 id="彩色图像处理"><a href="#彩色图像处理" class="headerlink" title="彩色图像处理"></a>彩色图像处理</h1><h2 id="彩色图像的表示"><a href="#彩色图像的表示" class="headerlink" title="彩色图像的表示"></a>彩色图像的表示</h2><p>彩色图像的表示有以下几种方式：</p>
+<h3 id="傅里叶变换性质"><a href="#傅里叶变换性质" class="headerlink" title="傅里叶变换性质"></a>傅里叶变换性质</h3><h1 id="图像复原基础"><a href="#图像复原基础" class="headerlink" title="图像复原基础"></a>图像复原基础</h1><h2 id="图像复原的基本概念"><a href="#图像复原的基本概念" class="headerlink" title="图像复原的基本概念"></a>图像复原的基本概念</h2><p>图像复原是指对图像进行去噪、去模糊、去伪影等操作，使图像更加清晰。<br>图像质量的下降被称为退化，图像复原的目的是消除或减轻图像的退化。</p>
+<p><strong>图像复原和图像增强的区别</strong></p>
+<ol>
+<li>图像增强是指对图像进行处理，使图像更加美观，更加适合人类视觉，图像复原是指对图像进行处理，使图像更加清晰，更加适合机器视觉</li>
+<li>实现方式不同，图像增强更偏向主观判断，图像复原更偏向客观判断</li>
+<li>都是为了改善图片效果，便于后续处理</li>
+</ol>
+<h1 id="彩色图像处理"><a href="#彩色图像处理" class="headerlink" title="彩色图像处理"></a>彩色图像处理</h1><h2 id="彩色图像的表示"><a href="#彩色图像的表示" class="headerlink" title="彩色图像的表示"></a>彩色图像的表示</h2><p>彩色图像的表示有以下几种方式：</p>
 <ul>
 <li>RGB模型：RGB模型是将颜色分为红、绿、蓝三个通道，通过调节三个通道的亮度来调节颜色</li>
 <li>CMYK模型：CMYK模型是将颜色分为青、品红、黄、黑四个通道，通过调节四个通道的亮度来调节颜色</li>
@@ -570,6 +577,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/07/09/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E5%85%A5%E9%97%A8/" title="数据中台入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据中台入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -778,23 +791,6 @@
       粤ICP备2023007052号
     </a>
   </span>
-  
-    
-      <span>
-        <a
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2023007052"
-          rel="nofollow noopener"
-          class="beian-police"
-          target="_blank"
-        >
-          
-            <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-          
-          <span>粤ICP备2023007052号</span>
-        </a>
-      </span>
-    
   
 </div>
 
