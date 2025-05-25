@@ -16,24 +16,26 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="类的生命周期类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。 其中，验证、准备、解析三个阶段统称为连接阶段。 具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。 加载加载阶段是类加载过程的第一步，主要是完成以下步骤：  通过类的全限定名来获取类的二进制数据。 将类的二进制数据加载到内存中，并创建">
+    <meta name="description" content="使用飞牛os 安装 Home Assistant本人使用的设备是飞牛os，在应用商店中可以看到配置好的Home Assistant Docker 版本，点击下载，安装到需要的位置。安装完成后，配置相关账户和密码，地区即可进入页面。Home Assistant 本体就算安装完成了。 安装完成本体后，最好可以在DNS内配置Home Assistant 对应的域名解析，即homeassistant.lo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类加载和类加载器">
-<meta property="og:url" content="https://www.liahnu.top/2024/04/26/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/index.html">
+<meta property="og:title" content="Home Assistant 入门指南">
+<meta property="og:url" content="https://www.liahnu.top/2025/05/26/Home-Assistant-%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="云墨阁">
-<meta property="og:description" content="类的生命周期类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。 其中，验证、准备、解析三个阶段统称为连接阶段。 具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。 加载加载阶段是类加载过程的第一步，主要是完成以下步骤：  通过类的全限定名来获取类的二进制数据。 将类的二进制数据加载到内存中，并创建">
+<meta property="og:description" content="使用飞牛os 安装 Home Assistant本人使用的设备是飞牛os，在应用商店中可以看到配置好的Home Assistant Docker 版本，点击下载，安装到需要的位置。安装完成后，配置相关账户和密码，地区即可进入页面。Home Assistant 本体就算安装完成了。 安装完成本体后，最好可以在DNS内配置Home Assistant 对应的域名解析，即homeassistant.lo">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-04-26T11:18:53.000Z">
-<meta property="article:modified_time" content="2024-09-29T09:58:19.291Z">
+<meta property="og:image" content="https://pic.liahnu.top/img/202505260123795.png">
+<meta property="article:published_time" content="2025-05-25T16:33:48.000Z">
+<meta property="article:modified_time" content="2025-05-25T17:23:43.290Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="Java">
+<meta property="article:tag" content="nas">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic.liahnu.top/img/202505260123795.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>类加载和类加载器 - 云墨阁</title>
+  <title>Home Assistant 入门指南 - 云墨阁</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="类加载和类加载器"></span>
+            <span id="subtitle" data-typed-text="Home Assistant 入门指南"></span>
           
         </div>
 
@@ -242,8 +244,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-26 19:18" pubdate>
-          2024年4月26日 晚上
+        <time datetime="2025-05-26 00:33" pubdate>
+          2025年5月26日 凌晨
         </time>
       </span>
     
@@ -254,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.6k 字
+          1.2k 字
         
       </span>
     
@@ -265,7 +267,7 @@
         
         
         
-          9 分钟
+          4 分钟
         
       </span>
     
@@ -311,12 +313,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">类加载和类加载器</h1>
+            <h1 style="display: none">Home Assistant 入门指南</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年9月29日 下午
+                    本文最后更新于：2025年5月26日 凌晨
                   
                 
               </p>
@@ -324,70 +326,30 @@
             
               <div class="markdown-body">
                 
-                <h1 id="类的生命周期"><a href="#类的生命周期" class="headerlink" title="类的生命周期"></a>类的生命周期</h1><p>类的生命周期包括加载、验证、准备、解析、初始化、使用和卸载七个阶段。</p>
-<p>其中，验证、准备、解析三个阶段统称为连接阶段。</p>
-<p>具体的加载顺序为：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载。</p>
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载阶段是类加载过程的第一步，主要是完成以下步骤：</p>
-<ol>
-<li>通过类的全限定名来获取类的二进制数据。</li>
-<li>将类的二进制数据加载到内存中，并创建一个 <code>java.lang.Class</code> 对象来封装这些数据。</li>
-<li>将字节流中的静态存储结构转化为方法区的运行时数据结构。</li>
-</ol>
-<p>加载这一步主要是依靠类加载器所完成的，具体是哪个类加载器加载由<strong>双亲委派模型</strong>来决定。类加载器首先会检查这个类是否已经被加载过，如果没有，类加载器会根据类的全限定名来查找类的二进制数据。</p>
-<p>类加载器会将类的二进制数据加载到内存中，并创建一个 <code>java.lang.Class</code> 对象来封装这些数据，这个 <code>java.lang.Class</code> 对象就代表了这个类。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>验证阶段主要是确保类的字节流符合 JVM 规范，不会危害 JVM 的安全。</p>
-<p>验证阶段主要包括四个部分：</p>
-<ol>
-<li>文件格式验证：验证字节流是否符合 JVM 规范。</li>
-<li>元数据验证：对类的元数据进行语义分析，以保证不存在不符合 Java 语言规范的元数据。</li>
-<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。</li>
-<li>符号引用验证：确保解析动作能正确执行。</li>
-</ol>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段。</p>
-<ol>
-<li>进行内存分配的对象仅仅包括类变量（static），而不包括实例变量。</li>
-<li>这个阶段为类变量分配内存并设置默认初始值，这里的初始值是数据类型的零值（0、null、false）。如果是 final 修饰的类变量，那么这个初始值就是在准备阶段设置的。</li>
-</ol>
-<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段是虚拟机将常量池中的符号引用替换为直接引用的过程。 解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用限定符 7 类符号引用进行。</p>
-<p>其实就是根据符号表中内容，将对应字段转换为内存地址。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化阶段是类加载过程的最后一步，主要是执行类构造器 <code>&lt;clinit&gt;()</code> 方法的过程。</p>
-<p>类构造器 <code>&lt;clinit&gt;()</code> 方法是由编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并产生的。</p>
-<p>对于初始化阶段，虚拟机严格规范了有且只有 6 种情况下，必须对类进行初始化(只有主动去使用类才会初始化类)：</p>
-<ol>
-<li>遇到 <code>new</code>、<code>getstatic</code>、<code>putstatic</code> 或 <code>invokestatic</code> 这四条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。</li>
-<li>使用 <code>java.lang.reflect</code> 包的方法对类进行反射调用时。</li>
-<li>初始化一个类，如果其父类还没有初始化，则需要先触发其父类的初始化。</li>
-<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含 <code>main()</code> 方法的类），虚拟机会先初始化这个主类。</li>
-<li>当使用 JDK 1.7 的动态语言支持时，如果一个 <code>java.lang.invoke.MethodHandle</code> 实例最后的解析结果为 <code>REF_getStatic</code>、<code>REF_putStatic</code>、<code>REF_invokeStatic</code> 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需要先触发其初始化。</li>
-</ol>
-<h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><p>类加载器是 Java 虚拟机的一项重要功能，类加载器的主要作用就是加载 Java 类的字节码（ .class 文件）到 JVM 中（在内存中生成一个代表该类的 Class 对象）。</p>
+                <h1 id="使用飞牛os-安装-Home-Assistant"><a href="#使用飞牛os-安装-Home-Assistant" class="headerlink" title="使用飞牛os 安装 Home Assistant"></a>使用飞牛os 安装 Home Assistant</h1><p>本人使用的设备是飞牛os，在应用商店中可以看到配置好的Home Assistant Docker 版本，点击下载，安装到需要的位置。安装完成后，配置相关账户和密码，地区即可进入页面。Home Assistant 本体就算安装完成了。</p>
+<p>安装完成本体后，最好可以在DNS内配置Home Assistant 对应的域名解析，即<code>homeassistant.local</code>,解析到相关nas设备。方便后续配置时候提供网络域名服务。我这边使用的设备是Openwrt，在网络-DHCP&#x2F;DNS 下方配置自定义挟持域名，解析到目标服务器。</p>
+<h1 id="配置相关插件"><a href="#配置相关插件" class="headerlink" title="配置相关插件"></a>配置相关插件</h1><p>安装完成后，针对家庭情况（我这边基本上都是米家） 需要安装一些插件提供智能家居的接入服务。这边把我提供的一些推荐插件和地址列在下面</p>
 <ul>
-<li>类加载器是一个负责加载类的对象，用于实现类加载过程中的加载这一步。</li>
-<li>每个 Java 类都有一个引用指向加载它的 ClassLoader。</li>
-<li>数组类不是通过 ClassLoader 创建的（数组类没有对应的二进制字节流），是由 JVM 直接生成的。</li>
+<li>hacs ha的应用市场索引 <a target="_blank" rel="noopener" href="https://hacs.xyz/">https://hacs.xyz/</a></li>
+<li>xiaomi-home 米家接入 <a target="_blank" rel="noopener" href="https://github.com/XiaoMi/ha_xiaomi_home">https://github.com/XiaoMi/ha_xiaomi_home</a></li>
 </ul>
-<h2 id="JVM内置的类加载器"><a href="#JVM内置的类加载器" class="headerlink" title="JVM内置的类加载器"></a>JVM内置的类加载器</h2><p>JVM 内置的类加载器主要有以下几种：</p>
-<ol>
-<li>启动类加载器（Bootstrap ClassLoader）：负责加载 Java 的核心类库，如 <code>rt.jar</code>、<code>resources.jar</code>、<code>charsets.jar</code>。</li>
-<li>扩展类加载器（Extension ClassLoader）：负责加载 Java 的扩展类库，如 <code>jre/lib/ext</code> 目录下的 jar 包。</li>
-<li>应用程序类加载器（Application ClassLoader）：负责加载应用程序的类，是最常用的类加载器。</li>
-</ol>
-<p>除了这三种类加载器之外，用户还可以加入自定义的类加载器来进行拓展，以满足自己的特殊需求。</p>
-<p>自低向上的类加载器层次结构如下：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">|--AppClassLoader</span><br>	<span class="hljs-string">|--ExtClassLoader</span><br>		<span class="hljs-string">|--null (其实就是BootstrapClassLoader)</span><br></code></pre></td></tr></table></figure>
+<h2 id="安装米家接入"><a href="#安装米家接入" class="headerlink" title="安装米家接入"></a>安装米家接入</h2><p>前往<a target="_blank" rel="noopener" href="https://github.com/XiaoMi/ha_xiaomi_home">https://github.com/XiaoMi/ha_xiaomi_home</a> 中的release中，下载最新的zip插件</p>
+<p>点击nas中的文件管理，选择左侧中的应用文件，找到home-assistant文件夹，在里面的config文件夹下新建custom_components文件夹（如果有可以跳过），将下载好的zip插件解压到该文件夹夹。</p>
+<p>回到home-assistant界面，点击设置-系统 在右上角点击重启home-assistant服务。</p>
+<p>随后可以在设备与服务中，点击添加集成，搜索xiaomi-home就能找到相关插件。按照提示一步步绑定小米账号登内容。</p>
+<p>注意：如果没有在前面配置DNS域名，这一步会跳转回homeassistant.local域名，提示找不到服务，需要手动将homeassistant.local前缀修改为服务地址。</p>
+<h2 id="hacs-应用市场"><a href="#hacs-应用市场" class="headerlink" title="hacs 应用市场"></a>hacs 应用市场</h2><p><a target="_blank" rel="noopener" href="https://hacs.xyz/docs">https://hacs.xyz/docs</a> 官方文档</p>
+<p><strong>在线安装</strong></p>
+<p>进入容器,执行相关在线安装脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it &lt;name of the container running homeassistant&gt; bash<br>wget -O - https://get.hacs.xyz | bash -<br></code></pre></td></tr></table></figure>
 
-<h2 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h2><p>双亲委派模型是类加载器的一种工作机制，其主要思想是：当一个类加载器收到类加载请求时，它首先会将这个请求委派给父类加载器去完成，只有在父类加载器无法完成这个加载请求时，子类加载器才会尝试自己去加载。使用的设计模式是责任链模式。</p>
-<pre class="mermaid">graph LR;
-    A[AppClassLoader] -->|委派| B[ExtClassLoader];
-    B -->|委派| C[BootstrapClassLoader];
-    C -->|加载类| D[Class];</pre>
 
-<h3 id="为什么要使用双亲委派模型"><a href="#为什么要使用双亲委派模型" class="headerlink" title="为什么要使用双亲委派模型"></a>为什么要使用双亲委派模型</h3><p>双亲委派模型的主要目的是为了保证 Java 类的安全性，防止用户自定义的类加载器加载 Java 核心类库，从而破坏 Java 的安全性。同时，双亲委派模型还可以避免类的重复加载，提高类的加载效率。</p>
-<h3 id="为什么要打破双亲委派模型"><a href="#为什么要打破双亲委派模型" class="headerlink" title="为什么要打破双亲委派模型"></a>为什么要打破双亲委派模型</h3><p>有时候，我们需要自定义类加载器来加载一些特殊的类，这时就需要打破双亲委派模型。</p>
-<h3 id="如何打破双亲委派模型"><a href="#如何打破双亲委派模型" class="headerlink" title="如何打破双亲委派模型"></a>如何打破双亲委派模型</h3><p>打破双亲委派模型的主要方法是重写ClassLoader中的 <code>loadClass()</code> 方法：重写 <code>loadClass()</code> 方法，自定义类加载逻辑。</p>
-<p>如果不打破双亲委派模型，那么自定义的类加载器只需要继承 <code>ClassLoader</code> 类，然后重写 <code>findClass()</code> 方法即可。</p>
-<p>例如</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClassLoader</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ClassLoader</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;<br>        <span class="hljs-comment">// 自定义类加载逻辑</span><br>        <span class="hljs-type">AppClassLoader</span> <span class="hljs-variable">appClassLoader</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AppClassLoader</span>();<br>        <span class="hljs-keyword">return</span> appClassLoader.loadClass(name);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此操作需要访问github,如果你很不幸不能访问(dddd),就只能手动安装了</p>
+<p><strong>手动安装</strong><br><a target="_blank" rel="noopener" href="https://github.com/hacs/integration/releases/">https://github.com/hacs/integration/releases/</a> 前往这个界面下载最新的插件安装包</p>
+<p>安装方式同上,放置于 config&#x2F;custom_components 文件夹下,然后重启服务,就能在设备与服务，添加集成中看到hacs服务. 然后根据提示绑定相关账户,这块也要访问Github账户</p>
+<p><img src="https://pic.liahnu.top/img/202505260123795.png" srcset="/img/loading.gif" lazyload></p>
+<p>安装完成后就能在界面看到相关的插件了</p>
 
                 
               </div>
@@ -400,7 +362,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Java/">#Java</a>
+        <a href="/tags/nas/">#nas</a>
       
     </div>
   
@@ -412,8 +374,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>类加载和类加载器</div>
-      <div>https://www.liahnu.top/2024/04/26/类加载和类加载器/</div>
+      <div>Home Assistant 入门指南</div>
+      <div>https://www.liahnu.top/2025/05/26/Home-Assistant-入门指南/</div>
     </div>
     <div class="license-meta">
       
@@ -425,7 +387,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月26日</div>
+          <div>2025年5月26日</div>
         </div>
       
       
@@ -457,18 +419,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/06/%E6%8B%AF%E6%95%91%E5%AE%89%E5%8D%9311%E4%B8%AD%E7%9A%84System%E5%88%86%E5%8C%BA/" title="拯救安卓11中的System分区">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">拯救安卓11中的System分区</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/14/Zookeeper%EF%BC%8CEtcd%E5%92%8CRedis%E5%81%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E7%89%B9%E7%82%B9/" title="Zookeeper，Etcd和Redis做微服务中间件的特点">
-                        <span class="hidden-mobile">Zookeeper，Etcd和Redis做微服务中间件的特点</span>
+                      <a href="/2024/09/08/%E5%AE%89%E5%8D%93ROM%E5%88%B6%E4%BD%9C%E5%85%A5%E9%97%A8/" title="安卓ROM制作入门">
+                        <span class="hidden-mobile">安卓ROM制作入门</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -570,19 +526,6 @@
 
   
 
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('mermaid' in window) {
-        mermaid.init();
-      }
-    });
-  });
-</script>
 
 
 

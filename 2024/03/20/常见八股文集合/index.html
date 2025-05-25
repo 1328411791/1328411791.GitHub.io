@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-09-29T09:02:26.797Z">
+<meta property="article:modified_time" content="2025-04-19T04:46:02.460Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          22k 字
+          24k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          70 分钟
+          76 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年9月29日 下午
+                    本文最后更新于：2025年4月19日 下午
                   
                 
               </p>
@@ -372,6 +372,12 @@
 <li>HashTable：线程安全，效率低，不允许key和value为null</li>
 </ul>
 <h2 id="ConcurrentHashMap的实现原理"><a href="#ConcurrentHashMap的实现原理" class="headerlink" title="ConcurrentHashMap的实现原理"></a>ConcurrentHashMap的实现原理</h2><p>ConcurrentHashMap是Java中的一个线程安全的哈希表，它的实现原理是分段锁。ConcurrentHashMap中有一个Segment数组，每个Segment都是一个哈希表，每个Segment都是一个独立的锁。通过Segment数组，ConcurrentHashMap将整个哈希表分成了多个小的哈希表，每个小的哈希表都有一个独立的锁，这样就可以实现对每个小的哈希表的并发访问，从而提高了并发访问的效率。这样就可以实现对每个Segment的并发访问，从而提高了并发访问的效率。</p>
+<h2 id="hashmap的扩容原理"><a href="#hashmap的扩容原理" class="headerlink" title="hashmap的扩容原理"></a>hashmap的扩容原理</h2><p>ashMap 在插入元素时，如果当前元素数量超过了阈值（threshold），就会触发扩容。阈值的计算公式为：<br><code>threshold = capacity * loadFactor</code><br>其中，capacity 是 HashMap 的容量，loadFactor 是负载因子，默认值为 0.75。当 HashMap 中的元素数量超过了 threshold，就会触发扩容。扩容的过程是：</p>
+<ol>
+<li>创建一个新的 Entry 数组，长度是原来的 2 倍。</li>
+<li>将原来的 Entry 数组中的元素重新计算 hash 后，放入新的 Entry 数组中。</li>
+<li>将新的 Entry 数组赋值给原来的 Entry 数组。</li>
+</ol>
 <h2 id="java的反射机制"><a href="#java的反射机制" class="headerlink" title="java的反射机制"></a>java的反射机制</h2><p>Java的反射机制是指在运行时动态获取类的信息，比如类的属性、方法、构造器等。Java的反射机制主要是通过Class类来实现的，Class类是Java中的一个类，它是一个类的类，它是一个类的模板，它是一个类的元数据，它是一个类的描述。</p>
 <h2 id="ThreadLocal的使用场景有哪些？原理？内存泄漏？"><a href="#ThreadLocal的使用场景有哪些？原理？内存泄漏？" class="headerlink" title="ThreadLocal的使用场景有哪些？原理？内存泄漏？"></a>ThreadLocal的使用场景有哪些？原理？内存泄漏？</h2><p>ThreadLocal，即线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。</p>
 <p>ThreadLocal原理</p>
@@ -442,7 +448,7 @@
 <li>unit：线程空闲存活时间单位</li>
 <li>workQueue：存放任务的阻塞队列</li>
 <li>threadFactory：用于设置创建线程的工厂，可以给创建的线程设置有意义的名字，可方便排查问题。</li>
-<li>handler： 线城池的饱和策略事件，主要有四种类型。</li>
+<li>handler： 线程池的饱和策略事件，主要有四种类型。</li>
 </ul>
 <p><strong>四种饱和拒绝策略</strong></p>
 <ul>
@@ -525,6 +531,12 @@
 <li>@Autowired：是Spring提供的注解，它是按照类型进行装配的，如果有多个类型相同的bean，那么它会按照名称进行装配。</li>
 </ul>
 <h2 id="什么情况下-Transaction注解不生效？"><a href="#什么情况下-Transaction注解不生效？" class="headerlink" title="什么情况下@Transaction注解不生效？"></a>什么情况下@Transaction注解不生效？</h2><p>@Transaction注解不生效的情况主要有两种：一种是在同一个类中，一个方法调用另一个方法，事务注解不生效；另一种是在同一个类中，一个方法调用自己，事务注解不生效。</p>
+<ul>
+<li>在同一个类中调用，不走aop</li>
+<li>使用私有方法</li>
+<li>传播方式设置为不传播</li>
+<li>不是RunableExp</li>
+</ul>
 <h2 id="Spring的事务传播行为"><a href="#Spring的事务传播行为" class="headerlink" title="Spring的事务传播行为"></a>Spring的事务传播行为</h2><ul>
 <li>PROPAGATION_REQUIRED：如果当前没有事务，就新建一个事务，如果当前存在事务，就加入这个事务。</li>
 <li>PROPAGATION_SUPPORTS：支持当前事务，如果当前存在事务，就加入这个事务，如果当前不存在事务，就以非事务执行。</li>
@@ -589,6 +601,26 @@ sequenceDiagram
 <p>头部压缩是http&#x2F;2.0的一个重要特性，它可以减少头部的大小，提高传输效率。</p>
 <p><strong>服务器推送</strong></p>
 <p>服务器推送是http&#x2F;2.0的一个重要特性，它可以在客户端请求一个资源的时候，服务器可以主动推送相关的资源给客户端，提高传输效率。</p>
+<h2 id="http1-0和http1-1的区别"><a href="#http1-0和http1-1的区别" class="headerlink" title="http1.0和http1.1的区别"></a>http1.0和http1.1的区别</h2><ul>
+<li>缓存处理：HTTP1.0需要使用header里的If-Modified-Since来判断缓存是否失效，HTTP1.1使用更多的缓存控制策略，如Entity tag，If-Match，If-None-Match等。</li>
+<li>长连接：HTTP1.0需要使用Connection: keep-alive来保持长连接，HTTP1.1默认支持长连接。</li>
+<li>分块传输编码：HTTP1.1支持分块传输编码，可以先传输响应头，再传输响应体。</li>
+<li>Host头处理：HTTP1.1必须要有Host头。</li>
+<li>请求管道：HTTP1.1支持请求管道，可以同时发送多个请求，而不需要等待响应。</li>
+<li>错误通知的管理：HTTP1.1新增了24个错误状态响应码，如409（Conflict）、410（Gone）等。</li>
+</ul>
+<h2 id="JWT是什么，它与其他验证方式的优缺点对比"><a href="#JWT是什么，它与其他验证方式的优缺点对比" class="headerlink" title="JWT是什么，它与其他验证方式的优缺点对比"></a>JWT是什么，它与其他验证方式的优缺点对比</h2><p>JWT（JSON Web Token）是一种基于 JSON 的开放标准（RFC 7519），用于在各方之间传输信息。它通常用于身份验证和信息交换。JWT 由三部分组成：头部（Header）、载荷（Payload）和签名（Signature）</p>
+<p>优点</p>
+<ul>
+<li>自包含性：JWT 是自包含的，所有必要的信息都包含在令牌本身中。这意味着服务器不需要存储会话信息，从而减轻了服务器的负担。</li>
+<li>无状态：由于 JWT 是无状态的，服务器不需要在内存中保存会话数据，这使得 JWT 非常适合分布式系统和微服务架构。</li>
+<li>跨域支持：JWT 可以在不同的域之间传输，适用于跨域认证场景。</li>
+<li>灵活性：JWT 可以携带任意的 JSON 数据，适用于多种场景。</li>
+<li>安全性：JWT 可以使用签名和加密技术来确保数据的完整性和保密性。<br>缺点</li>
+<li>令牌大小：由于 JWT 包含了所有必要的信息，其大小可能会比传统的会话 ID 大，可能会影响传输效率。</li>
+<li>不可撤销：一旦 JWT 被签发，就无法撤销，除非在服务器端实现额外的机制来处理令牌的撤销。</li>
+<li>安全风险：如果密钥管理不当，JWT 可能会被伪造。此外，JWT 通常</li>
+</ul>
 <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis的数据结构"><a href="#Redis的数据结构" class="headerlink" title="Redis的数据结构"></a>Redis的数据结构</h2><p>Redis支持五种数据结构：String、List、Set、Hash、ZSet。<br>此外，还有三种特殊的数据结构：HyperLogLog、Geo、Stream。</p>
 <h2 id="为什么Redis速度快"><a href="#为什么Redis速度快" class="headerlink" title="为什么Redis速度快"></a>为什么Redis速度快</h2><ul>
 <li>Redis是基于内存的，内存的读写速度非常快。</li>
@@ -621,6 +653,15 @@ sequenceDiagram
 <li>AOF日志：是指在每次写操作时，将写操作的命令追加到AOF文件的末尾。AOF日志是一个文本文件，它保存了所有的写操作命令。（像mysql的redolog）</li>
 </ul>
 <h2 id="Redis宕机哪种恢复的快"><a href="#Redis宕机哪种恢复的快" class="headerlink" title="Redis宕机哪种恢复的快"></a>Redis宕机哪种恢复的快</h2><p>RDB快照恢复的速度比AOF日志快，因为RDB快照是一个二进制文件，它保存了某个时间点上的所有数据，所以恢复速度比较快。</p>
+<h2 id="Redis的大key问题怎么解决"><a href="#Redis的大key问题怎么解决" class="headerlink" title="Redis的大key问题怎么解决"></a>Redis的大key问题怎么解决</h2><p>Redis的大key指的是在Redis中某个key的value非常大，这样会导致Redis总体的内存占用过大，同时影响Redis的性能。</p>
+<p><strong>解决方法</strong></p>
+<ol>
+<li>分布式：将大key拆分成多个小key，分布在不同的key上。例如，如果一个 hash 结构的数据量过大，可以将其拆分成多个 hash；</li>
+<li>压缩：对大key进行压缩，减小内存占用。</li>
+<li>分页：对大key进行分页，分多次获取。</li>
+<li>将数据分布到多个 Redis 实例中，以减小单个实例的内存压力和操作延迟。可以使用 Redis Cluster 或者客户端分片来实现。</li>
+<li>对于不再需要的数据，定期进行清理，避免数据量持续增长。可以使用 Redis 的过期机制（TTL）来自动清理过期数据。</li>
+</ol>
 <h2 id="Redis集群的三种模式"><a href="#Redis集群的三种模式" class="headerlink" title="Redis集群的三种模式"></a>Redis集群的三种模式</h2><p>Redis集群有三种模式：主从复制、哨兵模式、集群模式。这些也是Redis的高可用方案。</p>
 <ul>
 <li>主从复制：主从复制是指一个主节点可以有多个从节点，主节点的数据会同步到从节点上，从节点可以用来读取数据。</li>
@@ -629,7 +670,7 @@ sequenceDiagram
 </ul>
 <h2 id="哨兵模式的选举机制"><a href="#哨兵模式的选举机制" class="headerlink" title="哨兵模式的选举机制"></a>哨兵模式的选举机制</h2><p>哨兵模式的选举机制是通过投票的方式来选举主节点。Raft算法是一种分布式一致性算法，它的核心思想是通过投票的方式来选举主节点。</p>
 <p>Raft算法的选举过程主要分为两个阶段：选举阶段和日志复制阶段。</p>
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照<strong>物理存储</strong>维度划分主要有以下几种：</p>
+<h1 id="Redis的大key"><a href="#Redis的大key" class="headerlink" title="Redis的大key"></a>Redis的大key</h1><h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照<strong>物理存储</strong>维度划分主要有以下几种：</p>
 <ul>
 <li>B+树索引：最常见的索引类型，适用于等值查询、范围查询、排序查询。</li>
 <li>哈希索引：适用于等值查询，不适用于范围查询和排序查询。</li>
@@ -908,6 +949,13 @@ sequenceDiagram
 <li>OR 运算： 在 OR 运算中，如果其中一个条件使用了索引，而另一个条件没有使用索引，整个查询可能会导致索引失效</li>
 <li>使用 NOT 运算： NOT 运算通常会使索引失效，因为数据库无法使用索引来高效处理 NOT 运算。</li>
 <li>表连接中的索引失效： 如果在表连接查询中，连接条件中的字段没有索引，可能导致索引失效。</li>
+</ul>
+<h2 id="为什么数据库不使用红黑树或者AVL树作为索引结构"><a href="#为什么数据库不使用红黑树或者AVL树作为索引结构" class="headerlink" title="为什么数据库不使用红黑树或者AVL树作为索引结构"></a>为什么数据库不使用红黑树或者AVL树作为索引结构</h2><p>数据库不使用红黑树或者AVL树作为索引结构的原因主要有以下几点：</p>
+<ul>
+<li><strong>平衡二叉树的高度不稳定：</strong> 红黑树和AVL树是平衡二叉树，插入和删除操作可能导致树的高度发生变化，从而导致树的平衡性受到影响。而B+树是多路搜索树，插入和删除操作不会导致树的高度发生变化，保持了树的平衡性。</li>
+<li><strong>磁盘IO的特性：</strong> 数据库索引通常存储在磁盘上，磁盘IO是数据库性能的瓶颈。B+树的多路搜索树结构可以减少磁盘IO次数，提高查询性能。而红黑树和AVL树的高度不稳定，可能导致磁盘IO次数增加，降低查询性能。</li>
+<li><strong>范围查询的效率：</strong> B+树的多路搜索树结构适合范围查询，可以通过中序遍历实现范围查询。而红黑树和AVL树的平衡性可能导致范围查询效率低下。</li>
+<li><strong>存储空间的利用率：</strong> B+树的多路搜索树结构可以提高存储空间的利用率，减少磁盘IO次数。而红黑树和AVL树的高度不稳定，可能导致存储空间的浪费。</li>
 </ul>
 <h1 id="RabbitMQ-消息队列"><a href="#RabbitMQ-消息队列" class="headerlink" title="RabbitMQ 消息队列"></a>RabbitMQ 消息队列</h1><h2 id="RabbitMQ如何解决数据丢失问题，如何保证消息一致性"><a href="#RabbitMQ如何解决数据丢失问题，如何保证消息一致性" class="headerlink" title="RabbitMQ如何解决数据丢失问题，如何保证消息一致性"></a>RabbitMQ如何解决数据丢失问题，如何保证消息一致性</h2><ul>
 <li>消息持久化：RabbitMQ 提供了消息持久化功能，可以将消息持久化到磁盘上，即使 RabbitMQ 重启，消息也不会丢失。</li>
