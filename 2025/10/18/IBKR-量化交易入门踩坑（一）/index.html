@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202510181635896.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202510181638813.png">
 <meta property="article:published_time" content="2025-10-18T08:17:11.000Z">
-<meta property="article:modified_time" content="2025-10-24T18:27:52.494Z">
+<meta property="article:modified_time" content="2025-10-24T18:34:14.348Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="量化交易">
 <meta name="twitter:card" content="summary_large_image">
@@ -257,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.5k 字
         
       </span>
     
@@ -333,12 +333,16 @@
 <p><img src="https://pic.liahnu.top/img/202510181635896.png" srcset="/img/loading.gif" lazyload></p>
 <p>一些默认的配置<br><img src="https://pic.liahnu.top/img/202510181638813.png" srcset="/img/loading.gif" lazyload></p>
 <p>推荐开一个ibkr的模拟账户进行测试，同时开一个子用户购买数据订阅服务，以免影响主账户的正常使用。</p>
-<h2 id="安装python库环境"><a href="#安装python库环境" class="headerlink" title="安装python库环境"></a>安装python库环境</h2><p>ib_async 是一个第三方对接IBKR API的python库，功能完善且易用。</p>
+<h2 id="安装python库环境"><a href="#安装python库环境" class="headerlink" title="安装python库环境"></a>安装python库环境</h2><h2 id="安装-ib-async"><a href="#安装-ib-async" class="headerlink" title="安装 ib_async"></a>安装 ib_async</h2><p>ib_async 是一个第三方对接IBKR API的python库，功能完善且易用。</p>
 <p>安装ib_async库，注意不是ib_insync，ib_insync已经被停止维护弃用，文档地址已经指引到ib_async中。</p>
-<pre><code class="hljs">相关文档：
-1. https://ib-api-reloaded.github.io/ib_async/notebooks.html
-2. 
+<pre><code class="hljs">官方文档：
+考虑到这一点，用户应该知道，原始ib_insync包是使用旧版TWS API构建的，不再更新。希望使用受支持的 Trader Workstation 版本实现ib_insync结构的用户应迁移到 ib_async 包 ，该包是由其原始开发人员之一对该包进行现代化实现。 
 </code></pre>
+<p>相关文档：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://ib-api-reloaded.github.io/ib_async/notebooks.html">https://ib-api-reloaded.github.io/ib_async/notebooks.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#non-tws-api-support">https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#non-tws-api-support</a></li>
+</ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip install ib_async<br></code></pre></td></tr></table></figure>
 
 <h2 id="安装官方api"><a href="#安装官方api" class="headerlink" title="安装官方api"></a>安装官方api</h2><p>部分应用可能需要安装官方api，这里提供官方api安装方法</p>
