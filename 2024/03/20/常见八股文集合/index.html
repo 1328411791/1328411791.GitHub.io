@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://pic.liahnu.top/img/202403281536095.png">
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png">
 <meta property="article:published_time" content="2024-03-20T05:07:17.000Z">
-<meta property="article:modified_time" content="2024-11-08T08:18:32.421Z">
+<meta property="article:modified_time" content="2026-01-05T09:47:47.900Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Redis">
@@ -259,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          24k 字
+          25k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
         
-          75 分钟
+          79 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年11月8日 下午
+                    本文最后更新于：2026年1月5日 下午
                   
                 
               </p>
@@ -431,15 +431,20 @@
 <p><strong>ZGC垃圾收集器</strong></p>
 <p>ZGC垃圾回收器是一种低延迟的垃圾回收器，它是一种并发的、基于标记-整理算法的垃圾回收器，适用于对响应时间有要求的应用。</p>
 <h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><ol>
-<li>标记-清除（Mark-and-Sweep）<br>工作原理：首先，GC 会遍历所有的对象，标记出所有可达的对象（即仍在使用的对象）。然后，GC 会遍历堆内存，清除所有未被标记的对象（即不可达的对象），释放这些对象占用的内存。<br>优点：简单且高效，适用于一般场景。<br>缺点：可能会导致内存碎片化，因为清除后留下的空闲内存块大小不一。</li>
-<li>标记-整理（Mark-Compact）<br>工作原理：与标记-清除类似，首先标记所有可达对象。不同的是，在清除阶段，GC 会将存活的对象向一端移动，整理堆内存，使得所有的空闲内存集中在一起。<br>优点：避免了内存碎片化问题，适合需要长时间运行的应用程序。<br>缺点：相比标记-清除算法，移动对象的开销更大。</li>
-<li>复制算法（Copying or Scavenge）<br>工作原理：将内存划分为两块相等的区域，每次只使用其中一块。当一块区域满时，将存活的对象复制到另一块区域，清除原来区域的所有对象。<br>优点：避免了内存碎片化，复制过程中可以自然地整理内存。<br>缺点：内存利用率低，因为始终有一半的内存处于空闲状态。</li>
-<li>分代收集算法（Generational GC）<br>工作原理：将堆内存划分为不同的代（通常是年轻代和老年代）。新创建的对象通常放在年轻代，GC 会频繁地回收年轻代中的对象，而老年代中的对象生命周期较长，GC 对其回收频率较低。<br>优点：优化了垃圾回收的效率，因为大多数对象的生命周期很短（即“朝生夕灭”对象），可以快速回收。<br>缺点：需要额外的逻辑来管理对象的分代和晋升。</li>
+<li>标记-清除（Mark-and-Sweep）<br>工作原理：首先，GC 会遍历所有的对象，标记出所有可达的对象（即仍在使用的对象）。然后，GC 会遍历堆内存，清除所有未被标记的对象（即不可达的对象），释放这些对象占用的内存。在jvm中，新生代的垃圾回收器中，使用的就是标记-清除算法。<br>优点：简单且高效，适用于一般场景。<br>缺点：可能会导致内存碎片化，因为清除后留下的空闲内存块大小不一。</li>
+<li>标记-整理（Mark-Compact）<br>工作原理：与标记-清除类似，首先标记所有可达对象。不同的是，在清除阶段，GC 会将存活的对象向一端移动，整理堆内存，使得所有的空闲内存集中在一起。在老年代的垃圾回收器中，通常会使用标记-整理算法。<br>优点：避免了内存碎片化问题，适合需要长时间运行的应用程序。<br>缺点：相比标记-清除算法，移动对象的开销更大。</li>
+<li>复制算法（Copying or Scavenge）<br>工作原理：将内存划分为两块相等的区域，每次只使用其中一块。当一块区域满时，将存活的对象复制到另一块区域，清除原来区域的所有对象。在新生代的s0和s1区域中，通常会使用复制算法。<br>优点：避免了内存碎片化，复制过程中可以自然地整理内存。<br>缺点：内存利用率低，因为始终有一半的内存处于空闲状态。</li>
+<li>分代收集算法（Generational GC）<br>工作原理：将堆内存划分为不同的代（通常是年轻代和老年代）。新创建的对象通常放在年轻代，GC 会频繁地回收年轻代中的对象，而老年代中的对象生命周期较长，GC 对其回收频率较低。jvm的新生代和老店来其实就是分代收集算法的体现。<br>优点：优化了垃圾回收的效率，因为大多数对象的生命周期很短（即“朝生夕灭”对象），可以快速回收。<br>缺点：需要额外的逻辑来管理对象的分代和晋升。</li>
 <li>增量收集算法（Incremental GC）<br>工作原理：将垃圾回收过程拆分成多个小的步骤，分散到正常程序执行的过程中，以避免长时间的停顿。<br>优点：减少了应用程序的停顿时间，适用于对响应时间要求高的应用。<br>缺点：整体回收效率可能会降低，且实现较为复杂。</li>
 <li>并行收集算法（Parallel GC）<br>工作原理：在多核 CPU 环境下，利用多线程同时执行垃圾回收工作，以加快回收过程。<br>优点：提高了垃圾回收的效率，适合多处理器或多核系统。<br>缺点：在某些情况下，可能会导致应用程序线程的响应时间变长。</li>
 <li>并发收集算法（Concurrent GC）<br>工作原理：垃圾回收器在应用程序运行的同时进行垃圾回收工作，减少因垃圾回收引起的应用停顿时间。<br>优点：大大降低了垃圾回收的停顿时间，适用于对响应时间敏感的应用。<br>缺点：由于垃圾回收与应用程序并发执行，可能会导致整体性能下降。</li>
 </ol>
-<h2 id="jvm如何知道对象是否可以被回收"><a href="#jvm如何知道对象是否可以被回收" class="headerlink" title="jvm如何知道对象是否可以被回收"></a>jvm如何知道对象是否可以被回收</h2><h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
+<h2 id="jvm如何知道对象是否可以被回收"><a href="#jvm如何知道对象是否可以被回收" class="headerlink" title="jvm如何知道对象是否可以被回收"></a>jvm如何知道对象是否可以被回收</h2><p>主要通过以下两种方法：</p>
+<ol>
+<li>引用计数法：通过引用计数器来判断对象是否可以被回收。当对象被引用时，引用计数器加1，当对象被释放时，引用计数器减1。当引用计数器为0时，说明对象不再被引用，可以被回收。</li>
+<li>可达性分析法：通过GC Roots对象作为起始点，从GC Roots对象开始向下搜索，搜索过程中所走过的路径称为引用链，当对象没有任何引用链与GC Roots相连时，说明对象不再被引用，可以被回收。</li>
+</ol>
+<h1 id="JUC"><a href="#JUC" class="headerlink" title="JUC"></a>JUC</h1><h2 id="Runable和Callable有什么区别"><a href="#Runable和Callable有什么区别" class="headerlink" title="Runable和Callable有什么区别"></a>Runable和Callable有什么区别</h2><ol>
 <li>Runnable是Java中的一个接口，它只有一个run方法，没有返回值，不能抛出异常。</li>
 <li>Callable是Java中的一个接口，它有一个call方法，有返回值，可以抛出异常。</li>
 </ol>
@@ -454,7 +459,7 @@
 <li>unit：线程空闲存活时间单位</li>
 <li>workQueue：存放任务的阻塞队列</li>
 <li>threadFactory：用于设置创建线程的工厂，可以给创建的线程设置有意义的名字，可方便排查问题。</li>
-<li>handler： 线城池的饱和策略事件，主要有四种类型。</li>
+<li>handler： 线程池的饱和策略事件，主要有四种类型。</li>
 </ul>
 <p><strong>四种饱和拒绝策略</strong></p>
 <ul>
@@ -476,6 +481,23 @@
 <li>newSingleThreadExecutor：单个线程的线程池</li>
 <li>newCachedThreadPool：可缓存的线程池，线程池的大小是没有限制的</li>
 <li>newScheduledThreadPool：定时任务的线程池</li>
+</ul>
+<h2 id="线程池的工作提交流程"><a href="#线程池的工作提交流程" class="headerlink" title="线程池的工作提交流程"></a>线程池的工作提交流程</h2><p><strong>任务提交到工作队列：</strong></p>
+<p>当任务被提交到线程池时，首先会被放入工作队列中。</p>
+<p><strong>线程池处理任务：</strong></p>
+<ul>
+<li><p>如果线程池中的线程数小于核心线程数，则创建一个新线程来执行任务。</p>
+</li>
+<li><p>如果线程池中的线程数达到或超过核心线程数，则将任务放入工作队列中。</p>
+</li>
+<li><p>如果工作队列已满且线程池中的线程数小于最大线程数，则创建一个新线程来执行任务。</p>
+</li>
+<li><p>如果工作队列已满且线程池中的线程数达到最大线程数，则根据拒绝策略处理任务。<br><strong>任务执行：</strong></p>
+</li>
+<li><p>线程从工作队列中获取任务并执行。</p>
+</li>
+<li><p>任务执行完毕后，线程返回线程池，等待下一个任务。</p>
+</li>
 </ul>
 <h2 id="Cpu密集型和IO密集型-N-1-2N-具体是如何计算的"><a href="#Cpu密集型和IO密集型-N-1-2N-具体是如何计算的" class="headerlink" title="Cpu密集型和IO密集型  N+1  2N  具体是如何计算的"></a>Cpu密集型和IO密集型  N+1  2N  具体是如何计算的</h2><ul>
 <li>CPU密集型：CPU密集型是指CPU的使用率非常高，而I&#x2F;O操作非常少的程序。CPU密集型程序的特点是CPU使用率很高，而内存和硬盘I&#x2F;O操作的使用率很低。</li>
@@ -519,7 +541,7 @@
 <p>当竞争不激烈 (出现并发冲突的概率小)时，乐观锁更有优势，因为悲观锁会锁住代码块或数据，其他线程无法同时访问，影响并发，而且加锁和释放锁都需要消耗额外的资源。<br>当竞争激烈(出现并发冲突的概率大)时，悲观锁更有优势，因为乐观锁在执行更新时频繁失败，需要不断重试，浪费CPU资源。</p>
 <h3 id="悲观锁的实现"><a href="#悲观锁的实现" class="headerlink" title="悲观锁的实现"></a>悲观锁的实现</h3><p>悲观锁的实现主要是通过synchronized关键字来实现的，synchronized是Java中最基本的同步手段，它保证了线程的安全性，但是它的性能开销也是比较大的。</p>
 <h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>volatile是Java中的一个关键字，它的主要作用是保证变量的可见性和防止 JVM 的指令重排序。<br>在并发控制方面，主要是运用乐观锁的一种实现方式，底层有CAS操作，保证了变量的可见性，但是它并不能保证原子性。</p>
-<h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><p>synchronized是Java中的一个关键字，它的主要作用是保证线程的安全性。<br>synchronized可以修饰代码块，也可以修饰方法，它的底层是通过monitor对象来实现的，monitor对象是每个Java对象都有的一个对象，它是一个互斥锁，保证了线程的安全性。</p>
+<h2 id="synchronized关键字范围"><a href="#synchronized关键字范围" class="headerlink" title="synchronized关键字范围"></a>synchronized关键字范围</h2><p>synchronized是Java中的一个关键字，它的主要作用是保证线程的安全性。<br>synchronized可以修饰代码块，也可以修饰方法，它的底层是通过monitor对象来实现的，monitor对象是每个Java对象都有的一个对象，它是一个互斥锁，保证了线程的安全性。</p>
 <p><strong>加锁对象是谁</strong></p>
 <ul>
 <li>实例方法：加锁对象是当前实例对象</li>
@@ -536,6 +558,12 @@
 <li>@Autowired：是Spring提供的注解，它是按照类型进行装配的，如果有多个类型相同的bean，那么它会按照名称进行装配。</li>
 </ul>
 <h2 id="什么情况下-Transaction注解不生效？"><a href="#什么情况下-Transaction注解不生效？" class="headerlink" title="什么情况下@Transaction注解不生效？"></a>什么情况下@Transaction注解不生效？</h2><p>@Transaction注解不生效的情况主要有两种：一种是在同一个类中，一个方法调用另一个方法，事务注解不生效；另一种是在同一个类中，一个方法调用自己，事务注解不生效。</p>
+<ul>
+<li>在同一个类中调用，不走aop</li>
+<li>使用私有方法</li>
+<li>传播方式设置为不传播</li>
+<li>不是RunableExp</li>
+</ul>
 <h2 id="Spring的事务传播行为"><a href="#Spring的事务传播行为" class="headerlink" title="Spring的事务传播行为"></a>Spring的事务传播行为</h2><ul>
 <li>PROPAGATION_REQUIRED：如果当前没有事务，就新建一个事务，如果当前存在事务，就加入这个事务。</li>
 <li>PROPAGATION_SUPPORTS：支持当前事务，如果当前存在事务，就加入这个事务，如果当前不存在事务，就以非事务执行。</li>
@@ -567,6 +595,10 @@
 <li>对称加密：对称加密是一种加密方式，它使用相同的密钥来加密和解密数据。对称加密的优点是加密和解密速度快，缺点是密钥的传输比较困难。</li>
 <li>非对称加密：非对称加密是一种加密方式，它使用一对密钥来加密和解密数据，这对密钥分别是公钥和私钥。公钥用来加密数据，私钥用来解密数据。非对称加密的优点是密钥的传输比较容易，缺点是加密和解密速度比较慢。</li>
 </ul>
+<h2 id="http和https的区别"><a href="#http和https的区别" class="headerlink" title="http和https的区别"></a>http和https的区别</h2><ul>
+<li>http：是超文本传输协议，是一种无状态的协议，它使用明文传输数据，安全性较差。</li>
+<li>https：是http的安全版本，在http的基础上增加了SSL&#x2F;TLS协议来加密数据，安全性较高。</li>
+</ul>
 <h2 id="https的加密过程"><a href="#https的加密过程" class="headerlink" title="https的加密过程"></a>https的加密过程</h2><p>https是基于http的一种安全传输协议，它使用了SSL&#x2F;TLS协议来加密数据。https的加密过程主要分为两个部分：握手和数据传输。</p>
 <p><strong>时序图</strong></p>
 <pre class="mermaid">
@@ -581,6 +613,21 @@ sequenceDiagram
     Server->>Client: 使用私钥解密
     Client->>Server: 使用对称密钥加密数据
     Server->>Client: 使用对称密钥解密数据</pre>
+
+<h2 id="http的各个版本的区别"><a href="#http的各个版本的区别" class="headerlink" title="http的各个版本的区别"></a>http的各个版本的区别</h2><ul>
+<li>HTTP&#x2F;0.9：最早的HTTP协议版本，只支持GET方法，且仅用于文本传输。它没有请求头、状态码，也没有持久连接的概念。</li>
+<li>HTTP&#x2F;1.0：引入了请求头和状态码，支持多种请求方法（如GET、POST、HEAD），并引入了持久连接的概念，但默认情况下每次请求后都会关闭连接。它还引入了内容协商和缓存控制机制。</li>
+<li>HTTP&#x2F;1.1：是目前使用最广泛的HTTP协议版本，它默认启用持久连接（Keep-Alive），支持请求管道化（Pipelining），引入了更多的缓存控制策略，如Entity tag、If-Unmodified-Since等。此外，HTTP&#x2F;1.1还支持范围请求，允许请求资源的一部分，并通过Host头部支持虚拟主机。</li>
+<li>HTTP&#x2F;2：基于HTTPS，引入了二进制格式传输、头部压缩、多路复用、服务器推送等特性，显著提高了性能。它允许在单个连接上并行交错地发送多个请求和响应，有效解决了队头阻塞问题。</li>
+</ul>
+<p><strong>持久连接</strong></p>
+<p>持久连接是http&#x2F;1.1的一个重要特性，它可以在一个连接上发送多个请求和响应，而不需要每次都建立连接。这样可以减少连接的数量，提高传输效率。</p>
+<p><strong>多路复用</strong></p>
+<p>多路复用是http&#x2F;2.0的一个重要特性，它可以在一个连接上同时发送多个请求和响应，而不需要按照顺序来发送。这样可以减少连接的数量，提高传输效率。</p>
+<p><strong>头部压缩</strong></p>
+<p>头部压缩是http&#x2F;2.0的一个重要特性，它可以减少头部的大小，提高传输效率。</p>
+<p><strong>服务器推送</strong></p>
+<p>服务器推送是http&#x2F;2.0的一个重要特性，它可以在客户端请求一个资源的时候，服务器可以主动推送相关的资源给客户端，提高传输效率。</p>
 <h2 id="http1-0和http1-1的区别"><a href="#http1-0和http1-1的区别" class="headerlink" title="http1.0和http1.1的区别"></a>http1.0和http1.1的区别</h2><ul>
 <li>缓存处理：HTTP1.0需要使用header里的If-Modified-Since来判断缓存是否失效，HTTP1.1使用更多的缓存控制策略，如Entity tag，If-Match，If-None-Match等。</li>
 <li>长连接：HTTP1.0需要使用Connection: keep-alive来保持长连接，HTTP1.1默认支持长连接。</li>
@@ -650,7 +697,7 @@ sequenceDiagram
 </ul>
 <h2 id="哨兵模式的选举机制"><a href="#哨兵模式的选举机制" class="headerlink" title="哨兵模式的选举机制"></a>哨兵模式的选举机制</h2><p>哨兵模式的选举机制是通过投票的方式来选举主节点。Raft算法是一种分布式一致性算法，它的核心思想是通过投票的方式来选举主节点。</p>
 <p>Raft算法的选举过程主要分为两个阶段：选举阶段和日志复制阶段。</p>
-<h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照<strong>物理存储</strong>维度划分主要有以下几种：</p>
+<h1 id="Redis的大key"><a href="#Redis的大key" class="headerlink" title="Redis的大key"></a>Redis的大key</h1><h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><h2 id="MySQL的索引有哪些"><a href="#MySQL的索引有哪些" class="headerlink" title="MySQL的索引有哪些"></a>MySQL的索引有哪些</h2><p>MySQL的索引按照<strong>物理存储</strong>维度划分主要有以下几种：</p>
 <ul>
 <li>B+树索引：最常见的索引类型，适用于等值查询、范围查询、排序查询。</li>
 <li>哈希索引：适用于等值查询，不适用于范围查询和排序查询。</li>
@@ -943,7 +990,7 @@ sequenceDiagram
 <li>消费端确认机制：RabbitMQ 提供了消费端确认机制，可以确保消息成功消费。</li>
 <li>事务机制：RabbitMQ 提供了事务机制，可以确保消息的生产和消费是原子性的。</li>
 </ul>
-<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="怎么保证消息的有序性"><a href="#怎么保证消息的有序性" class="headerlink" title="怎么保证消息的有序性"></a>怎么保证消息的有序性</h2><h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h3 id="快排"><a href="#快排" class="headerlink" title="快排"></a>快排</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(std::vector&lt;<span class="hljs-type">int</span>&gt;&amp; nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (left &gt;= right) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> i = left, j = right;<br>    <span class="hljs-type">int</span> pivot = nums[left];<br><br>    <span class="hljs-keyword">while</span> (i &lt; j) &#123;<br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[j] &gt; pivot) &#123;<br>            j--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[i++] = nums[j];<br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (i &lt; j &amp;&amp; nums[i] &lt; pivot) &#123;<br>            i++;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (i &lt; j) &#123;<br>            nums[j--] = nums[i];<br>        &#125;<br>    &#125;<br><br>    nums[i] = pivot;<br>    <span class="hljs-built_in">quickSort</span>(nums, left, i - <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">quickSort</span>(nums, i + <span class="hljs-number">1</span>, right);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h2><h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Singleton</span> &#123;<br>    <span class="hljs-comment">// 在类加载时创建实例</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Singleton</span> <span class="hljs-variable">instance</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Singleton</span>();<br><br>    <span class="hljs-comment">// 私有构造函数，防止外部实例化</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">Singleton</span><span class="hljs-params">()</span> &#123;&#125;<br><br>    <span class="hljs-comment">// 提供全局访问点</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title function_">getInstance</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> instance;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 

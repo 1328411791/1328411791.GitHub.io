@@ -16,24 +16,24 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="题目给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数，结果需要对 109 + 7 取模。 示例 1：输入：s &#x3D; &quot;rabbbit&quot;, t &#x3D; &quot;rabbit&quot; 输出：3  示例 2：输入：s &#x3D; &quot;babgbag&quot;, t &#x3D; &quot;bag&quot; 输出：5">
+    <meta name="description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： sequenceDiagram     participant Client as 第三方客户端应用     participant User as 资源所">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode 115 不同的子序列">
-<meta property="og:url" content="https://www.liahnu.top/2024/09/04/LeetCode-115-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/index.html">
+<meta property="og:title" content="飞牛OS OAuth 登录解析">
+<meta property="og:url" content="https://www.liahnu.top/2026/01/05/%E9%A3%9E%E7%89%9BOS-OAuth-%E7%99%BB%E5%BD%95%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="云墨阁">
-<meta property="og:description" content="题目给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数，结果需要对 109 + 7 取模。 示例 1：输入：s &#x3D; &quot;rabbbit&quot;, t &#x3D; &quot;rabbit&quot; 输出：3  示例 2：输入：s &#x3D; &quot;babgbag&quot;, t &#x3D; &quot;bag&quot; 输出：5">
+<meta property="og:description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： sequenceDiagram     participant Client as 第三方客户端应用     participant User as 资源所">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-04T08:15:49.000Z">
-<meta property="article:modified_time" content="2024-10-29T09:17:07.590Z">
+<meta property="article:published_time" content="2026-01-05T09:56:07.000Z">
+<meta property="article:modified_time" content="2026-01-05T11:01:32.651Z">
 <meta property="article:author" content="liahnu">
-<meta property="article:tag" content="算法，动态规划">
+<meta property="article:tag" content="NAS">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>LeetCode 115 不同的子序列 - 云墨阁</title>
+  <title>飞牛OS OAuth 登录解析 - 云墨阁</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="LeetCode 115 不同的子序列"></span>
+            <span id="subtitle" data-typed-text="飞牛OS OAuth 登录解析"></span>
           
         </div>
 
@@ -242,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-04 16:15" pubdate>
-          2024年9月4日 下午
+        <time datetime="2026-01-05 17:56" pubdate>
+          2026年1月5日 下午
         </time>
       </span>
     
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          148 字
+          2.7k 字
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          1 分钟
+          9 分钟
         
       </span>
     
@@ -311,12 +311,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">LeetCode 115 不同的子序列</h1>
+            <h1 style="display: none">飞牛OS OAuth 登录解析</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2024年10月29日 下午
+                    本文最后更新于：2026年1月5日 晚上
                   
                 
               </p>
@@ -324,13 +324,59 @@
             
               <div class="markdown-body">
                 
-                <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数，结果需要对 109 + 7 取模。</p>
-<h2 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h2><pre><code class="hljs">输入：s = &quot;rabbbit&quot;, t = &quot;rabbit&quot;
-输出：3
-</code></pre>
-<h2 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h2><pre><code class="hljs">输入：s = &quot;babgbag&quot;, t = &quot;bag&quot;
-输出：5
-</code></pre>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放</p>
+<h1 id="登录处理流程"><a href="#登录处理流程" class="headerlink" title="登录处理流程"></a>登录处理流程</h1><p>以飞牛影视处理</p>
+<h2 id="OAuth协议处理"><a href="#OAuth协议处理" class="headerlink" title="OAuth协议处理"></a>OAuth协议处理</h2><p>OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程：</p>
+<pre class="mermaid">sequenceDiagram
+    participant Client as 第三方客户端应用
+    participant User as 资源所有者（用户）
+    participant AuthServer as 授权服务器
+    participant ResourceServer as 资源服务器
+
+    Client->>User: 展示登录界面，提示用户点击登录
+    User->>Client: 点击登录按钮
+    Client->>User: 重定向到授权服务器
+    User->>AuthServer: 访问授权URL
+    Note over AuthServer: /oauth/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&scope=profile&response_type=code
+    AuthServer->>User: 显示登录页面
+    User->>AuthServer: 输入用户名密码，完成认证
+    AuthServer->>User: 显示授权确认页面，列出请求的权限
+    User->>AuthServer: 确认授权
+    AuthServer->>User: 重定向到客户端指定的URI
+    User->>Client: 携带授权码访问重定向URI
+    Note over Client: REDIRECT_URI?code=AUTHORIZATION_CODE
+    Client->>AuthServer: 后端请求访问令牌
+    Note over Client: POST /oauth/token参数：client_id, client_secret, code, grant_type=authorization_code, redirect_uri
+    AuthServer->>Client: 返回访问令牌和刷新令牌
+    Note over AuthServer: {  "access_token": "ACCESS_TOKEN",  "token_type": "Bearer",  "expires_in": 3600,  "refresh_token": "REFRESH_TOKEN"}
+    Client->>ResourceServer: 使用访问令牌请求资源
+    Note over Client: GET /api/user/profileHeaders: Authorization: Bearer ACCESS_TOKEN
+    ResourceServer->>Client: 验证令牌并返回资源
+    Note over ResourceServer: {  "id": "user123",  "name": "用户名",  "email": "user@example.com"}
+    Client->>User: 显示用户信息，完成登录</pre>
+
+<h2 id="飞牛的处理流程"><a href="#飞牛的处理流程" class="headerlink" title="飞牛的处理流程"></a>飞牛的处理流程</h2><h3 id="1-点击NAS登录，跳转到登录页面"><a href="#1-点击NAS登录，跳转到登录页面" class="headerlink" title="1.点击NAS登录，跳转到登录页面"></a>1.点击NAS登录，跳转到登录页面</h3><p> URI: &#x2F;signin?client_id&#x3D;U1G8OGDF3Y&amp;redirect_uri&#x3D;http%3A%2F%2Fddns.liahnu.top%3A5666%2Fv%2Foauth%2Fresult<br> redirect_uri 是客户端指定的回调URI，用于接收授权码, 此处的回调地址为<a target="_blank" rel="noopener" href="http://ddns.liahnu.top:5666/v/oauth/result">http://ddns.liahnu.top:5666/v/oauth/result</a><br> client_id 是客户端注册时获得的ID，用于标识客户端应用</p>
+<h3 id="2-用户在登录页面输入用户名密码，完成认证"><a href="#2-用户在登录页面输入用户名密码，完成认证" class="headerlink" title="2.用户在登录页面输入用户名密码，完成认证"></a>2.用户在登录页面输入用户名密码，完成认证</h3><p>登录后，请求该地址获取授权码<br><a target="_blank" rel="noopener" href="http://ddns.liahnu.top:5666/oauthapi/authorize">http://ddns.liahnu.top:5666/oauthapi/authorize</a></p>
+<p>获取存储的token和userName<br>如果存在token，自动触发登录流程</p>
+<p><strong>入参</strong><br>此处登录有两种方式，token和密码登录<br>token登录</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;client_id&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;U1G8OGDF3Y&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;redirect_uri&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;http://ddns.liahnu.top:5666/v/oauth/result&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;response_type&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;code&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;state&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;token&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>出参</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;msg&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;redirect_uri&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;http://ddns.liahnu.top:5666/v/oauth/result&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;0wR117VN4Q&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="3-登录成功，重定向到回调地址"><a href="#3-登录成功，重定向到回调地址" class="headerlink" title="3. 登录成功，重定向到回调地址"></a>3. 登录成功，重定向到回调地址</h3><p><a target="_blank" rel="noopener" href="http://ddns.liahnu.top:5666/v/oauth/result?code=230pV9s-5w&amp;state=undefined">http://ddns.liahnu.top:5666/v/oauth/result?code=230pV9s-5w&amp;state=undefined</a></p>
+<p>带上了授权码code&#x3D;230pV9s-5w 和状态码state&#x3D;undefined</p>
+<h3 id="4-客户端应用使用授权码请求访问令牌"><a href="#4-客户端应用使用授权码请求访问令牌" class="headerlink" title="4. 客户端应用使用授权码请求访问令牌"></a>4. 客户端应用使用授权码请求访问令牌</h3><p><a target="_blank" rel="noopener" href="http://ddns.liahnu.top:5666/v/api/v1/auth">http://ddns.liahnu.top:5666/v/api/v1/auth</a></p>
+<p>POST &#x2F;v&#x2F;api&#x2F;v1&#x2F;auth<br><strong>入参</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;source&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;Trim-NAS&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;wspXKEd05A&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>成功回调</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;msg&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;4110c478503e46c4838ed69c0be79a8a&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>从这换到了token参数，并把这个参数存储到cookie中，<br>Trim-MC-token：4110c478503e46c4838ed69c0be79a8a</p>
 
                 
               </div>
@@ -343,7 +389,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%AE%97%E6%B3%95%EF%BC%8C%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">#算法，动态规划</a>
+        <a href="/tags/NAS/">#NAS</a>
       
     </div>
   
@@ -355,8 +401,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>LeetCode 115 不同的子序列</div>
-      <div>https://www.liahnu.top/2024/09/04/LeetCode-115-不同的子序列/</div>
+      <div>飞牛OS OAuth 登录解析</div>
+      <div>https://www.liahnu.top/2026/01/05/飞牛OS-OAuth-登录解析/</div>
     </div>
     <div class="license-meta">
       
@@ -368,7 +414,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月4日</div>
+          <div>2026年1月5日</div>
         </div>
       
       
@@ -400,18 +446,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/08/%E5%AE%89%E5%8D%93ROM%E5%88%B6%E4%BD%9C%E5%85%A5%E9%97%A8/" title="安卓ROM制作入门">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">安卓ROM制作入门</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/09/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E5%85%A5%E9%97%A8/" title="数据中台入门">
-                        <span class="hidden-mobile">数据中台入门</span>
+                      <a href="/2025/10/18/IBKR-%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%E5%85%A5%E9%97%A8%E8%B8%A9%E5%9D%91%EF%BC%88%E4%B8%80%EF%BC%89/" title="">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -513,6 +553,19 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('mermaid' in window) {
+        mermaid.init();
+      }
+    });
+  });
+</script>
 
 
 
