@@ -24,7 +24,7 @@
 <meta property="og:description" content="前言最近在研究量化（还只停留在跑模型因子选股的阶段），在训练出一个还算凑合的模型后。想基于这个模型展示一个基础的web界面展示股票，回测等情况。yysy，现在的ai工具如果不是订阅制，token烧的飞快。 我个人的技术背景只有后端开发的一些相关经验（主要语言是Java），没有前端开发的经验。目前使用的工具是Codex（咸鱼9.9一个月的太香了），再此基础上完成一个基础的ai选股模型的开发和一个应用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-16T22:14:05.000Z">
-<meta property="article:modified_time" content="2026-03-17T06:39:38.142Z">
+<meta property="article:modified_time" content="2026-03-24T11:17:13.283Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="ai">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          394 字
+          633 字
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2026年3月17日 下午
+                    本文最后更新于：2026年3月24日 晚上
                   
                 
               </p>
@@ -355,8 +355,21 @@
 <td align="left">回测图标展示</td>
 <td align="left">P1</td>
 </tr>
+<tr>
+<td align="center">4</td>
+<td align="left">接入agent尝试自动生成因子</td>
+<td align="left">P2</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">最为重要的训练模型部分</td>
+<td align="left">P1</td>
+</tr>
 </tbody></table>
-<p>完成基础的demo上，初步定的技术栈是Djanjo+React的相关组合，这两个框架此前从未学习过。</p>
+<p>很有一部分已经在其他的过程中实现了</p>
+<p>yysy，最开始尝试是从美股市场开始,(真，量化无门槛)，跑一些测试数据发现a股的alpha明显显著与美股市场（</p>
+<h2 id="更新日频数据"><a href="#更新日频数据" class="headerlink" title="更新日频数据"></a>更新日频数据</h2><p>获取数据肯定是开始的第一步，qlib给的示例数据包只有到2020年的数据，后续数据需要自行更新。自带的数据更新器使用不了，因此首要目标是实现一个数据爬虫脚本（从yh）下载。</p>
+<p>a股有人做了每日爬虫收集， <a target="_blank" rel="noopener" href="https://github.com/microsoft/qlib/tree/main/scripts/data_collector/crowd_source">https://github.com/microsoft/qlib/tree/main/scripts/data_collector/crowd_source</a></p>
 
                 
               </div>

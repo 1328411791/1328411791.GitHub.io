@@ -16,17 +16,17 @@
   <meta name="author" content="liahnu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： 整体流程可以参考SaToken项目所写的OAuth2.0简析 对于飞牛而言，主要采用的是授权码模式（Authorization Code Grant），Se">
+    <meta name="description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放(本来想对接或者改造这块链路的，分析下来改造难度挺大的) 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： 整体流程可以参考SaToken项目所写的OAuth2.0简析 对于飞牛而言，主要采用的是授权码模式（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="飞牛OS OAuth 登录解析">
 <meta property="og:url" content="https://www.liahnu.top/2026/01/05/%E9%A3%9E%E7%89%9BOS-OAuth-%E7%99%BB%E5%BD%95%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="云墨阁">
-<meta property="og:description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： 整体流程可以参考SaToken项目所写的OAuth2.0简析 对于飞牛而言，主要采用的是授权码模式（Authorization Code Grant），Se">
+<meta property="og:description" content="前言众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放(本来想对接或者改造这块链路的，分析下来改造难度挺大的) 登录处理流程以飞牛影视处理 OAuth协议处理OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程： 整体流程可以参考SaToken项目所写的OAuth2.0简析 对于飞牛而言，主要采用的是授权码模式（">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic.liahnu.top/img/202603191939016.png">
 <meta property="og:image" content="https://pic.liahnu.top/img/202603192031116.png">
 <meta property="article:published_time" content="2026-01-05T09:56:07.000Z">
-<meta property="article:modified_time" content="2026-03-19T12:44:04.495Z">
+<meta property="article:modified_time" content="2026-03-24T02:20:46.075Z">
 <meta property="article:author" content="liahnu">
 <meta property="article:tag" content="NAS">
 <meta name="twitter:card" content="summary_large_image">
@@ -319,7 +319,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2026年3月19日 晚上
+                    本文最后更新于：2026年3月24日 上午
                   
                 
               </p>
@@ -327,7 +327,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>众所周知，飞牛OS提供了一套系统搭建的OAuth服务，但是这套服务并不对外开放(本来想对接或者改造这块链路的，分析下来改造难度挺大的)</p>
 <h1 id="登录处理流程"><a href="#登录处理流程" class="headerlink" title="登录处理流程"></a>登录处理流程</h1><p>以飞牛影视处理</p>
 <h2 id="OAuth协议处理"><a href="#OAuth协议处理" class="headerlink" title="OAuth协议处理"></a>OAuth协议处理</h2><p>OAuth 2.0是一种授权框架，允许第三方应用程序在不获取用户凭证的情况下访问用户资源。以下是详细的处理流程：</p>
 <p>整体流程可以参考SaToken项目所写的<a target="_blank" rel="noopener" href="https://sa-token.cc/doc.html#/oauth2/readme">OAuth2.0简析</a></p>
@@ -353,6 +353,7 @@
 <p>基于目前分析，将飞牛OS的OAuth登录流程主要有以下分析文本</p>
 <p>OAuth2 Server 主机地址： 你的主机地址<br>OAuth2 Server 授权页地址：&#x2F;signin<br>OAuth2 Server 获取 token 地址：&#x2F;oauthapi&#x2F;authorize<br>OAuth2 Server 刷新 token 地址：<br>OAuth2 Server 获取 userinfo 地址：</p>
 <p>飞牛影视的result 地址： &#x2F;v&#x2F;oauth&#x2F;result</p>
+<p>前期调用中，第一步可以获取到授权地址，但是后续步骤无法获取到授权地址</p>
 <h2 id="飞牛Nginx配置"><a href="#飞牛Nginx配置" class="headerlink" title="飞牛Nginx配置"></a>飞牛Nginx配置</h2><p>飞牛的Nginx 反向代理位置在  cd &#x2F;usr&#x2F;trim&#x2F;nginx&#x2F;conf&#x2F;<br>目录下，其中使用飞牛自己的官方应用会预先创建的相关的反向代理配置文件</p>
 <p>大部分的请求会以unix socket 的方式转发到飞牛OS的各个应用服务</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">location</span> /v1/accountapi &#123;<br>    <span class="hljs-attribute">proxy_pass</span> http://unix:/var/run/trim.accountsrv.sock:;<br>&#125;<br><span class="hljs-section">location</span> /oauthapi &#123;<br>    <span class="hljs-attribute">proxy_pass</span> http://unix:/var/run/trim.accountsrv.sock:;<br>&#125;<br></code></pre></td></tr></table></figure>
